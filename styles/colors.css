@@ -1,0 +1,112 @@
+:root {
+    /* Primary color */
+    --purple-color-100: #6A2875;
+    --purple-color-70: #6A2875B2;
+    --purple-color-50: #6A287580;
+    --purple-color-10: #6A28751A;
+    --purple-color-5: #6A28750D;
+    /* Secondary Color */
+    --blue-color-100: #0082BE;
+    --blue-color-70: #0082BEB2;
+    --blue-color-50: #0082BE80;
+    --blue-color-10: #0082BE1A;
+    --blue-color-5: #0082BE0D;
+    /*Grey scale  */
+    --grey-color-100: #9AA2AC;
+    --grey-color-1: #C3C6CA;
+    --grey-color-2: #DBDBDC;
+    --grey-color-3: #EEEEEE;
+    /* Black colors */
+    --black-color: #27292C;
+    --black-color-80: #27292CCC;
+    --black-color-50:#27292C80;
+    --black-color-30: #27292C4D;
+    /* white  */
+    --white-color: #FFFFFF;
+    --white-fondo: #FBFAFF;
+
+    --gradiant-mood-light:linear-gradient(131.84deg, #0082BE 3.54%, #6A2875 80.18%);
+
+    --alert-color: #EF0808;
+    --disabled: #4BC581;
+}
+
+.purple-color-100 {
+    color: var(--purple-color-100);
+}
+
+.purple-color-70 {
+    color: var(--purple-color-70);
+}
+.purple-color-50 {
+    color: var(--purple-color-50);
+}
+.purple-color-10 {
+    color: var(--purple-color-10);
+}
+.purple-color-5 {
+    color: var(--purple-color-5);
+}
+
+.blue-color-100 {
+    color: var(--blue-color-100);
+}
+
+.blue-color-70 {
+    color: var(--blue-color-70);
+}
+
+.blue-color-50 {
+    color: var(--blue-color-50);
+}
+
+.blue-color-10 {
+    color: var(--blue-color-10);
+}
+
+.blue-color-5 {
+    color: var(--blue-color-5);
+}
+
+.grey-color-100 {
+    color: var(--grey-color-100)
+}
+
+.grey-color-1 {
+    color: var(--grey-color-1)
+}
+
+.grey-color-2 {
+    color: var(--grey-color-2)
+}
+
+.grey-color-3 {
+    color: var(--grey-color-3)
+}
+
+
+.black-color {
+    color: var(--black-color)
+}
+.black-color-80 {
+    color: var(--black-color-80)
+}
+.black-color-50 {
+    color: var(--black-color-50)
+}
+.black-color-30 {
+    color: var(--black-color-30)
+}
+
+.error-color {
+    color: var(--error-color);
+}
+
+.accent-color-2 {
+    color: var(--accent-color-2);
+}
+
+.vital-check-color {
+    color: var(--vital-check-color);
+}
+
