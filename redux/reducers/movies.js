@@ -5,6 +5,7 @@ const initialValue = {
   loading: 'idle',
   currentRequestId: undefined,
   error: null,
+  services: [],
   movies: [],
 }
 
@@ -24,14 +25,18 @@ const moviesSlice = createSlice({
   name: 'movies',
   initialState: initialValue,
   reducers: {
-    // saveMovies: (state, { payload }) => {
-    //   state.movies.push(...payload)
-    // },
+    getServices(state, action) {
+      state.services = [...state.services, ...action.payload]
+    },
   },
   extraReducers: {
     [getAllMovies.fulfilled]: (state, action) => {
       const { requestId } = action.meta
-      if (state.loading === 'pending' && state.currentRequestId === requestId) {
+      if (
+        state.loading === 'pending' &&
+        state.currentRequestId === requestId &&
+        action.payload !== undefined
+      ) {
         state.loading = 'idle'
         state.movies.push(...action.payload.results)
 
@@ -57,5 +62,5 @@ const moviesSlice = createSlice({
   },
 })
 const { reducer } = moviesSlice
-
+export const { getServices } = moviesSlice.actions
 export default reducer

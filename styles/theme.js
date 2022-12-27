@@ -9,7 +9,8 @@ export const theme = createTheme({
     },
     secondary: {
       light: '#0066ff',
-      main: '#111F33',
+      // main: '#111F33',
+      main: '#b1b1b1',
       contrastText: '#ffcc00',
     },
     neutral: {
@@ -22,7 +23,7 @@ export const theme = createTheme({
     tonalOffset: 0.2,
   },
   typography: {
-    fontFamily: 'Raleway, sans-serif',
+    fontFamily: "'Open Sans', sans-serif;",
   },
   // components: {
   //   MuiCssBaseline: {

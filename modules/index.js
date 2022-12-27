@@ -1,5 +1,7 @@
 import axios from 'axios'
 
+// search movies request
+
 const URL =
   'https://streaming-availability.p.rapidapi.com/search/basic?api_key=abd61d90a3mshf4d011a6deea603p114204jsnb4bf34bc65b'
 
@@ -26,12 +28,12 @@ export const getMoviesRequest = async () => {
     .then((res) => {
       return res.data
     })
-    .catch((error) => error)
+    .catch((error) => console.log(error))
 }
 
-// import axios from "axios";
+//get genres
 
-const options = {
+const GENRES_OPTIONS = {
   method: 'GET',
   url: 'https://streaming-availability.p.rapidapi.com/genres',
   headers: {
@@ -41,10 +43,29 @@ const options = {
 }
 
 export const getGenres = axios
-  .request(options)
+  .request(GENRES_OPTIONS)
   .then(function (response) {
     console.log(response.data)
   })
   .catch(function (error) {
+    console.error(error)
+  })
+
+//get countries
+//https://streaming-availability.p.rapidapi.com/countries
+
+const COUNTRIES_OPTIONS = {
+  method: 'GET',
+  url: 'https://streaming-availability.p.rapidapi.com/countries',
+  headers: {
+    'X-RapidAPI-Key': 'abd61d90a3mshf4d011a6deea603p114204jsnb4bf34bc65b8',
+    'X-RapidAPI-Host': 'streaming-availability.p.rapidapi.com',
+  },
+}
+
+export const getServiceForCountry = axios
+  .request(COUNTRIES_OPTIONS)
+  .then((res) => res.data)
+  .catch((error) => {
     console.error(error)
   })
