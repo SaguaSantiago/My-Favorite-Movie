@@ -230,3 +230,26 @@ export const response = Promise.resolve({
   showtime: ['us'],
   starz: ['us'],
 })
+
+export const responseOfGenres = Promise.resolve(() => {
+  const data = {
+    1: 'Action',
+    2: 'Adventure',
+    3: 'Comedy',
+    4: 'Drama',
+    5: 'Fantasy',
+    6: 'Horror',
+    7: 'Mystery',
+    8: 'Romance',
+    9: 'Sci-Fi',
+    10: 'Thriller',
+  }
+
+  let finalGenres = {}
+  const keys = Object.keys(data)
+  const values = Object.values(data)
+  values.forEach((value, i) => {
+    finalGenres[value] = keys[i]
+  })
+  return finalGenres
+})
