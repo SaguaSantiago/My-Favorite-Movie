@@ -44,11 +44,17 @@ const GENRES_OPTIONS = {
 
 export const getGenres = axios
   .request(GENRES_OPTIONS)
-  .then(function (response) {
-    console.log(response.data)
+  .then(({data}) => {
+    let finalGenres = {}
+    const keys = Object.keys(data)
+    const values = Object.values(data)
+    values.forEach((value,i)=> {
+      finalGenres[value] = keys[i]
+    })
+    return finalGenres
   })
-  .catch(function (error) {
-    console.error(error)
+  .catch((error) => {
+    console.log(error)
   })
 
 //get countries

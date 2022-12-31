@@ -5,7 +5,10 @@ const initialValue = {
   loading: 'idle',
   currentRequestId: undefined,
   error: null,
-  services: [],
+  services: {},
+  data: {
+    genresSelected: {},
+  },
   movies: [],
 }
 
@@ -27,6 +30,12 @@ const moviesSlice = createSlice({
   reducers: {
     getServices(state, action) {
       state.services = [...state.services, ...action.payload]
+    },
+    addGenre(state, action) {
+      state.data.genresSelected = { ...state.data.genresSelected, ...action.payload }
+    },
+    deleteGenre(state, action) {
+      delete state.data.genresSelected[action.payload]
     },
   },
   extraReducers: {
@@ -62,5 +71,5 @@ const moviesSlice = createSlice({
   },
 })
 const { reducer } = moviesSlice
-export const { getServices } = moviesSlice.actions
+export const { getServices, addGenre, deleteGenre } = moviesSlice.actions
 export default reducer
