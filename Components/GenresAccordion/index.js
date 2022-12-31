@@ -31,7 +31,7 @@ export default function GenresAccordion() {
         expandIcon={<ExpandMoreOutlined />}
       >
         <Typography textAlign='center'>
-          {Object.keys(genresSelected).length === 0
+          {genresSelected && Object.keys(genresSelected).length === 0
             ? 'Genres'
             : Object.keys(genresSelected).map((genre) => (
                 <Chip

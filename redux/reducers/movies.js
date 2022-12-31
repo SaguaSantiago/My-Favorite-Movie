@@ -5,6 +5,7 @@ const initialValue = {
   loading: 'idle',
   currentRequestId: undefined,
   error: null,
+  country: '',
   countryServices: [],
   data: {
     genresSelected: {},
@@ -47,6 +48,9 @@ const moviesSlice = createSlice({
     deleteGenre(state, action) {
       delete state.data.genresSelected[action.payload]
     },
+    getCountry(state, action) {
+      state.country = action.payload
+    },
   },
   extraReducers: (builder) => {
     builder.addCase(getAllMovies.fulfilled, (state, action) => {
@@ -81,6 +85,7 @@ const moviesSlice = createSlice({
   },
 })
 const { reducer } = moviesSlice
-export const { getServices, getServiceToSearch, addGenre, deleteGenre } = moviesSlice.actions
+export const { getServices, getServiceToSearch, addGenre, deleteGenre, getCountry } =
+  moviesSlice.actions
 
 export default reducer

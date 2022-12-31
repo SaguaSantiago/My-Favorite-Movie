@@ -3,7 +3,7 @@ import { useState } from 'react'
 import CustomSelect from 'Components/CustomComponents/CustomSelect'
 
 import { useDispatch } from 'react-redux'
-import { getServices } from 'redux/reducers/movies'
+import { getCountry, getServices } from 'redux/reducers/movies'
 
 import { getServiceForCountry } from 'modules'
 import { AMERICAN_COUNTRIES } from 'CountryList'
@@ -15,6 +15,8 @@ export default function SelectCountry({ absolute }) {
   const [country, setCountry] = useState('')
   const handleChange = async (event) => {
     const newValue = event.target.value
+    dispatch(getCountry(newValue))
+
     let services = []
 
     if (newValue !== '') {
