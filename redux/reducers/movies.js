@@ -41,6 +41,12 @@ const moviesSlice = createSlice({
     deleteGenre(state, action) {
       delete state.data.genresSelected[action.payload]
     },
+    addGenre(state, action) {
+      state.data.genresSelected = { ...state.data.genresSelected, ...action.payload }
+    },
+    deleteGenre(state, action) {
+      delete state.data.genresSelected[action.payload]
+    },
   },
   extraReducers: (builder) => {
     builder.addCase(getAllMovies.fulfilled, (state, action) => {
@@ -76,4 +82,5 @@ const moviesSlice = createSlice({
 })
 const { reducer } = moviesSlice
 export const { getServices, getServiceToSearch, addGenre, deleteGenre } = moviesSlice.actions
+
 export default reducer
