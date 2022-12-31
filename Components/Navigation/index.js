@@ -1,12 +1,13 @@
-import { AppBar, Grid, Toolbar, Typography } from '@mui/material'
 import SelectCountry from 'Components/SelectCountry'
 import DrawerComponent from 'Components/Drawer'
+
 import { useMediaQuery } from 'hooks/useMediaQuery'
+
+import { AppBar, Grid, Toolbar, Typography } from '@mui/material'
 
 export function Navigation({ children }) {
   const drawerResolution = useMediaQuery('(max-width: 1000px)')
   const mobileResolution = useMediaQuery('(max-width: 570px)')
-
   return (
     <>
       <AppBar position='static'>
@@ -17,7 +18,7 @@ export function Navigation({ children }) {
             justifyContent={!drawerResolution ? 'center' : 'space-between'}
             sx={{ padding: mobileResolution ? '' : '0 50px' }}
           >
-            <Grid Item>
+            <Grid item>
               <Typography
                 color='white'
                 variant='h4'
@@ -32,7 +33,7 @@ export function Navigation({ children }) {
               </Typography>
             </Grid>
             {!drawerResolution ? (
-              <SelectCountry />
+              <SelectCountry absolute={true} />
             ) : (
               <Grid item>
                 <DrawerComponent></DrawerComponent>

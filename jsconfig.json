@@ -21,7 +21,7 @@
                 "src/services"
             ],
             "@assets": [
-                "src/assets"
+                "src/public/assets"
             ]
         }
     }

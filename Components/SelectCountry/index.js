@@ -1,15 +1,16 @@
 import { useState } from 'react'
 
-import { MenuItem, Select } from '@mui/material'
+import CustomSelect from 'Components/CustomComponents/CustomSelect'
 
-import { SelectInput } from './CustomComponents'
-
-import { AMERICAN_COUNTRIES } from 'CountryList'
 import { useDispatch } from 'react-redux'
 import { getServices } from 'redux/reducers/movies'
-import { getServiceForCountry } from 'modules'
 
-export default function SelectCountry() {
+import { getServiceForCountry } from 'modules'
+import { AMERICAN_COUNTRIES } from 'CountryList'
+
+import { MenuItem } from '@mui/material'
+
+export default function SelectCountry({ absolute }) {
   const dispatch = useDispatch()
   const [country, setCountry] = useState('')
   const handleChange = async (event) => {
@@ -27,32 +28,21 @@ export default function SelectCountry() {
     dispatch(getServices(services))
     setCountry(newValue)
   }
-
   return (
-    <Select
+    <CustomSelect
       onChange={handleChange}
-      sx={{ position: 'absolute', left: '40px' }}
       color='secondary'
       value={country}
       defaultValue=''
       displayEmpty
-      input={<SelectInput />}
-      MenuProps={{
-        sx: { maxHeight: '500px' },
-        MenuListProps: {
-          sx: {
-            background: '#393939',
-            color: '#fff',
-          },
-        },
-      }}
+      absolute={absolute}
     >
-      <MenuItem value=''>Select Country</MenuItem>
+      <MenuItem value=''>Select Your Country</MenuItem>
       {AMERICAN_COUNTRIES.map(([key, value]) => (
         <MenuItem key={value} value={key}>
           {value}
         </MenuItem>
       ))}
-    </Select>
+    </CustomSelect>
   )
 }
