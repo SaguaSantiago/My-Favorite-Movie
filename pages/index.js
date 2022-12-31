@@ -1,5 +1,12 @@
-import { useDispatch, useSelector } from 'react-redux'
 import { useEffect } from 'react'
+
+import ServiceSelector from 'Components/ServiceSelector'
+
+import { useDispatch, useSelector } from 'react-redux'
+
+import { getMoviesRequest } from 'modules'
+
+import { Container } from '@mui/material'
 
 export default function MainRoute() {
   const dispatch = useDispatch()
@@ -8,5 +15,9 @@ export default function MainRoute() {
 
   useEffect(() => {}, [])
 
-  return <h1>a</h1>
+  return (
+    <Container maxWidth='lg'>
+      <ServiceSelector />
+    </Container>
+  )
 }

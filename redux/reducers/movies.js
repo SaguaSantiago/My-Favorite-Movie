@@ -5,7 +5,8 @@ const initialValue = {
   loading: 'idle',
   currentRequestId: undefined,
   error: null,
-  services: [],
+  countryServices: [],
+  serviceToSearch: '',
   movies: [],
 }
 
@@ -26,11 +27,14 @@ const moviesSlice = createSlice({
   initialState: initialValue,
   reducers: {
     getServices(state, action) {
-      state.services = [...state.services, ...action.payload]
+      state.countryServices = action.payload
+    },
+    getServiceToSearch(state, action) {
+      state.serviceToSearch = action.payload
     },
   },
-  extraReducers: {
-    [getAllMovies.fulfilled]: (state, action) => {
+  extraReducers: (builder) => {
+    builder.addCase(getAllMovies.fulfilled, (state, action) => {
       const { requestId } = action.meta
       if (
         state.loading === 'pending' &&
@@ -42,25 +46,25 @@ const moviesSlice = createSlice({
 
         state.currentRequestId = undefined
       }
-    },
+    })
 
-    [getAllMovies.pending]: (state, action) => {
+    builder.addCase(getAllMovies.pending, (state, action) => {
       if (state.loading === 'idle') {
         state.loading = 'pending'
         state.currentRequestId = action.meta.requestId
       }
-    },
+    })
 
-    [getAllMovies.rejected]: (state, action) => {
+    builder.addCase(getAllMovies.rejected, (state, action) => {
       const { requestId } = action.meta
       if (state.loading === 'pending' && state.currentRequestId === requestId) {
         state.loading = 'idle'
         state.error = action.error
         state.currentRequestId = undefined
       }
-    },
+    })
   },
 })
 const { reducer } = moviesSlice
-export const { getServices } = moviesSlice.actions
+export const { getServices, getServiceToSearch } = moviesSlice.actions
 export default reducer

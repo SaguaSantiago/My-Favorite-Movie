@@ -5,4 +5,8 @@ export const Container = styled('div')`
   height: 100vh;
   background: #424242;
   color: white;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 20px;
 `
