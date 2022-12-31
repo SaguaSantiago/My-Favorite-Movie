@@ -6,7 +6,10 @@ const initialValue = {
   currentRequestId: undefined,
   error: null,
   countryServices: [],
-  serviceToSearch: '',
+  data: {
+    genresSelected: {},
+    serviceToSearch: '',
+  },
   movies: [],
 }
 
@@ -30,7 +33,13 @@ const moviesSlice = createSlice({
       state.countryServices = action.payload
     },
     getServiceToSearch(state, action) {
-      state.serviceToSearch = action.payload
+      state.data.serviceToSearch = action.payload
+    },
+    addGenre(state, action) {
+      state.data.genresSelected = { ...state.data.genresSelected, ...action.payload }
+    },
+    deleteGenre(state, action) {
+      delete state.data.genresSelected[action.payload]
     },
   },
   extraReducers: (builder) => {
@@ -66,5 +75,5 @@ const moviesSlice = createSlice({
   },
 })
 const { reducer } = moviesSlice
-export const { getServices, getServiceToSearch } = moviesSlice.actions
+export const { getServices, getServiceToSearch, addGenre, deleteGenre } = moviesSlice.actions
 export default reducer

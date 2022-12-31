@@ -15,9 +15,5 @@ export default function MainRoute() {
 
   useEffect(() => {}, [])
 
-  return (
-    <Container maxWidth='lg'>
-      <ServiceSelector />
-    </Container>
-  )
+  return <Container maxWidth='md'></Container>
 }
