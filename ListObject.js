@@ -9,3 +9,10 @@ export const AMERICAN_COUNTRIES = Object.entries({
   PE: 'Peru',
   US: 'United States',
 })
+
+
+export const languagesObject = {
+  Spanish: 'es',
+  Portuguese: 'pt',
+  English: 'en',
+}

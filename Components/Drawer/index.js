@@ -1,4 +1,5 @@
 import { useEffect, useState } from 'react'
+import { useMediaQuery } from 'hooks/useMediaQuery'
 
 import { Container } from './StyledComponents'
 import SelectCountry from 'Components/SelectCountry'
@@ -11,6 +12,7 @@ import PublicIcon from '@mui/icons-material/Public'
 
 export default function Drawer(mobileResolution) {
   const [open, setOpen] = useState(false)
+  const media = useMediaQuery('(max-width: 490px)')
   const openDrawerSuscription$ = OpenDrawerService.getSubject()
 
   useEffect(() => {
@@ -36,7 +38,7 @@ export default function Drawer(mobileResolution) {
         <Container sx={{ pt: '40px' }}>
           <SelectCountry justify='center' />
           <Divider sx={{ width: '100%', borderColor: '#ffffff1f' }} variant='middle'></Divider>
-          <SelectService closeDrawer={handleClose} />
+          {media && <SelectService closeDrawer={handleClose} />}
         </Container>
       </SwipeableDrawer>
       <IconButton sx={{ width: '50px', height: '50px' }} onClick={handleOpen}>

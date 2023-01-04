@@ -1,18 +1,18 @@
-import { useState } from 'react'
-
 import CustomSelect from 'Components/CustomComponents/CustomSelect'
 
-import { useDispatch } from 'react-redux'
+import { useDispatch, useSelector } from 'react-redux'
 import { getCountry, getServices } from 'redux/reducers/movies'
 
 import { getServiceForCountry } from 'modules'
-import { AMERICAN_COUNTRIES } from 'CountryList'
+import { AMERICAN_COUNTRIES } from 'ListObject'
 
 import { MenuItem } from '@mui/material'
+import { response } from 'exampleResponse'
 
 export default function SelectCountry({ absolute }) {
   const dispatch = useDispatch()
-  const [country, setCountry] = useState('')
+  const { country } = useSelector((state) => state.movies)
+
   const handleChange = async (event) => {
     const newValue = event.target.value
     dispatch(getCountry(newValue))
@@ -21,6 +21,7 @@ export default function SelectCountry({ absolute }) {
 
     if (newValue !== '') {
       const servicesList = await getServiceForCountry
+      // const servicesList = await response
       Object.entries(servicesList).forEach(([key, value]) => {
         if (value.some((v) => v === newValue.toLowerCase())) {
           services = [...services, key]
@@ -28,14 +29,12 @@ export default function SelectCountry({ absolute }) {
       })
     }
     dispatch(getServices(services))
-    setCountry(newValue)
   }
   return (
     <CustomSelect
       onChange={handleChange}
       color='secondary'
       value={country}
-      defaultValue=''
       displayEmpty
       absolute={absolute}
     >

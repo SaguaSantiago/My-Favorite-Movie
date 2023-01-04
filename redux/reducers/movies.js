@@ -16,13 +16,17 @@ const initialValue = {
 
 export const getAllMovies = createAsyncThunk(
   'movie/getAllMovies',
-  async (arg, { getState, requestId }) => {
+  async (params, { getState, requestId }) => {
     const { currentRequestId, loading } = getState().movies
+    // console.log(params)
     if (currentRequestId !== requestId || loading !== 'pending') {
       return
     }
-
-    return await getMoviesRequest()
+    const { genresSelected, ...rest } = params
+    return await getMoviesRequest({
+      ...rest,
+      genre: Object.values(params.genresSelected)[0] || '',
+    })
   },
 )
 
@@ -34,7 +38,11 @@ const moviesSlice = createSlice({
       state.countryServices = action.payload
     },
     getServiceToSearch(state, action) {
-      state.data.serviceToSearch = action.payload
+      if (state.data.serviceToSearch === action.payload) {
+        state.data.serviceToSearch = ''
+      } else {
+        state.data.serviceToSearch = action.payload
+      }
     },
     addGenre(state, action) {
       state.data.genresSelected = { ...state.data.genresSelected, ...action.payload }
@@ -61,8 +69,9 @@ const moviesSlice = createSlice({
         action.payload !== undefined
       ) {
         state.loading = 'idle'
-        state.movies.push(...action.payload.results)
-
+        // state.movies.push(...action.payload.results)
+        state.movies = [...state.movies, ...action.payload.results]
+        console.log(state.movies)
         state.currentRequestId = undefined
       }
     })
@@ -79,6 +88,7 @@ const moviesSlice = createSlice({
       if (state.loading === 'pending' && state.currentRequestId === requestId) {
         state.loading = 'idle'
         state.error = action.error
+        console.log(action.error)
         state.currentRequestId = undefined
       }
     })

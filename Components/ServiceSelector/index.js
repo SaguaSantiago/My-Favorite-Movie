@@ -10,7 +10,7 @@ import { LogosObject } from '../../public/assets/Logos'
 import { Grid, Button, Typography } from '@mui/material'
 
 export default function ServiceSelector() {
-  const { countryServices, country } = useSelector((state) => state.movies)
+  const { countryServices, country, data } = useSelector((state) => state.movies)
   const openDrawer = () => OpenDrawerService.setSubject(true)
   const media = useMediaQuery('(max-width: 490px)')
 
@@ -20,9 +20,18 @@ export default function ServiceSelector() {
         <Typography variant='h5'> First select a country!</Typography>
       ) : media ? (
         <>
-          <Button onClick={openDrawer} variant='outlined' color='secondary'>
-            Select Service
-          </Button>
+          {data.serviceToSearch === '' ? (
+            <Button onClick={openDrawer} variant='outlined' color='secondary'>
+              Select Service
+            </Button>
+          ) : 
+            (
+              <ServicesCheckbox
+                service={data.serviceToSearch}
+                Icon={LogosObject[data.serviceToSearch]}
+              />,
+            )
+          }
         </>
       ) : (
         <>

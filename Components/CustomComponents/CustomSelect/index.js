@@ -2,23 +2,22 @@ import { SelectInput } from './StyledComponents'
 
 import { Select } from '@mui/material'
 
-export default function CustomSelect(props) {
+export default function CustomSelect({ bg, ...rest }) {
   return (
     <Select
-      {...props}
+      {...rest}
       color='secondary'
-      input={props.input || <SelectInput />}
-      sx={{ position: props.absolute ? 'absolute' : '', left: props.absolute ? '40px' : '' }}
+      input={rest.input || <SelectInput bg={bg} />}
+      sx={{ position: rest.absolute ? 'absolute' : '', left: rest.absolute ? '40px' : '' }}
       MenuProps={{
         sx: { maxHeight: '500px' },
         MenuListProps: {
           sx: {
-            background: '#393939',
+            background:'#393939',
             color: '#fff',
           },
         },
       }}
-      // absolute={props.absolute}
       displayEmpty
     ></Select>
   )

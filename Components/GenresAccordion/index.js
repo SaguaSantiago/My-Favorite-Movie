@@ -14,6 +14,7 @@ import {
   Typography,
   Chip,
 } from '@mui/material'
+// import { responseOfGenres } from 'exampleResponse'
 
 export default function GenresAccordion() {
   const [genres, setGenres] = useState({})
@@ -23,6 +24,7 @@ export default function GenresAccordion() {
     getGenres.then((res) => {
       setGenres(res)
     })
+    // responseOfGenres.then((res) => setGenres(res))
   }, [])
   return (
     <Accordion>
@@ -36,7 +38,6 @@ export default function GenresAccordion() {
             : Object.keys(genresSelected).map((genre) => (
                 <Chip
                   key={genre}
-                  size={'small'}
                   label={genre}
                   sx={{ color: '#cccccc' }}
                   onClick={() => dispatch(deleteGenre(genre))}
@@ -46,9 +47,10 @@ export default function GenresAccordion() {
         </Typography>
       </AccordionSummary>
       <AccordionDetails
+        component='div'
         sx={{ background: '#525252', color: 'white', borderTop: '1px solid #bbbbbb' }}
       >
-        <Grid container gap={1}>
+        <Grid container gap={1} justifyContent='center'>
           {Object.entries(genres).map(([genre, id]) => (
             <Chip
               key={id}

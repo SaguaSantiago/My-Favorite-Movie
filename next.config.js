@@ -8,6 +8,9 @@ const nextConfig = {
     })
     return config
   },
+  images: {
+    domains: ['streaming-availability.p.rapidapi.com', 'image.tmdb.org'],
+  },
 }
 
 module.exports = nextConfig
