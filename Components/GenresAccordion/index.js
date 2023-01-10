@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react'
 
 import { useDispatch, useSelector } from 'react-redux'
-import { addGenre, deleteGenre } from 'redux/reducers/movies'
+import { addGenre, deleteGenre, addAvailableGenres } from 'redux/reducers/movies'
 
 import { getGenres } from 'modules'
 
@@ -14,18 +14,22 @@ import {
   Typography,
   Chip,
 } from '@mui/material'
+import { swapKeysValues } from 'Utilities/swapKeysValues'
 // import { responseOfGenres } from 'exampleResponse'
 
 export default function GenresAccordion() {
-  const [genres, setGenres] = useState({})
+  const { availableGenres } = useSelector((state) => state.movies)
   const dispatch = useDispatch()
   const genresSelected = useSelector((state) => state.movies.data.genresSelected)
+
   useEffect(() => {
     getGenres.then((res) => {
-      setGenres(res)
+      const finalRes = swapKeysValues(res)
+      dispatch(addAvailableGenres(finalRes))
     })
     // responseOfGenres.then((res) => setGenres(res))
   }, [])
+
   return (
     <Accordion>
       <AccordionSummary
@@ -51,14 +55,15 @@ export default function GenresAccordion() {
         sx={{ background: '#525252', color: 'white', borderTop: '1px solid #bbbbbb' }}
       >
         <Grid container gap={1} justifyContent='center'>
-          {Object.entries(genres).map(([genre, id]) => (
-            <Chip
-              key={id}
-              sx={{ color: '#cfcfcf' }}
-              onClick={() => dispatch(addGenre({ [genre]: id }))}
-              label={genre}
-            />
-          ))}
+          {availableGenres &&
+            Object.entries(availableGenres).map(([id, genre]) => (
+              <Chip
+                key={id}
+                sx={{ color: '#cfcfcf' }}
+                onClick={() => dispatch(addGenre({ [genre]: id }))}
+                label={genre}
+              />
+            ))}
         </Grid>
       </AccordionDetails>
     </Accordion>
