@@ -6,9 +6,10 @@ const initialValue = {
   currentRequestId: undefined,
   error: null,
   country: '',
+  availableGenres: [],
   countryServices: [],
   data: {
-    genresSelected: {},
+    genresSelected: [],
     serviceToSearch: '',
   },
   movies: [],
@@ -44,17 +45,21 @@ const moviesSlice = createSlice({
         state.data.serviceToSearch = action.payload
       }
     },
-    addGenre(state, action) {
-      state.data.genresSelected = { ...state.data.genresSelected, ...action.payload }
-    },
-    deleteGenre(state, action) {
-      delete state.data.genresSelected[action.payload]
+    addAvailableGenres(state, action) {
+      state.availableGenres = action.payload
     },
     addGenre(state, action) {
-      state.data.genresSelected = { ...state.data.genresSelected, ...action.payload }
+      const { payload } = action
+      const isNotIncluded = state.data.genresSelected.some((g) => g.id === payload.id)
+
+      if (!isNotIncluded) {
+        state.data.genresSelected = [...state.data.genresSelected, payload]
+      }
     },
     deleteGenre(state, action) {
-      delete state.data.genresSelected[action.payload]
+      state.data.genresSelected = state.data.genresSelected.filter(
+        (genre) => genre.id !== action.payload,
+      )
     },
     getCountry(state, action) {
       state.country = action.payload
@@ -70,8 +75,13 @@ const moviesSlice = createSlice({
       ) {
         state.loading = 'idle'
         // state.movies.push(...action.payload.results)
-        state.movies = [...state.movies, ...action.payload.results]
-        console.log(state.movies)
+        action.payload.results.forEach((movieInput) => {
+          if (!state.movies.some((movie) => movie.imdbID === movieInput.imdbID)) {
+            state.movies.push(movieInput)
+          }
+        })
+        // state.movies = [...state.movies, ...action.payload.results]
+        // console.log(action.payload)
         state.currentRequestId = undefined
       }
     })
@@ -95,7 +105,13 @@ const moviesSlice = createSlice({
   },
 })
 const { reducer } = moviesSlice
-export const { getServices, getServiceToSearch, addGenre, deleteGenre, getCountry } =
-  moviesSlice.actions
+export const {
+  getServices,
+  getServiceToSearch,
+  addGenre,
+  deleteGenre,
+  getCountry,
+  addAvailableGenres,
+} = moviesSlice.actions
 
 export default reducer
