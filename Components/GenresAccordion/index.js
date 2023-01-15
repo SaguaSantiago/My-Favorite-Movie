@@ -3,7 +3,7 @@ import { useEffect, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { addGenre, deleteGenre, addAvailableGenres } from 'redux/reducers/movies'
 
-import { getGenres } from 'modules'
+import { getGenresForMovie } from 'api/getGenres'
 
 import ExpandMoreOutlined from '@mui/icons-material/ExpandMoreOutlined'
 import {
@@ -23,9 +23,9 @@ export default function GenresAccordion() {
   const genresSelected = useSelector((state) => state.movies.data.genresSelected)
 
   useEffect(() => {
-    getGenres.then((res) => {
-      const finalRes = swapKeysValues(res)
-      dispatch(addAvailableGenres(finalRes))
+    getGenresForMovie.then((res) => {
+      const { genres } = res
+      dispatch(addAvailableGenres(genres))
     })
     // responseOfGenres.then((res) => setGenres(res))
   }, [])
@@ -37,15 +37,15 @@ export default function GenresAccordion() {
         expandIcon={<ExpandMoreOutlined />}
       >
         <Typography textAlign='center'>
-          {genresSelected && Object.keys(genresSelected).length === 0
+          {genresSelected && genresSelected.length === 0
             ? 'Genres'
-            : Object.keys(genresSelected).map((genre) => (
+            : genresSelected.map(({ id, name }) => (
                 <Chip
-                  key={genre}
-                  label={genre}
+                  key={id}
+                  label={name}
                   sx={{ color: '#cccccc' }}
-                  onClick={() => dispatch(deleteGenre(genre))}
-                  onDelete={() => dispatch(deleteGenre(genre))}
+                  onClick={() => dispatch(deleteGenre(id))}
+                  onDelete={() => dispatch(deleteGenre(id))}
                 />
               ))}
         </Typography>
@@ -56,12 +56,12 @@ export default function GenresAccordion() {
       >
         <Grid container gap={1} justifyContent='center'>
           {availableGenres &&
-            Object.entries(availableGenres).map(([id, genre]) => (
+            availableGenres.map(({ id, name }) => (
               <Chip
                 key={id}
                 sx={{ color: '#cfcfcf' }}
-                onClick={() => dispatch(addGenre({ [genre]: id }))}
-                label={genre}
+                onClick={() => dispatch(addGenre({ id, name }))}
+                label={name}
               />
             ))}
         </Grid>
