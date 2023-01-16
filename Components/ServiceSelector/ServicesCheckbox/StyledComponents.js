@@ -2,7 +2,9 @@ import { styled, IconButton, Checkbox } from '@mui/material'
 
 export const StyledIconButton = styled(IconButton)(
   ({ theme }) => `
-        max-height: 80px;
+        position: relative;
+        width: 80px;
+        height: 80px;
         background: #ffffff;
         padding: 0 20px;
         overflow: hidden;

@@ -1,6 +1,24 @@
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit'
 import { getMoviesRequest } from 'modules'
 
+const servicesArr = [
+  'Netflix',
+  'Amazon Prime Video',
+  'Disney Plus',
+  'HBO Max',
+  'Peacock',
+  'Peacock Premium',
+  'Paramount+',
+  'Starz Play Amazon Channel',
+  'Showtime Amazon Channel"',
+  'Apple TV Plus',
+  'MUBI',
+  'Funimation Now',
+  'iPlayer',
+  'BritBox',
+  'Curiosity Stream',
+]
+
 const initialValue = {
   loading: 'idle',
   currentRequestId: undefined,
@@ -10,7 +28,7 @@ const initialValue = {
   countryServices: [],
   data: {
     genresSelected: [],
-    serviceToSearch: '',
+    servicesToSearch: [],
   },
   movies: [],
 }
@@ -36,13 +54,26 @@ const moviesSlice = createSlice({
   initialState: initialValue,
   reducers: {
     getServices(state, action) {
-      state.countryServices = action.payload
+      action.payload.forEach((service) => {
+        if (
+          servicesArr.includes(service.provider_name) &&
+          !state.countryServices.some((srv) => srv.provider_name === service.provider_name)
+        ) {
+          state.countryServices = [...state.countryServices, service]
+        }
+      })
     },
-    getServiceToSearch(state, action) {
-      if (state.data.serviceToSearch === action.payload) {
-        state.data.serviceToSearch = ''
+    toggleServiceToSearch(state, action) {
+      const isAlreadyIn = state.data.servicesToSearch.some(
+        (srv) => srv.provider_id === action.payload.provider_id,
+      )
+
+      if (!isAlreadyIn) {
+        state.data.servicesToSearch.push(action.payload)
       } else {
-        state.data.serviceToSearch = action.payload
+        state.data.servicesToSearch = state.data.servicesToSearch.filter(
+          (e) => e.provider_id !== action.payload.provider_id,
+        )
       }
     },
     addAvailableGenres(state, action) {
@@ -112,6 +143,7 @@ export const {
   deleteGenre,
   getCountry,
   addAvailableGenres,
+  toggleServiceToSearch,
 } = moviesSlice.actions
 
 export default reducer
