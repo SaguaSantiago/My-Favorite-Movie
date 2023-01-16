@@ -8,7 +8,7 @@ export const discoverRequest = (params) => {
     .get('https://api.themoviedb.org/3/discover/movie', {
       params: {
         api_key: API_KEY,
-        language: 'en-US',
+        language: language,
         watch_region: region,
         with_watch_providers: providers,
         'with_runtime.gte': '',

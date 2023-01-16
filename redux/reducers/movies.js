@@ -1,6 +1,5 @@
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit'
 import { discoverRequest } from 'api/discoverRequest'
-import { getMoviesRequest } from 'modules'
 
 const servicesArr = [
   'Netflix',

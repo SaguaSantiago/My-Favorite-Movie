@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import { languagesObject } from 'ListObject'
 
 import CustomSelect from 'Components/CustomComponents/CustomSelect'
@@ -9,15 +9,23 @@ import { useSelector, useDispatch } from 'react-redux'
 import { getAllMovies } from 'redux/reducers/movies'
 
 import { Grid, Box, FormControlLabel, MenuItem, Button, Divider } from '@mui/material'
+import { getLanguagesRequest } from 'api/getLanguages'
 
 export default function Form() {
   const dispatch = useDispatch()
+  const [languages, setLenguages] = useState([])
   const [params, setParams] = useState({
     type: '',
     Language: '',
     keywords: '',
   })
   const { country, data } = useSelector((state) => state.movies)
+  useEffect(() => {
+    getLanguagesRequest.then((res) =>
+      setLenguages(res.sort((a, b) => a.english_name.localeCompare(b.english_name))),
+    )
+  }, [])
+
   return (
     <Grid
       sx={{ display: 'flex', justifyContent: 'center', flexDirection: 'column' }}
@@ -51,7 +59,7 @@ export default function Form() {
               defaultValue=''
             >
               <MenuItem value=''>Language</MenuItem>
-              {Object.entries(languagesObject).map(([language, id]) => (
+              {languages.map(({ iso_639_1: id, english_name: language }) => (
                 <MenuItem key={id} value={id}>
                   {language}
                 </MenuItem>

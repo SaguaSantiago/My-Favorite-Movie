@@ -3,9 +3,6 @@ import CustomSelect from 'Components/CustomComponents/CustomSelect'
 import { useDispatch, useSelector } from 'react-redux'
 import { getCountry, getServices } from 'redux/reducers/movies'
 
-import { getServiceForCountry } from 'modules'
-import { AMERICAN_COUNTRIES } from 'ListObject'
-
 import { MenuItem } from '@mui/material'
 import { response } from 'exampleResponse'
 import { useEffect, useState } from 'react'

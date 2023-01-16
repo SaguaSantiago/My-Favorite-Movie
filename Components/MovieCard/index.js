@@ -5,7 +5,6 @@ import { useDispatch, useSelector } from 'react-redux'
 import { ImageUrl } from 'Utilities/swapKeysValues'
 import StarRoundedIcon from '@mui/icons-material/StarRounded'
 import { useEffect, useState } from 'react'
-import { getGenres } from 'modules'
 import Link from 'next/link'
 
 const StyledBox = styled(Box)`
