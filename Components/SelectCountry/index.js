@@ -10,6 +10,7 @@ import { MenuItem } from '@mui/material'
 import { response } from 'exampleResponse'
 import { useEffect, useState } from 'react'
 import { getRegions } from 'api/getRegions'
+import { getServicesRequest } from 'api/getServices'
 
 export default function SelectCountry({ absolute }) {
   const dispatch = useDispatch()
@@ -20,17 +21,7 @@ export default function SelectCountry({ absolute }) {
     const newValue = event.target.value
     dispatch(getCountry(newValue))
 
-    let services = []
-
-    if (newValue !== '') {
-      const servicesList = await getServiceForCountry
-      // const servicesList = await response
-      Object.entries(servicesList).forEach(([key, value]) => {
-        if (value.some((v) => v === newValue.toLowerCase())) {
-          services = [...services, key]
-        }
-      })
-    }
+    let services = await getServicesRequest(country)
     dispatch(getServices(services))
   }
 

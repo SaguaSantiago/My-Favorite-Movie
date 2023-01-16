@@ -1,4 +1,5 @@
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit'
+import { discoverRequest } from 'api/discoverRequest'
 import { getMoviesRequest } from 'modules'
 
 const servicesArr = [
@@ -41,10 +42,20 @@ export const getAllMovies = createAsyncThunk(
     if (currentRequestId !== requestId || loading !== 'pending') {
       return
     }
-    const { genresSelected, ...rest } = params
-    return await getMoviesRequest({
+    const { genresSelected, keywords, country, servicesToSearch, ...rest } = params
+
+    let genresString = encodeURIComponent(genresSelected.map(({ id }) => `${id}`).join(','))
+    let keywordsString = encodeURIComponent(keywords.split(' ').join(','))
+    let providersString = encodeURIComponent(
+      servicesToSearch.map(({ provider_id }) => provider_id).join(','),
+    )
+
+    return discoverRequest({
       ...rest,
-      genre: Object.values(params.genresSelected)[0] || '',
+      genres: genresString || '',
+      keywords: keywordsString || '',
+      region: country,
+      providers: providersString || '',
     })
   },
 )
@@ -105,14 +116,9 @@ const moviesSlice = createSlice({
         action.payload !== undefined
       ) {
         state.loading = 'idle'
-        // state.movies.push(...action.payload.results)
-        action.payload.results.forEach((movieInput) => {
-          if (!state.movies.some((movie) => movie.imdbID === movieInput.imdbID)) {
-            state.movies.push(movieInput)
-          }
-        })
-        // state.movies = [...state.movies, ...action.payload.results]
-        // console.log(action.payload)
+        state.movies = action.payload.results
+          .filter((movieInput) => !state.movies.some((e) => e.id === movieInput.id))
+          .concat(state.movies)
         state.currentRequestId = undefined
       }
     })

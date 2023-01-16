@@ -21,9 +21,13 @@ export const theme = createTheme({
     },
     contrastThreshold: 3,
     tonalOffset: 0.2,
+    background: {
+      paper: '#2e424ebf',
+    },
   },
   typography: {
     fontFamily: "'Open Sans', sans-serif;",
+    // color
   },
   // components: {
   //   MuiCssBaseline: {

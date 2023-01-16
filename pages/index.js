@@ -37,7 +37,7 @@ export default function MainRoute() {
         alignItems='center'
         flexWrap='wrap'
       >
-        {movies.length !== 0 && movies.map((movie) => <MovieCard movie={movie} />)}
+        {movies.length !== 0 && movies.map((movie) => <MovieCard key={movie.id} movie={movie} />)}
       </Box>
     </>
   )
