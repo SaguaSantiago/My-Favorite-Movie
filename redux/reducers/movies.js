@@ -24,6 +24,7 @@ const initialValue = {
   currentRequestId: undefined,
   error: null,
   country: '',
+  type: 'movie',
   availableGenres: [],
   countryServices: [],
   data: {
@@ -105,6 +106,10 @@ const moviesSlice = createSlice({
     getCountry(state, action) {
       state.country = action.payload
     },
+    toggleType(state, action) {
+      state.type = action.payload
+      state.data.genresSelected = []
+    },
   },
   extraReducers: (builder) => {
     builder.addCase(getAllMovies.fulfilled, (state, action) => {
@@ -149,6 +154,7 @@ export const {
   getCountry,
   addAvailableGenres,
   toggleServiceToSearch,
+  toggleType,
 } = moviesSlice.actions
 
 export default reducer

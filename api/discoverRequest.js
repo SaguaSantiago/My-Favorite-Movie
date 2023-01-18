@@ -3,9 +3,10 @@ import { API_KEY } from 'Utilities/API_KEY'
 
 export const discoverRequest = (params) => {
   const { language, genres, region, type, keywords, providers } = params
-  console.log(params)
+  const URL = `https://api.themoviedb.org/3/discover/${type === 'serie' ? 'tv' : 'movie'}`
+  console.log(URL)
   return axios
-    .get('https://api.themoviedb.org/3/discover/movie', {
+    .get(URL, {
       params: {
         api_key: API_KEY,
         language: language,
