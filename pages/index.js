@@ -21,9 +21,6 @@ export default function MainRoute() {
           <Grid component='section' item xs={12}>
             <ServiceSelector />
           </Grid>
-          <Grid component='section' item xs={12} sm={8} lg={9}>
-            <GenresAccordion />
-          </Grid>
           <Form />
         </Grid>
       </Container>

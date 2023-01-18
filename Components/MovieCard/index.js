@@ -31,7 +31,7 @@ export default function MovieCard({ movie }) {
   }, [availableGenres])
 
   return (
-    <Box component='article' width='480px' height='380px'>
+    <Box component='article' minWidth='480px' width='480px' height='380px'>
       <Card sx={{ height: '100%' }}>
         <CardMedia sx={{ height: '60%', ':hover': { cursor: 'pointer' } }}>
           <Link href={`/movie/${movie.id}`}>
