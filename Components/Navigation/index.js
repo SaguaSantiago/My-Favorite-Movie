@@ -33,7 +33,7 @@ export function Navigation({ children }) {
               </Typography>
             </Grid>
             {!drawerResolution ? (
-              <SelectCountry absolute={true} />
+              <SelectCountry absolute={'true'} />
             ) : (
               <Grid item>
                 <DrawerComponent></DrawerComponent>

@@ -1,66 +1,63 @@
-import { useEffect, useState } from 'react'
+import { useEffect } from 'react'
+
+import CustomAccordion from 'Components/CustomComponents/CustomAccordion'
 
 import { useDispatch, useSelector } from 'react-redux'
-import { addGenre, deleteGenre } from 'redux/reducers/movies'
+import { addGenre, deleteGenre, addAvailableGenres } from 'redux/reducers/movies'
 
-import { getGenres } from 'modules'
+import { getGenresForMovie, getGenresForSeries } from 'api/getGenres'
 
-import ExpandMoreOutlined from '@mui/icons-material/ExpandMoreOutlined'
-import {
-  Accordion,
-  AccordionSummary,
-  AccordionDetails,
-  Grid,
-  Typography,
-  Chip,
-} from '@mui/material'
-// import { responseOfGenres } from 'exampleResponse'
+import { Chip } from '@mui/material'
 
 export default function GenresAccordion() {
-  const [genres, setGenres] = useState({})
+  const { availableGenres, params } = useSelector((state) => state.movies)
   const dispatch = useDispatch()
-  const genresSelected = useSelector((state) => state.movies.data.genresSelected)
+  const genresSelected = useSelector((state) => state.movies.params.genresSelected)
+
   useEffect(() => {
-    getGenres.then((res) => {
-      setGenres(res)
-    })
-    // responseOfGenres.then((res) => setGenres(res))
-  }, [])
+    if (params.type === 'movie') {
+      getGenresForMovie.then((res) => {
+        const { genres } = res
+        dispatch(addAvailableGenres(genres))
+      })
+    } else {
+      getGenresForSeries.then((res) => {
+        const { genres } = res
+        dispatch(addAvailableGenres(genres))
+      })
+    }
+  }, [params.type])
+
   return (
-    <Accordion>
-      <AccordionSummary
-        sx={{ background: '#525252', color: 'white' }}
-        expandIcon={<ExpandMoreOutlined />}
-      >
-        <Typography textAlign='center'>
-          {genresSelected && Object.keys(genresSelected).length === 0
-            ? 'Genres'
-            : Object.keys(genresSelected).map((genre) => (
-                <Chip
-                  key={genre}
-                  label={genre}
-                  sx={{ color: '#cccccc' }}
-                  onClick={() => dispatch(deleteGenre(genre))}
-                  onDelete={() => dispatch(deleteGenre(genre))}
-                />
-              ))}
-        </Typography>
-      </AccordionSummary>
-      <AccordionDetails
-        component='div'
-        sx={{ background: '#525252', color: 'white', borderTop: '1px solid #bbbbbb' }}
-      >
-        <Grid container gap={1} justifyContent='center'>
-          {Object.entries(genres).map(([genre, id]) => (
-            <Chip
-              key={id}
-              sx={{ color: '#cfcfcf' }}
-              onClick={() => dispatch(addGenre({ [genre]: id }))}
-              label={genre}
-            />
-          ))}
-        </Grid>
-      </AccordionDetails>
-    </Accordion>
+    <CustomAccordion
+      selectedItems={
+        genresSelected.length === 0
+          ? 'Genres'
+          : genresSelected.map(({ id, name }) => {
+              if (availableGenres.some((g) => g.id === id)) {
+                return (
+                  <Chip
+                    key={id + Math.random() * 1000}
+                    label={name}
+                    sx={{ color: '#cccccc' }}
+                    onClick={() => dispatch(deleteGenre(id))}
+                    onDelete={() => dispatch(deleteGenre(id))}
+                  />
+                )
+              }
+            })
+      }
+      items={
+        availableGenres &&
+        availableGenres.map(({ id, name }) => (
+          <Chip
+            key={id + Math.random() * 1000}
+            sx={{ color: '#cfcfcf' }}
+            onClick={() => dispatch(addGenre({ id, name }))}
+            label={name}
+          />
+        ))
+      }
+    ></CustomAccordion>
   )
 }

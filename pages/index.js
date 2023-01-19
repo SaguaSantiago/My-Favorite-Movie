@@ -1,36 +1,68 @@
-import { useEffect } from 'react'
+import { useEffect, useRef } from 'react'
 
 import GenresAccordion from 'Components/GenresAccordion'
 import ServiceSelector from 'Components/ServiceSelector'
+import Form from 'Components/Form'
+import MovieCard from 'Components/MovieCard'
 
 import { useDispatch, useSelector } from 'react-redux'
 
-import { Grid, Container } from '@mui/material'
-import Form from 'Components/Form'
+import { Grid, Container, Box, Pagination, PaginationItem } from '@mui/material'
+import { changePageToSearch, getAllMovies } from 'redux/reducers/movies'
+import { element } from 'prop-types'
 
 export default function MainRoute() {
-  const dispatch = useDispatch()
   const { movies } = useSelector((state) => state.movies)
+  const submitBtnRef = useRef()
+  const dispatch = useDispatch()
+  const { results, total_pages, page } = movies
 
-  useEffect(() => {
-  }, [])
+  useEffect(() => {}, [])
 
   return (
-    <Container component='main' maxWidth='md'>
-      <Grid container justifyContent='center' gap={6} sx={{ pt: 2 }} alignItems='center'>
-        <Grid component='section' item xs={12}>
-          <ServiceSelector />
+    <>
+      <Container component='main' maxWidth='md'>
+        <Grid container justifyContent='center' gap={6} sx={{ pt: 2 }} alignItems='center'>
+          <Grid component='section' item xs={12}>
+            <ServiceSelector />
+          </Grid>
+          <Form ref={submitBtnRef} />
         </Grid>
-        <Grid component='section' item xs={12} sm={8} lg={9}>
-          <GenresAccordion />
-        </Grid>
-        <Form />
-      </Grid>
-      {/* {movies.length !== 0 && (
-        <Box position='relative' width='200px' height='400px'>
-          <Image fill src={ImageUrl('400', '5TNSfR1OdcNHMnJV7QczdqdfaGR.jpg')}></Image>
-        </Box>
-      )} */}
-    </Container>
+      </Container>
+      {results.length !== 0 && (
+        <>
+          <Box
+            padding='30px'
+            width='100%'
+            gap='20px'
+            display='flex'
+            justifyContent='center'
+            alignItems='center'
+            flexWrap='wrap'
+          >
+            {results.map((movie) => (
+              <MovieCard key={movie.id} movie={movie} />
+            ))}
+          </Box>
+          <Box mt={3} mb={3} width='100%' display='flex' justifyContent='center'>
+            <Pagination
+              sx={{ color: 'white' }}
+              size='large'
+              page={page}
+              color='secondary'
+              count={total_pages}
+              render={(item) => (
+                <PaginationItem {...item} sx={{ color: 'white', backgroundColor: 'red' }} />
+              )}
+              onChange={(e, value) => {
+                dispatch(changePageToSearch(value))
+                dispatch(getAllMovies())
+                submitBtnRef.current.scrollIntoView({ behivor: 'smooth' })
+              }}
+            />
+          </Box>
+        </>
+      )}
+    </>
   )
 }

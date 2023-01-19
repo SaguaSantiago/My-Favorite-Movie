@@ -8,12 +8,15 @@ export default function CustomSelect({ bg, ...rest }) {
       {...rest}
       color='secondary'
       input={rest.input || <SelectInput bg={bg} />}
-      sx={{ position: rest.absolute ? 'absolute' : '', left: rest.absolute ? '40px' : '' }}
+      sx={{
+        position: rest.absolute === 'true' ? 'absolute' : '',
+        left: rest.absolute === 'true' ? '40px' : '',
+      }}
       MenuProps={{
         sx: { maxHeight: '500px' },
         MenuListProps: {
           sx: {
-            background:'#393939',
+            background: '#393939',
             color: '#fff',
           },
         },

@@ -1,17 +1,14 @@
+import ServicesAccordion from 'Components/ServiceAccordion'
 import ServicesCheckbox from './ServicesCheckbox'
 
 import { useMediaQuery } from 'hooks/useMediaQuery'
-import { OpenDrawerService } from 'services/Sharing-information'
-
 import { useSelector } from 'react-redux'
 
-import { LogosObject } from '../../public/assets/Logos'
-
-import { Grid, Button, Typography } from '@mui/material'
+import { Grid, Typography } from '@mui/material'
 
 export default function ServiceSelector() {
-  const { countryServices, country, data } = useSelector((state) => state.movies)
-  const openDrawer = () => OpenDrawerService.setSubject(true)
+  const { countryServices, params } = useSelector((state) => state.movies)
+  const { country } = params
   const media = useMediaQuery('(max-width: 490px)')
 
   return (
@@ -19,20 +16,7 @@ export default function ServiceSelector() {
       {country === '' ? (
         <Typography variant='h5'> First select a country!</Typography>
       ) : media ? (
-        <>
-          {data.serviceToSearch === '' ? (
-            <Button onClick={openDrawer} variant='outlined' color='secondary'>
-              Select Service
-            </Button>
-          ) : 
-            (
-              <ServicesCheckbox
-                service={data.serviceToSearch}
-                Icon={LogosObject[data.serviceToSearch]}
-              />,
-            )
-          }
-        </>
+        <ServicesAccordion />
       ) : (
         <>
           <Grid item xs={12}>
@@ -51,13 +35,11 @@ export default function ServiceSelector() {
             </Typography>
           </Grid>
           {countryServices.map((service) => {
-            if (LogosObject.hasOwnProperty(service)) {
-              return (
-                <Grid item md={4} lg={2} key={service}>
-                  <ServicesCheckbox service={service} Icon={LogosObject[service]} />
-                </Grid>
-              )
-            }
+            return (
+              <Grid item md={2} lg={2} key={service.provider_id}>
+                <ServicesCheckbox service={service} />
+              </Grid>
+            )
           })}
         </>
       )}

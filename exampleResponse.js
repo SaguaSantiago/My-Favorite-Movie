@@ -233,18 +233,37 @@ export const response = Promise.resolve({
 
 export const responseOfGenres = Promise.resolve(() => {
   const data = {
-    1: 'Action',
-    2: 'Adventure',
-    3: 'Comedy',
-    4: 'Drama',
-    5: 'Fantasy',
-    6: 'Horror',
-    7: 'Mystery',
-    8: 'Romance',
-    9: 'Sci-Fi',
-    10: 'Thriller',
+    1: 'Biography',
+    2: 'Film Noir',
+    3: 'Game Show',
+    4: 'Musical',
+    5: 'Sport',
+    6: 'Short',
+    7: 'Adult',
+    12: 'Adventure',
+    14: 'Fantasy',
+    16: 'Animation',
+    18: 'Drama',
+    27: 'Horror',
+    28: 'Action',
+    35: 'Comedy',
+    36: 'History',
+    37: 'Western',
+    53: 'Thriller',
+    80: 'Crime',
+    99: 'Documentary',
+    878: 'Science Fiction',
+    9648: 'Mystery',
+    10402: 'Music',
+    10749: 'Romance',
+    10751: 'Family',
+    10752: 'War',
+    10763: 'News',
+    10764: 'Reality',
+    10767: 'Talk Show',
   }
 
+  return data
   let finalGenres = {}
   const keys = Object.keys(data)
   const values = Object.values(data)
@@ -253,3 +272,71 @@ export const responseOfGenres = Promise.resolve(() => {
   })
   return finalGenres
 })
+
+export const movieExample = {
+  0: {
+    imdbID: 'tt9168904',
+    tmdbID: '90823',
+    imdbRating: 67,
+    imdbVoteCount: 197,
+    tmdbRating: 78,
+    backdropPath: '/nztNvimm6aTeNN0Hm3KJ1B2EFyy.jpg',
+    backdropURLs: {
+      300: 'https://image.tmdb.org/t/p/w300/nztNvimm6aTeNN0Hm3KJ1B2EFyy.jpg',
+      780: 'https://image.tmdb.org/t/p/w780/nztNvimm6aTeNN0Hm3KJ1B2EFyy.jpg',
+      1280: 'https://image.tmdb.org/t/p/w1280/nztNvimm6aTeNN0Hm3KJ1B2EFyy.jpg',
+      original: 'https://image.tmdb.org/t/p/original/nztNvimm6aTeNN0Hm3KJ1B2EFyy.jpg',
+    },
+    originalTitle: 'BIA',
+    genres: [28, 35, 18],
+    countries: ['AR', 'BR'],
+    year: 2019,
+    firstAirYear: 2019,
+    lastAirYear: 2020,
+    episodeRuntimes: [],
+    cast: [
+      'Isabela Souza',
+      'Julio Peña',
+      'Guido Messina',
+      'Gabriella Di Grecco',
+      'Fernando Dente',
+      'Rhener Freitas',
+      'Giulia Guerrini',
+    ],
+    significants: [
+      'Jorge Bechara',
+      'Jorge Edelstein',
+      'Marina Efron',
+      'Carmen López Areal',
+      'Daniel Gonçalves',
+    ],
+    title: 'BIA',
+    overview: '',
+    video: '',
+    posterPath: '/vFS6fSilrVWSQ4pbuNzQgWZyGGP.jpg',
+    posterURLs: {
+      92: 'https://image.tmdb.org/t/p/w92/vFS6fSilrVWSQ4pbuNzQgWZyGGP.jpg',
+      154: 'https://image.tmdb.org/t/p/w154/vFS6fSilrVWSQ4pbuNzQgWZyGGP.jpg',
+      185: 'https://image.tmdb.org/t/p/w185/vFS6fSilrVWSQ4pbuNzQgWZyGGP.jpg',
+      342: 'https://image.tmdb.org/t/p/w342/vFS6fSilrVWSQ4pbuNzQgWZyGGP.jpg',
+      500: 'https://image.tmdb.org/t/p/w500/vFS6fSilrVWSQ4pbuNzQgWZyGGP.jpg',
+      780: 'https://image.tmdb.org/t/p/w780/vFS6fSilrVWSQ4pbuNzQgWZyGGP.jpg',
+      original: 'https://image.tmdb.org/t/p/original/vFS6fSilrVWSQ4pbuNzQgWZyGGP.jpg',
+    },
+    seasons: 2,
+    episodes: 120,
+    age: 0,
+    status: 5,
+    tagline: '',
+    streamingInfo: {
+      disney: {
+        ar: {
+          link: 'https://www.disneyplus.com/series/-/mHNgZ8i7gbKE',
+          added: 1652635257,
+          leaving: 0,
+        },
+      },
+    },
+    originalLanguage: 'es',
+  },
+}
