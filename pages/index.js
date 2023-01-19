@@ -1,4 +1,4 @@
-import { useEffect } from 'react'
+import { useEffect, useRef } from 'react'
 
 import GenresAccordion from 'Components/GenresAccordion'
 import ServiceSelector from 'Components/ServiceSelector'
@@ -9,9 +9,11 @@ import { useDispatch, useSelector } from 'react-redux'
 
 import { Grid, Container, Box, Pagination, PaginationItem } from '@mui/material'
 import { changePageToSearch, getAllMovies } from 'redux/reducers/movies'
+import { element } from 'prop-types'
 
 export default function MainRoute() {
   const { movies } = useSelector((state) => state.movies)
+  const submitBtnRef = useRef()
   const dispatch = useDispatch()
   const { results, total_pages, page } = movies
 
@@ -24,7 +26,7 @@ export default function MainRoute() {
           <Grid component='section' item xs={12}>
             <ServiceSelector />
           </Grid>
-          <Form />
+          <Form ref={submitBtnRef} />
         </Grid>
       </Container>
       {results.length !== 0 && (
@@ -47,13 +49,15 @@ export default function MainRoute() {
               sx={{ color: 'white' }}
               size='large'
               page={page}
+              color='secondary'
               count={total_pages}
               render={(item) => (
-                <PaginationItem color='secondary' {...item} sx={{ color: 'white' }} />
+                <PaginationItem {...item} sx={{ color: 'white', backgroundColor: 'red' }} />
               )}
-              onChange={(e, value) =>{
+              onChange={(e, value) => {
                 dispatch(changePageToSearch(value))
                 dispatch(getAllMovies())
+                submitBtnRef.current.scrollIntoView({ behivor: 'smooth' })
               }}
             />
           </Box>

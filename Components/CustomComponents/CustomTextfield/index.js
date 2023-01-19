@@ -19,7 +19,7 @@ export default function CustomTextField(props) {
       {...props}
       variant='filled'
       inputProps={{
-        autocomplete: 'off',
+        autoComplete: 'off',
         sx: { color: 'white', backgroundColor: 'rgba(0, 0, 0, 0.08)' },
       }}
     />

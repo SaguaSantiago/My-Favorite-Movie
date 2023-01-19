@@ -2,7 +2,6 @@ import { Box, Card, CardContent, CardMedia, Typography, Chip, styled } from '@mu
 import { movieExample, responseOfGenres } from 'exampleResponse'
 import Image from 'next/image'
 import { useDispatch, useSelector } from 'react-redux'
-import { ImageUrl } from 'Utilities/swapKeysValues'
 import StarRoundedIcon from '@mui/icons-material/StarRounded'
 import { useEffect, useState } from 'react'
 import Link from 'next/link'
@@ -31,7 +30,7 @@ export default function MovieCard({ movie }) {
   }, [availableGenres])
 
   return (
-    <Box component='article' minWidth='480px' width='480px' height='380px'>
+    <Box component='article' minWidth='300px' width='480px' height='480px'>
       <Card sx={{ height: '100%' }}>
         <CardMedia sx={{ height: '60%', ':hover': { cursor: 'pointer' } }}>
           <Link href={`/movie/${movie.id}`}>
@@ -62,6 +61,12 @@ export default function MovieCard({ movie }) {
             justifyContent='center'
             width='100%'
           >
+            <Box display='flex' position='absolute' left='16px'>
+              <StarRoundedIcon sx={{ color: '#ffff00d6', height: '30px', width: '30px' }} />
+              <Typography sx={{ width: 'text-content', color: '#ffff00d6', fontSize: '1.2rem' }}>
+                {movie.vote_average}
+              </Typography>
+            </Box>
             <Link href={`/movie/${movie.id}`}>
               <Typography
                 sx={{
@@ -70,6 +75,7 @@ export default function MovieCard({ movie }) {
                   ':hover': { cursor: 'pointer', color: '#ffffffaa' },
                   width: 'max-content',
                   maxWidth: '285px',
+                  mt: 3,
                 }}
                 textAlign='center'
                 color='white'
@@ -78,16 +84,6 @@ export default function MovieCard({ movie }) {
                 {movie.title}
               </Typography>
             </Link>
-          </Box>
-
-          <Box display='flex' position='absolute' left='16px' top='16px'>
-            <a target='_blank' href={`https://www.imdb.com/title/${movie.id}/`}>
-              <Image src='/imdb.png' width='30px' height='30px' />
-            </a>
-            <StarRoundedIcon sx={{ color: '#ffff00d6' }} />
-            <Typography sx={{ width: 'text-content', color: '#ffff00d6' }}>
-              {movie.vote_average}
-            </Typography>
           </Box>
 
           <Typography textAlign='center' pt={0.3} variant='body2' sx={{ color: '#c6ceed' }}>

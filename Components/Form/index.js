@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react'
+import { useEffect, useState, forwardRef } from 'react'
 import { languagesObject } from 'ListObject'
 
 import CustomSelect from 'Components/CustomComponents/CustomSelect'
@@ -21,7 +21,7 @@ import {
 import { getLanguagesRequest } from 'api/getLanguages'
 import GenresAccordion from 'Components/GenresAccordion'
 
-export default function Form() {
+const Form = forwardRef((props, ref) => {
   const dispatch = useDispatch()
 
   const [languages, setLenguages] = useState([])
@@ -106,11 +106,12 @@ export default function Form() {
 
       <Divider sx={{ mt: 4, borderColor: '#ffffff31', width: '100%' }} />
 
-      <Box width='100%' px={10} display='flex' justifyContent='center'>
+      <Box ref={ref} width='100%' px={10} display='flex' justifyContent='center'>
         <Button
           sx={{ margin: '0 auto', mt: 2 }}
           fullWidth
           variant='contained'
+          id='submit_button'
           onClick={() => dispatch(getAllMovies())}
           size='large'
         >
@@ -119,4 +120,6 @@ export default function Form() {
       </Box>
     </Grid>
   )
-}
+})
+
+export default Form
