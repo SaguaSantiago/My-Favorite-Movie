@@ -5,24 +5,12 @@ import { Container } from './StyledComponents'
 import SelectCountry from 'Components/SelectCountry'
 import SelectService from 'Components/SelectService'
 
-import { OpenDrawerService } from 'services/Sharing-information'
-
-import { SwipeableDrawer, IconButton, Typography, MenuItem, Divider } from '@mui/material'
+import { SwipeableDrawer, IconButton, Divider } from '@mui/material'
 import PublicIcon from '@mui/icons-material/Public'
 
 export default function Drawer(mobileResolution) {
   const [open, setOpen] = useState(false)
   const media = useMediaQuery('(max-width: 490px)')
-  const openDrawerSuscription$ = OpenDrawerService.getSubject()
-
-  useEffect(() => {
-    openDrawerSuscription$.subscribe((data) => {
-      console.log(data)
-      if (!!data) {
-        setOpen(true)
-      }
-    })
-  }, [openDrawerSuscription$])
 
   const handleOpen = () => {
     setOpen(true)

@@ -9,15 +9,13 @@ import { useDispatch, useSelector } from 'react-redux'
 
 import { Grid, Container, Box, Pagination, PaginationItem } from '@mui/material'
 import { changePageToSearch, getAllMovies } from 'redux/reducers/movies'
-import { element } from 'prop-types'
+import { toast } from 'react-toastify'
 
 export default function MainRoute() {
   const { movies } = useSelector((state) => state.movies)
   const submitBtnRef = useRef()
   const dispatch = useDispatch()
   const { results, total_pages, page } = movies
-
-  useEffect(() => {}, [])
 
   return (
     <>
@@ -58,6 +56,12 @@ export default function MainRoute() {
                 dispatch(changePageToSearch(value))
                 dispatch(getAllMovies())
                 submitBtnRef.current.scrollIntoView({ behivor: 'smooth' })
+                toast.info('loading...', {
+                  position: 'bottom-right',
+                  hideProgressBar: false,
+                  pauseOnHover: false,
+                  closeOnClick: false,
+                })
               }}
             />
           </Box>
