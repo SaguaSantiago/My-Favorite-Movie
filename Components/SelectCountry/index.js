@@ -12,7 +12,7 @@ import { getServicesRequest } from 'api/getServices'
 export default function SelectCountry({ absolute }) {
   const dispatch = useDispatch()
   const [regions, setRegions] = useState([])
-  const { country } = useSelector((state) => state.movies)
+  const { country } = useSelector((state) => state.movies.params)
 
   const handleChange = async (event) => {
     const newValue = event.target.value

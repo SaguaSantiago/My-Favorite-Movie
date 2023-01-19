@@ -7,7 +7,8 @@ import { useSelector } from 'react-redux'
 import { Grid, Typography } from '@mui/material'
 
 export default function ServiceSelector() {
-  const { countryServices, country } = useSelector((state) => state.movies)
+  const { countryServices, params } = useSelector((state) => state.movies)
+  const { country } = params
   const media = useMediaQuery('(max-width: 490px)')
 
   return (

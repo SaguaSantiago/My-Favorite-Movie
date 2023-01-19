@@ -8,7 +8,7 @@ import { Box } from '@mui/material'
 
 export default function ServicesCheckbox({ service }) {
   const checked = useSelector((state) =>
-    state.movies.data.servicesToSearch.some((srv) => srv.provider_id === service.provider_id),
+    state.movies.params.servicesToSearch.some((srv) => srv.provider_id === service.provider_id),
   )
   const dispatch = useDispatch()
 

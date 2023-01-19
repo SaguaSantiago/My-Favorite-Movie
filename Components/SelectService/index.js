@@ -6,14 +6,14 @@ import { toggleServiceToSearch } from 'redux/reducers/movies'
 import { MenuItem } from '@mui/material'
 
 export default function SelectService() {
-  const { countryServices, data } = useSelector((state) => state.movies)
+  const { countryServices, params } = useSelector((state) => state.movies)
   const dispatch = useDispatch()
   const handleChange = (e) => {
     dispatch(toggleServiceToSearch(e.target.value))
   }
   return (
     countryServices.length !== 0 && (
-      <CustomSelect onChange={handleChange} value={data.serviceToSearch}>
+      <CustomSelect onChange={handleChange} value={params.serviceToSearch}>
         <MenuItem value=''>Select Service</MenuItem>
         {countryServices.map((service) => {
           return (

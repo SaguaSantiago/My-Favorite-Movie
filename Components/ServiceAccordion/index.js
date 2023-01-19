@@ -6,14 +6,14 @@ import { toggleServiceToSearch } from 'redux/reducers/movies'
 import { Chip } from '@mui/material'
 
 export default function ServicesAccordion() {
-  const { data, countryServices } = useSelector((state) => state.movies)
+  const { params, countryServices } = useSelector((state) => state.movies)
   const dispatch = useDispatch()
   return (
     <CustomAccordion
       selectedItems={
-        data.servicesToSearch.length === 0
+        params.servicesToSearch.length === 0
           ? 'Providers'
-          : data.servicesToSearch.map(({ provider_id, provider_name, ...rest }) => (
+          : params.servicesToSearch.map(({ provider_id, provider_name, ...rest }) => (
               <Chip
                 key={provider_id}
                 label={provider_name}

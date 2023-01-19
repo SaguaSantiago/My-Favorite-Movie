@@ -10,12 +10,12 @@ import { getGenresForMovie, getGenresForSeries } from 'api/getGenres'
 import { Chip } from '@mui/material'
 
 export default function GenresAccordion() {
-  const { availableGenres, type } = useSelector((state) => state.movies)
+  const { availableGenres, params } = useSelector((state) => state.movies)
   const dispatch = useDispatch()
-  const genresSelected = useSelector((state) => state.movies.data.genresSelected)
+  const genresSelected = useSelector((state) => state.movies.params.genresSelected)
 
   useEffect(() => {
-    if (type === 'movie') {
+    if (params.type === 'movie') {
       getGenresForMovie.then((res) => {
         const { genres } = res
         dispatch(addAvailableGenres(genres))
@@ -26,7 +26,7 @@ export default function GenresAccordion() {
         dispatch(addAvailableGenres(genres))
       })
     }
-  }, [type])
+  }, [params.type])
 
   return (
     <CustomAccordion

@@ -6,26 +6,50 @@ import CustomTextField from 'Components/CustomComponents/CustomTextfield'
 import { StyledCheckbox } from 'Components/ServiceSelector/ServicesCheckbox/StyledComponents'
 
 import { useSelector, useDispatch } from 'react-redux'
-import { getAllMovies, toggleType } from 'redux/reducers/movies'
+import { getAllMovies, setKeywords, setLanguage, toggleType } from 'redux/reducers/movies'
+import { getKeywordsRequest } from 'api/getKeywords'
 
-import { Grid, Box, FormControlLabel, MenuItem, Button, Divider } from '@mui/material'
+import {
+  Grid,
+  Box,
+  FormControlLabel,
+  MenuItem,
+  Button,
+  Divider,
+  FormHelperText,
+} from '@mui/material'
 import { getLanguagesRequest } from 'api/getLanguages'
 import GenresAccordion from 'Components/GenresAccordion'
 
 export default function Form() {
   const dispatch = useDispatch()
+
   const [languages, setLenguages] = useState([])
-  const [params, setParams] = useState({
-    type: '',
-    Language: '',
-    keywords: '',
-  })
-  const { country, data, type } = useSelector((state) => state.movies)
+  const { type } = useSelector((state) => state.movies.params)
+
   useEffect(() => {
     getLanguagesRequest.then((res) =>
       setLenguages(res.sort((a, b) => a.english_name.localeCompare(b.english_name))),
     )
   }, [])
+
+  const handleKeywordsChange = (e) => {
+    const inputValueArr = e.target.value.trim().split(' ')
+    const valuesPromises = inputValueArr.map((keyword) => getKeywordsRequest(keyword))
+    Promise.allSettled(valuesPromises).then((res) => {
+      dispatch(
+        setKeywords(
+          res.map((keyword) => {
+            if (keyword.status === 'fulfilled' && keyword.value !== undefined) {
+              return keyword.value.id
+            } else {
+              return null
+            }
+          }),
+        ),
+      )
+    })
+  }
 
   return (
     <Grid
@@ -56,7 +80,7 @@ export default function Form() {
         <Grid item xs={12}>
           <Box width='100%' display='flex' justifyContent='center'>
             <CustomSelect
-              onChange={(e) => setParams({ ...params, language: e.target.value })}
+              onChange={(e) => dispatch(setLanguage(e.target.value))}
               sx={{ margin: '0 auto' }}
               displayEmpty
               bg='#292929'
@@ -73,11 +97,10 @@ export default function Form() {
         </Grid>
 
         <Grid item xs={12} sm={8} md={6}>
-          <CustomTextField
-            onChange={(e) => setParams({ ...params, keywords: e.target.value })}
-            fullWidth
-            label='Keywords'
-          />
+          <CustomTextField onChange={(e) => handleKeywordsChange(e)} fullWidth label='Keywords' />
+          <FormHelperText sx={{ color: '#aaa', pl: 2, pt: 0.3 }}>
+            Each keyword separated with a comma
+          </FormHelperText>
         </Grid>
       </Grid>
 
@@ -88,15 +111,7 @@ export default function Form() {
           sx={{ margin: '0 auto', mt: 2 }}
           fullWidth
           variant='contained'
-          onClick={() =>
-            dispatch(
-              getAllMovies({
-                ...params,
-                country,
-                ...data,
-              }),
-            )
-          }
+          onClick={() => dispatch(getAllMovies())}
           size='large'
         >
           Get Movies

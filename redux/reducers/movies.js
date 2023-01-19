@@ -23,47 +23,63 @@ const initialValue = {
   loading: 'idle',
   currentRequestId: undefined,
   error: null,
-  country: '',
-  type: 'movie',
   availableGenres: [],
   countryServices: [],
-  data: {
+  params: {
+    type: 'movie',
+    country: '',
     genresSelected: [],
     servicesToSearch: [],
+    pageToSearch: 1,
+    keywords: '',
+    language: '',
   },
-  movies: [],
+  movies: {
+    actualPage: 0,
+    total_pages: 0,
+    results: [],
+  },
 }
+
+// redux request to discover movies //
 
 export const getAllMovies = createAsyncThunk(
   'movie/getAllMovies',
-  async (params, { getState, requestId }) => {
-    const { currentRequestId, loading } = getState().movies
-    // console.log(params)
+  async (formParams, { getState, requestId }) => {
+    const { currentRequestId, loading, params } = getState().movies
+
     if (currentRequestId !== requestId || loading !== 'pending') {
       return
     }
-    const { genresSelected, keywords, country, servicesToSearch, ...rest } = params
+
+    const { country, keywords, servicesToSearch, genresSelected, pageToSearch } = params
 
     let genresString = encodeURIComponent(genresSelected.map(({ id }) => `${id}`).join(','))
-    let keywordsString = encodeURIComponent(keywords.split(' ').join(','))
+    let keywordsString = keywords && encodeURIComponent(keywords.join(','))
     let providersString = encodeURIComponent(
       servicesToSearch.map(({ provider_id }) => provider_id).join(','),
     )
 
     return discoverRequest({
-      ...rest,
+      page: pageToSearch,
       genres: genresString || '',
       keywords: keywordsString || '',
       region: country,
       providers: providersString || '',
+      ...params,
     })
   },
 )
+
+// slice for handling discover request and request parameters //
 
 const moviesSlice = createSlice({
   name: 'movies',
   initialState: initialValue,
   reducers: {
+
+    // get all provider/services for each region specified
+
     getServices(state, action) {
       action.payload.forEach((service) => {
         if (
@@ -74,41 +90,78 @@ const moviesSlice = createSlice({
         }
       })
     },
+
+    // get the specific service to search
+
     toggleServiceToSearch(state, action) {
-      const isAlreadyIn = state.data.servicesToSearch.some(
+      const isAlreadyIn = state.params.servicesToSearch.some(
         (srv) => srv.provider_id === action.payload.provider_id,
       )
 
       if (!isAlreadyIn) {
-        state.data.servicesToSearch.push(action.payload)
+        state.params.servicesToSearch.push(action.payload)
       } else {
-        state.data.servicesToSearch = state.data.servicesToSearch.filter(
+        state.params.servicesToSearch = state.params.servicesToSearch.filter(
           (e) => e.provider_id !== action.payload.provider_id,
         )
       }
     },
+
+    // get the genres availables for movies or tv 
+    // depending what is the specified in the parameters
+
     addAvailableGenres(state, action) {
       state.availableGenres = action.payload
     },
+
+    // add the genre to search
+
     addGenre(state, action) {
       const { payload } = action
-      const isNotIncluded = state.data.genresSelected.some((g) => g.id === payload.id)
+      const isNotIncluded = state.params.genresSelected.some((g) => g.id === payload.id)
 
       if (!isNotIncluded) {
-        state.data.genresSelected = [...state.data.genresSelected, payload]
+        state.params.genresSelected = [...state.params.genresSelected, payload]
       }
     },
+
+    //remove the genre to search
+
     deleteGenre(state, action) {
-      state.data.genresSelected = state.data.genresSelected.filter(
+      state.params.genresSelected = state.params.genresSelected.filter(
         (genre) => genre.id !== action.payload,
       )
     },
+
+    // select a specific country, to store the region
+
     getCountry(state, action) {
-      state.country = action.payload
+      state.params.country = action.payload
     },
+
+    // toggle between tv or movie types
+
     toggleType(state, action) {
-      state.type = action.payload
-      state.data.genresSelected = []
+      state.params.type = action.payload
+      state.params.genresSelected = []
+    },
+
+    // change page of search results
+
+    changePageToSearch(state, action) {
+      state.params.pageToSearch = action.payload
+    },
+
+    // get the keywords id
+
+    setKeywords(state, action) {
+      state.params.keywords = action.payload.filter((e) => e !== null)
+    },
+
+    // select a specific language to search
+
+    setLanguage(state, action) {
+      state.params.language = action.payload
     },
   },
   extraReducers: (builder) => {
@@ -120,9 +173,11 @@ const moviesSlice = createSlice({
         action.payload !== undefined
       ) {
         state.loading = 'idle'
-        state.movies = action.payload.results
-          .filter((movieInput) => !state.movies.some((e) => e.id === movieInput.id))
-          .concat(state.movies)
+        state.movies = {
+          ...action.payload,
+          actualPage: action.payload.page,
+          results: action.payload.results,
+        }
         state.currentRequestId = undefined
       }
     })
@@ -145,7 +200,11 @@ const moviesSlice = createSlice({
     })
   },
 })
+
+// destructuring reducer 
 const { reducer } = moviesSlice
+
+// export all non-asynchronous actions
 export const {
   getServices,
   getServiceToSearch,
@@ -155,6 +214,9 @@ export const {
   addAvailableGenres,
   toggleServiceToSearch,
   toggleType,
+  changePageToSearch,
+  setKeywords,
+  setLanguage,
 } = moviesSlice.actions
 
 export default reducer
