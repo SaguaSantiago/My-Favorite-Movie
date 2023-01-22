@@ -15,7 +15,34 @@ a {
 * {
   box-sizing: border-box;
 }
-
 .backgroundLogin{
   background-color: linear-gradient(131.84deg, #0082BE 3.54%, #6A2875 80.18%);
+}
+
+/* swiper styling */
+
+.rec.rec-arrow:disabled {
+  visibility: hidden;
+}
+
+.rec.rec-arrow {
+  background-color: #8888ffdd;
+}
+
+.rec.rec-arrow:hover:enabled, .rec.rec-arrow:focus:enabled {
+  background-color: #8888ff66;
+}
+
+.rec.rec-dot_active {
+  box-shadow: 0 0 1px 3px #8888ffdd;
+  background-color: #8888ff66;
+}
+
+.rec.rec-dot:hover {
+  box-shadow: 0 0 1px 3px #ffffff55;
+}
+
+.rec.rec-slider-container {
+  background-color: #292929;
+  border-radius: 10px ;
 }
