@@ -1,10 +1,11 @@
-import { Box, Card, CardContent, CardMedia, Typography, Chip, styled } from '@mui/material'
-import { movieExample, responseOfGenres } from 'exampleResponse'
-import Image from 'next/image'
-import { useDispatch, useSelector } from 'react-redux'
-import StarRoundedIcon from '@mui/icons-material/StarRounded'
 import { useEffect, useState } from 'react'
+import Image from 'next/image'
 import Link from 'next/link'
+
+import { useSelector } from 'react-redux'
+
+import StarRoundedIcon from '@mui/icons-material/StarRounded'
+import { Box, Card, CardContent, CardMedia, Typography, Chip, styled } from '@mui/material'
 
 const StyledBox = styled(Box)`
   transition: color 0.3s;
