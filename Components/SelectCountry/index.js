@@ -4,7 +4,6 @@ import { useDispatch, useSelector } from 'react-redux'
 import { getCountry, getServices } from 'redux/reducers/movies'
 
 import { MenuItem } from '@mui/material'
-import { response } from 'exampleResponse'
 import { useEffect, useState } from 'react'
 import { getRegions } from 'api/getRegions'
 import { getServicesRequest } from 'api/getServices'

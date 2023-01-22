@@ -1,5 +1,4 @@
 import { useEffect, useState, forwardRef } from 'react'
-import { languagesObject } from 'ListObject'
 
 import CustomSelect from 'Components/CustomComponents/CustomSelect'
 import CustomTextField from 'Components/CustomComponents/CustomTextfield'
