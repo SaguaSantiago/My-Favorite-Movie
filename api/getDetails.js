@@ -16,4 +16,8 @@ export const getDetailsRequest = (id) => [
     .get(`https://api.themoviedb.org/3/movie/${id}/recommendations`, OPTIONS)
     .then((res) => res.data)
     .catch((err) => console.log(err)),
+    axios
+    .get(`https://api.themoviedb.org/3/movie/${id}/watch/providers`, OPTIONS)
+    .then((res) => res.data)
+    .catch((err) => console.log(err)),
 ]
