@@ -9,7 +9,7 @@ import { useEffect, useState } from 'react'
 import { getRegions } from 'api/getRegions'
 import { getServicesRequest } from 'api/getServices'
 
-export default function SelectCountry({ absolute }) {
+export default function SelectCountry({ absolute, closeDrawer }) {
   const dispatch = useDispatch()
   const [regions, setRegions] = useState([])
   const { country } = useSelector((state) => state.movies.params)
@@ -17,6 +17,7 @@ export default function SelectCountry({ absolute }) {
   const handleChange = async (event) => {
     const newValue = event.target.value
     dispatch(getCountry(newValue))
+    closeDrawer()
 
     let services = await getServicesRequest(country)
     dispatch(getServices(services))
