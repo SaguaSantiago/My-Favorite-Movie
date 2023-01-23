@@ -1,15 +1,15 @@
-import { useEffect, useRef } from 'react'
+import { useRef } from 'react'
 
-import GenresAccordion from 'Components/GenresAccordion'
 import ServiceSelector from 'Components/ServiceSelector'
 import Form from 'Components/Form'
 import MovieCard from 'Components/MovieCard'
 
 import { useDispatch, useSelector } from 'react-redux'
+import { changePageToSearch, getAllMovies } from 'redux/reducers/movies'
+
+import { toast } from 'react-toastify'
 
 import { Grid, Container, Box, Pagination, PaginationItem } from '@mui/material'
-import { changePageToSearch, getAllMovies } from 'redux/reducers/movies'
-import { toast } from 'react-toastify'
 
 export default function MainRoute() {
   const { movies } = useSelector((state) => state.movies)

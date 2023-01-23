@@ -9,7 +9,7 @@ const nextConfig = {
     return config
   },
   images: {
-    domains: ['streaming-availability.p.rapidapi.com', 'image.tmdb.org'],
+    domains: ['streaming-availability.p.rapidapi.com', 'image.tmdb.org', 'heuft.com'],
   },
 }
 

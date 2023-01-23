@@ -1,5 +1,4 @@
 import { useEffect, useState, forwardRef } from 'react'
-import { languagesObject } from 'ListObject'
 
 import CustomSelect from 'Components/CustomComponents/CustomSelect'
 import CustomTextField from 'Components/CustomComponents/CustomTextfield'
@@ -66,7 +65,7 @@ const Form = forwardRef((props, ref) => {
           control={<StyledCheckbox size='medium' sx={{ color: '#8888ffdd' }} />}
         />
         <FormControlLabel
-          label='Series'
+          label='Tv'
           checked={type === 'serie' ? true : false}
           onChange={() => dispatch(toggleType('serie'))}
           control={<StyledCheckbox size='medium' sx={{ color: '#8888ffdd' }} />}

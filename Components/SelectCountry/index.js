@@ -4,12 +4,11 @@ import { useDispatch, useSelector } from 'react-redux'
 import { getCountry, getServices } from 'redux/reducers/movies'
 
 import { MenuItem } from '@mui/material'
-import { response } from 'exampleResponse'
 import { useEffect, useState } from 'react'
 import { getRegions } from 'api/getRegions'
 import { getServicesRequest } from 'api/getServices'
 
-export default function SelectCountry({ absolute }) {
+export default function SelectCountry({ absolute, closeDrawer, isDrawer }) {
   const dispatch = useDispatch()
   const [regions, setRegions] = useState([])
   const { country } = useSelector((state) => state.movies.params)
@@ -17,7 +16,9 @@ export default function SelectCountry({ absolute }) {
   const handleChange = async (event) => {
     const newValue = event.target.value
     dispatch(getCountry(newValue))
-
+    if (isDrawer) {
+      closeDrawer()
+    }
     let services = await getServicesRequest(country)
     dispatch(getServices(services))
   }

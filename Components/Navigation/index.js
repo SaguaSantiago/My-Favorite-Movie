@@ -4,6 +4,7 @@ import DrawerComponent from 'Components/Drawer'
 import { useMediaQuery } from 'hooks/useMediaQuery'
 
 import { AppBar, Grid, Toolbar, Typography } from '@mui/material'
+import Link from 'next/link'
 
 export function Navigation({ children }) {
   const drawerResolution = useMediaQuery('(max-width: 1000px)')
@@ -19,18 +20,23 @@ export function Navigation({ children }) {
             sx={{ padding: mobileResolution ? '' : '0 50px' }}
           >
             <Grid item>
-              <Typography
-                color='white'
-                variant='h4'
-                sx={{
-                  margin: '20px auto',
-                  fontWeight: '600',
-                  fontSize: mobileResolution ? '24px' : '34px',
-                }}
-                textAlign='center'
-              >
-                My Favorite Movie
-              </Typography>
+              <Link href='/'>
+                <Typography
+                  color='white'
+                  variant='h4'
+                  sx={{
+                    margin: '20px auto',
+                    fontWeight: '600',
+                    fontSize: mobileResolution ? '24px' : '34px',
+                    ':hover': {
+                      cursor: 'pointer',
+                    },
+                  }}
+                  textAlign='center'
+                >
+                  My Favorite Movie
+                </Typography>
+              </Link>
             </Grid>
             {!drawerResolution ? (
               <SelectCountry absolute={'true'} />
