@@ -13,7 +13,7 @@ export const getGenresForMovie = axios
   .then((res) => res.data)
   .catch((error) => console.log(error))
 
-export const getGenresForSeries = axios
+export const getGenresForTv = axios
   .get('https://api.themoviedb.org/3/genre/tv/list', OPTIONS)
   .then((res) => res.data)
   .catch((err) => console.log(err))

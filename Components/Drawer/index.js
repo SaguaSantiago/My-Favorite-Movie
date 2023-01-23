@@ -23,7 +23,7 @@ export default function Drawer(mobileResolution) {
     <>
       <SwipeableDrawer anchor='right' open={open} onClose={handleClose} onOpen={handleOpen}>
         <Container sx={{ pt: '40px' }}>
-          <SelectCountry justify='center' closeDrawer={handleClose} />
+          <SelectCountry justify='center' isDrawer closeDrawer={handleClose} />
           <Divider sx={{ width: '100%', borderColor: '#ffffff1f' }} variant='middle'></Divider>
         </Container>
       </SwipeableDrawer>

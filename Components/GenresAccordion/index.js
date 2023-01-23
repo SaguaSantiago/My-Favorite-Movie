@@ -5,7 +5,7 @@ import CustomAccordion from 'Components/CustomComponents/CustomAccordion'
 import { useDispatch, useSelector } from 'react-redux'
 import { addGenre, deleteGenre, addAvailableGenres } from 'redux/reducers/movies'
 
-import { getGenresForMovie, getGenresForSeries } from 'api/getGenres'
+import { getGenresForMovie, getGenresForTv } from 'api/getGenres'
 
 import { Chip } from '@mui/material'
 
@@ -21,7 +21,7 @@ export default function GenresAccordion() {
         dispatch(addAvailableGenres(genres))
       })
     } else {
-      getGenresForSeries.then((res) => {
+      getGenresForTv.then((res) => {
         const { genres } = res
         dispatch(addAvailableGenres(genres))
       })
