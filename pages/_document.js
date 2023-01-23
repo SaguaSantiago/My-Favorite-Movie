@@ -6,7 +6,7 @@ export default function Document() {
       <Head>
         <link rel='stylesheet' href='https://use.typekit.net/gqw1hwz.css'></link>
         <link rel='preconnect' href='https://fonts.googleapis.com'></link>
-        <link rel='preconnect' href='https://fonts.gstatic.com' crossorigin></link>
+        <link rel='preconnect' href='https://fonts.gstatic.com' crossOrigin></link>
         <link rel='stylesheet' href='https://unpkg.com/swiper/css/swiper.css'></link>
         <link rel='stylesheet' href='https://unpkg.com/swiper/css/swiper.min.css'></link>
         <link
