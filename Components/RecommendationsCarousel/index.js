@@ -10,7 +10,7 @@ const BREAKPOINTS = [
   { width: 1000, itemsToShow: 3 },
 ]
 
-export default function ImageCarousel({ recommendations }) {
+export default function RecommendationsCarousel({ recommendations, type }) {
   const mobileQuery = useMediaQuery('(max-width: 550px)')
   return (
     <>
@@ -24,9 +24,9 @@ export default function ImageCarousel({ recommendations }) {
       </Typography>
       <Box sx={{ marginBottom: '100px' }} width={!mobileQuery ? '70%' : '100%'} margin='0 auto'>
         <Carousel pagination={!mobileQuery} breakPoints={BREAKPOINTS}>
-          {recommendations.map(({ backdrop_path, id, title }) => (
-            <Box width='300px'>
-              <Link key={id} href={`/movie/${id}`}>
+          {recommendations.map(({ backdrop_path, id, title, name }) => (
+            <Box key={id} width='300px'>
+              <Link key={id} href={`/details/${type}/${id}`}>
                 <Box
                   sx={{ ':hover': { cursor: 'pointer' } }}
                   width='100%'
@@ -52,7 +52,7 @@ export default function ImageCarousel({ recommendations }) {
                 textAlign='center'
                 variant='overline'
               >
-                {title}
+                {title || name}
               </Typography>
             </Box>
           ))}

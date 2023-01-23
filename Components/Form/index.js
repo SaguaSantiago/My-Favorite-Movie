@@ -19,12 +19,13 @@ import {
 } from '@mui/material'
 import { getLanguagesRequest } from 'api/getLanguages'
 import GenresAccordion from 'Components/GenresAccordion'
+import { toast } from 'react-toastify'
 
 const Form = forwardRef((props, ref) => {
   const dispatch = useDispatch()
 
   const [languages, setLenguages] = useState([])
-  const { type } = useSelector((state) => state.movies.params)
+  const { type, servicesToSearch } = useSelector((state) => state.movies.params)
 
   useEffect(() => {
     getLanguagesRequest.then((res) =>
@@ -66,8 +67,8 @@ const Form = forwardRef((props, ref) => {
         />
         <FormControlLabel
           label='Tv'
-          checked={type === 'serie' ? true : false}
-          onChange={() => dispatch(toggleType('serie'))}
+          checked={type === 'tv' ? true : false}
+          onChange={() => dispatch(toggleType('tv'))}
           control={<StyledCheckbox size='medium' sx={{ color: '#8888ffdd' }} />}
         />
       </Box>
@@ -111,7 +112,18 @@ const Form = forwardRef((props, ref) => {
           fullWidth
           variant='contained'
           id='submit_button'
-          onClick={() => dispatch(getAllMovies())}
+          onClick={() => {
+            if (servicesToSearch.length === 0) {
+              toast.error('please select at least one service', {
+                position: 'bottom-right',
+                hideProgressBar: true,
+                pauseOnHover: false,
+                closeOnClick: true,
+              })
+            } else {
+              dispatch(getAllMovies())
+            }
+          }}
           size='large'
         >
           Get Movies

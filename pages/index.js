@@ -12,7 +12,7 @@ import { toast } from 'react-toastify'
 import { Grid, Container, Box, Pagination, PaginationItem } from '@mui/material'
 
 export default function MainRoute() {
-  const { movies } = useSelector((state) => state.movies)
+  const { movies, params } = useSelector((state) => state.movies)
   const submitBtnRef = useRef()
   const dispatch = useDispatch()
   const { results, total_pages, page } = movies
@@ -38,8 +38,8 @@ export default function MainRoute() {
             alignItems='center'
             flexWrap='wrap'
           >
-            {results.map((movie) => (
-              <MovieCard key={movie.id} movie={movie} />
+            {results.map((media) => (
+              <MovieCard key={media.id} type={params.type} media={media} />
             ))}
           </Box>
           <Box mt={3} mb={3} width='100%' display='flex' justifyContent='center'>
@@ -61,6 +61,7 @@ export default function MainRoute() {
                   hideProgressBar: false,
                   pauseOnHover: false,
                   closeOnClick: false,
+                  autoClose: 700,
                 })
               }}
             />

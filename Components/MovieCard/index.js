@@ -15,13 +15,13 @@ const StyledBox = styled(Box)`
   }
 `
 
-export default function MovieCard({ movie }) {
+export default function MovieCard({ media, type }) {
   const [genres, setGenres] = useState([])
   const { availableGenres } = useSelector((state) => state.movies)
 
   useEffect(() => {
     if (availableGenres) {
-      movie.genre_ids.map((gen) => {
+      media.genre_ids.map((gen) => {
         const genreObject = availableGenres.find((e) => e.id === gen)
         if (genreObject !== undefined && genres.length <= 3) {
           setGenres([...genres, genreObject])
@@ -34,12 +34,16 @@ export default function MovieCard({ movie }) {
     <Box component='article' minWidth='300px' width='480px' height='480px'>
       <Card sx={{ height: '100%' }}>
         <CardMedia sx={{ height: '60%', ':hover': { cursor: 'pointer' } }}>
-          <Link href={`/movie/${movie.id}`}>
+          <Link href={`/details/${type}/${media.id}`}>
             <Box position='relative' width='100%' height='100%'>
               <Image
                 layout='fill'
                 objectFit='cover'
-                src={`https://image.tmdb.org/t/p/w780/${movie.backdrop_path}`}
+                src={
+                  media.backdrop_path
+                    ? `https://image.tmdb.org/t/p/w780/${media.backdrop_path}`
+                    : 'https://heuft.com/upload/image/400x267/no_image_placeholder.png'
+                }
               ></Image>
             </Box>
           </Link>
@@ -65,10 +69,10 @@ export default function MovieCard({ movie }) {
             <Box display='flex' position='absolute' left='16px'>
               <StarRoundedIcon sx={{ color: '#ffff00d6', height: '30px', width: '30px' }} />
               <Typography sx={{ width: 'text-content', color: '#ffff00d6', fontSize: '1.2rem' }}>
-                {movie.vote_average}
+                {media.vote_average}
               </Typography>
             </Box>
-            <Link href={`/movie/${movie.id}`}>
+            <Link href={`/details/${type}/${media.id}`}>
               <Typography
                 sx={{
                   fontWeight: '400',
@@ -82,13 +86,15 @@ export default function MovieCard({ movie }) {
                 color='white'
                 variant='h5'
               >
-                {movie.title}
+                {media.title || media.name}
               </Typography>
             </Link>
           </Box>
 
           <Typography textAlign='center' pt={0.3} variant='body2' sx={{ color: '#c6ceed' }}>
-            ({movie.release_date.slice(0, 4)})
+            {media.release_date
+              ? `(${media.release_date.slice(0, 4)})`
+              : media.first_air_date && `(${media.first_air_date.slice(0, 4)})`}
           </Typography>
           <Box position='absolute' left='15px' bottom='15px'>
             {genres.map(({ name, id }) => (
@@ -114,7 +120,7 @@ export default function MovieCard({ movie }) {
             color='white'
             width='max-content'
           >
-            <Link href={`/movie/${movie.id}`}>See More</Link>
+            <Link href={`/details/${type}/${media.id}`}>See More</Link>
           </StyledBox>
         </CardContent>
       </Card>

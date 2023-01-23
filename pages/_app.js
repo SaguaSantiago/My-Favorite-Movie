@@ -18,7 +18,7 @@ export default function MyApp({ Component, pageProps }) {
         <Provider store={store}>
           <Navigation>
             <Component {...pageProps} />
-            <ToastContainer autoClose={700} />
+            <ToastContainer />
           </Navigation>
         </Provider>
       </ThemeProvider>

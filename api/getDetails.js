@@ -7,17 +7,17 @@ const OPTIONS = {
   },
 }
 
-export const getDetailsRequest = (id) => [
+export const getDetailsRequest = (id, type) => [
   axios
-    .get(`https://api.themoviedb.org/3/movie/${id}`, OPTIONS)
+    .get(`https://api.themoviedb.org/3/${type}/${id}`, OPTIONS)
     .then((res) => res.data)
     .catch((err) => console.log(err)),
   axios
-    .get(`https://api.themoviedb.org/3/movie/${id}/recommendations`, OPTIONS)
+    .get(`https://api.themoviedb.org/3/${type}/${id}/recommendations`, OPTIONS)
     .then((res) => res.data)
     .catch((err) => console.log(err)),
     axios
-    .get(`https://api.themoviedb.org/3/movie/${id}/watch/providers`, OPTIONS)
+    .get(`https://api.themoviedb.org/3/${type}/${id}/watch/providers`, OPTIONS)
     .then((res) => res.data)
     .catch((err) => console.log(err)),
 ]
