@@ -1,17 +1,23 @@
 import SelectCountry from 'Components/SelectCountry'
+import SearchBar from 'Components/SearchBar'
 import DrawerComponent from 'Components/Drawer'
 
 import { useMediaQuery } from 'hooks/useMediaQuery'
 
-import { AppBar, Grid, Toolbar, Typography } from '@mui/material'
+import { AppBar, Grid, Toolbar, Typography, styled } from '@mui/material'
 import Link from 'next/link'
+
+const Offset = styled('div')(({ theme }) => {
+  return { ...theme.mixins.toolbar, position: 'relative' }
+})
 
 export function Navigation({ children }) {
   const drawerResolution = useMediaQuery('(max-width: 1000px)')
   const mobileResolution = useMediaQuery('(max-width: 570px)')
+
   return (
     <>
-      <AppBar position='static'>
+      <AppBar position='fixed'>
         <Toolbar>
           <Grid
             container
@@ -48,6 +54,9 @@ export function Navigation({ children }) {
           </Grid>
         </Toolbar>
       </AppBar>
+      <Offset>
+        <SearchBar drawerResolution={drawerResolution} mobileResolution={mobileResolution} />
+      </Offset>
       {children}
     </>
   )

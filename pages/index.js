@@ -19,7 +19,7 @@ export default function MainRoute() {
 
   return (
     <>
-      <Container component='main' maxWidth='md'>
+      <Container sx={{ py: 4.5 }} component='main' maxWidth='md'>
         <Grid container justifyContent='center' gap={6} sx={{ pt: 2 }} alignItems='center'>
           <Grid component='section' item xs={12}>
             <ServiceSelector />
