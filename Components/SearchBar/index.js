@@ -1,22 +1,63 @@
-import { useState } from 'react'
+import { useRef, useState } from 'react'
+
+import { search } from 'api/search'
+import { useSelector } from 'react-redux'
 
 import { SearchIconButton, SearchInput } from './StyledComponents'
+import SearchedMedia from './SearchedMedia'
 
-export default function searchBar({ drawerResolution, mobileResolution }) {
+import { Box } from '@mui/material'
+
+export default function searchBar({
+  drawerResolution,
+  mobileResolution,
+  handleClickSearch,
+  isSearching,
+}) {
   const [open, setOpen] = useState(false)
-  const handleClick = () => setOpen(!open)
+  const [mediaData, setMediaData] = useState([])
+  const { country } = useSelector((state) => state.movies.params)
+  const inputRef = useRef(null)
 
+  const handleChange = (e) => {
+    search(e.target.value, country)
+      .then((res) => setMediaData(res))
+      .catch((err) => setMediaData([]))
+  }
   return (
     <>
       <SearchInput
-        open={open}
-        handleClick={handleClick}
+        open={isSearching}
+        onChange={handleChange}
+        handleClick={handleClickSearch}
+        ref={inputRef}
         drawerResolution={drawerResolution}
         mobileResolution={mobileResolution}
       />
-
-      <SearchIconButton open={open} handleClick={handleClick} />
+      <Box
+        mt='128px'
+        left='50%'
+        position='absolute'
+        display='flex'
+        flexDirection='column'
+        width={mobileResolution ? '300px' : drawerResolution ? '400px' : '600px'}
+        sx={{ transform: 'translate(-50%)', zIndex: 10 }}
+      >
+        {isSearching && mediaData.length !== 0
+          ? mediaData.map((media, i) => {
+              if (i < 5) {
+                return <SearchedMedia media={media} closeSearchBar={handleClickSearch} />
+              }
+            })
+          : null}
+      </Box>
+      <SearchIconButton
+        open={isSearching}
+        handleClick={() => {
+          handleClickSearch()
+          setTimeout(() => inputRef.current.children[0].focus(), 400)
+        }}
+      />
     </>
   )
 }
-// con: 20px in: 245px
