@@ -27,7 +27,7 @@ export default function moviePage({ media, recommendations, providers, type }) {
     runtime: `${media.runtime} min`,
     budget: numAbbr.abbreviate(media.budget, 1),
     revenue: numAbbr.abbreviate(media.revenue, 1),
-    date: media.release_date,
+    release_date: media.release_date,
     adult: media.adult ? 'Yes' : 'No',
     vote_average: media.vote_average.toFixed(1),
   })
@@ -231,7 +231,7 @@ export default function moviePage({ media, recommendations, providers, type }) {
             Please select a country to see the providers available in your region
           </Typography>
         )}
-        <SeasonsCarousel seasons={media.seasons} />
+        {type === 'tv' ? <SeasonsCarousel seasons={media.seasons} /> : null}
 
         <RecommendationsCarousel type={type} recommendations={recommendations} />
       </Container>

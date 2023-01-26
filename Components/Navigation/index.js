@@ -1,17 +1,30 @@
+import { useState } from 'react'
+import Link from 'next/link'
+
 import SelectCountry from 'Components/SelectCountry'
+import SearchBar from 'Components/SearchBar'
 import DrawerComponent from 'Components/Drawer'
+import { BackgroundFade } from './StyledComponents'
 
 import { useMediaQuery } from 'hooks/useMediaQuery'
 
-import { AppBar, Grid, Toolbar, Typography } from '@mui/material'
-import Link from 'next/link'
+import { AppBar, Grid, Toolbar, Typography, styled } from '@mui/material'
+
+const Offset = styled('div')(({ theme }) => {
+  return { ...theme.mixins.toolbar, position: 'relative' }
+})
+
 
 export function Navigation({ children }) {
+  const [isSearching, setIsSearching] = useState(false)
   const drawerResolution = useMediaQuery('(max-width: 1000px)')
   const mobileResolution = useMediaQuery('(max-width: 570px)')
+
+  const handleClickSearch = () => setIsSearching(!isSearching)
+
   return (
     <>
-      <AppBar position='static'>
+      <AppBar position='fixed'>
         <Toolbar>
           <Grid
             container
@@ -48,6 +61,15 @@ export function Navigation({ children }) {
           </Grid>
         </Toolbar>
       </AppBar>
+      <Offset>
+        <SearchBar
+          handleClickSearch={handleClickSearch}
+          drawerResolution={drawerResolution}
+          mobileResolution={mobileResolution}
+          isSearching={isSearching}
+        />
+      </Offset>
+      {isSearching ? <BackgroundFade /> : null}
       {children}
     </>
   )
