@@ -9,13 +9,13 @@ import { BackgroundFade } from './StyledComponents'
 import { useMediaQuery } from 'hooks/useMediaQuery'
 
 import { AppBar, Grid, Toolbar, Typography, styled } from '@mui/material'
+import Footer from 'Components/Footer'
 
 const Offset = styled('div')(({ theme }) => {
   return { ...theme.mixins.toolbar, position: 'relative' }
 })
 
-
-export function Navigation({ children }) {
+export function Layout({ children }) {
   const [isSearching, setIsSearching] = useState(false)
   const drawerResolution = useMediaQuery('(max-width: 1000px)')
   const mobileResolution = useMediaQuery('(max-width: 570px)')
@@ -71,6 +71,8 @@ export function Navigation({ children }) {
       </Offset>
       {isSearching ? <BackgroundFade /> : null}
       {children}
+
+      <Footer />
     </>
   )
 }

@@ -6,7 +6,7 @@ import { useSelector } from 'react-redux'
 import { SearchIconButton, SearchInput } from './StyledComponents'
 import SearchedMedia from './SearchedMedia'
 
-import { Box } from '@mui/material'
+import { Box, Tooltip } from '@mui/material'
 
 export default function searchBar({
   drawerResolution,
@@ -46,18 +46,24 @@ export default function searchBar({
         {isSearching && mediaData.length !== 0
           ? mediaData.map((media, i) => {
               if (i < 5) {
-                return <SearchedMedia media={media} closeSearchBar={handleClickSearch} />
+                return (
+                  <SearchedMedia key={media.id} media={media} closeSearchBar={handleClickSearch} />
+                )
               }
             })
           : null}
       </Box>
-      <SearchIconButton
-        open={isSearching}
-        handleClick={() => {
-          handleClickSearch()
-          setTimeout(() => inputRef.current.children[0].focus(), 400)
-        }}
-      />
+      <Tooltip title='If you want to search any specific' placement='top'>
+        <Box position='absolute' bottom='-70px' left='50%' sx={{ transform: 'translateX(-50%)' }}>
+          <SearchIconButton
+            open={isSearching}
+            handleClick={() => {
+              handleClickSearch()
+              setTimeout(() => inputRef.current.children[0].focus(), 400)
+            }}
+          />
+        </Box>
+      </Tooltip>
     </>
   )
 }

@@ -51,14 +51,9 @@ export const SearchIconButton = ({ handleClick, open }) => (
     onClick={handleClick}
     size='large'
     sx={{
-      position: 'absolute',
-      bottom: '-70px',
-      left: '50%',
       opacity: open ? '0' : '1',
-      transform: 'translateX(-50%)',
       background: '#314652',
       transition: 'background .2s',
-      transition: 'right .6s',
       ':hover': {
         background: '#314652aa',
       },
