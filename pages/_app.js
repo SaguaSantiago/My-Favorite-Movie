@@ -1,6 +1,6 @@
 import React from 'react'
 
-import { Navigation } from 'Components/Navigation'
+import { Layout } from 'Components/Layout'
 
 import '../styles/globals.css'
 import 'react-toastify/dist/ReactToastify.css'
@@ -16,10 +16,10 @@ export default function MyApp({ Component, pageProps }) {
     <>
       <ThemeProvider theme={theme}>
         <Provider store={store}>
-          <Navigation>
+          <Layout>
             <Component {...pageProps} />
             <ToastContainer />
-          </Navigation>
+          </Layout>
         </Provider>
       </ThemeProvider>
     </>
