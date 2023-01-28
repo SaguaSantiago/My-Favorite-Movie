@@ -1,12 +1,14 @@
-import { useEffect } from "react"
+import { useRouter } from 'next/router'
+import { useEffect } from 'react'
 
-export const useIsChanging = () => {
+export const useIsChanging = (callback) => {
+  const router = useRouter()
   useEffect(() => {
     router.events.on('routeChangeStart', (url, { shallow }) => {
-      setChangingPage(true)
+      callback(true)
     })
     router.events.on('routeChangeComplete', (url) => {
-      setChangingPage(false)
+      callback(false)
     })
   }, [])
 }

@@ -26,7 +26,7 @@ export function Layout({ children }) {
   const drawerResolution = useMediaQuery('(max-width: 1000px)')
   const mobileResolution = useMediaQuery('(max-width: 570px)')
 
-  useIsChanging()
+  useIsChanging(setChangingPage)
 
   const handleClickSearch = () => setIsSearching(!isSearching)
 
