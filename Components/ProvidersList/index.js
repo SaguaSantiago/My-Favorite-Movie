@@ -2,6 +2,13 @@ import { Grid, Box, Typography } from '@mui/material'
 import Image from 'next/image'
 
 export default function ProvidersList({ providers }) {
+  if (providers === undefined) {
+    return (
+      <Typography sx={{ color: '#ffffff66' }} variant='h6' textAlign='center'>
+        Providers not found
+      </Typography>
+    )
+  }
   const flatrate = providers.flatrate
   const rent = providers.rent
   const buy = providers.buy

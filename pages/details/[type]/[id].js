@@ -18,7 +18,6 @@ import { useRouter } from 'next/router'
 export default function moviePage({ media, recommendations, providers, type, features }) {
   const mobileQuery = useMediaQuery('(max-width: 590px)')
   const router = useRouter()
-  console.log(router)
   const { params } = useSelector((state) => state.movies)
   const { country } = params
   const providersToMap = providers[country]
