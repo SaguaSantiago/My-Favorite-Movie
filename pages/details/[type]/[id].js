@@ -11,42 +11,24 @@ import { useMediaQuery } from 'hooks/useMediaQuery'
 
 import NumAbbr from 'number-abbreviate'
 
-import { Container, Typography, Chip, Box, Grid } from '@mui/material'
+import { Container, Typography, Chip, Box, Grid, Skeleton } from '@mui/material'
+import ProvidersList from 'Components/ProvidersList'
+import { useRouter } from 'next/router'
 
-export default function moviePage({ media, recommendations, providers, type }) {
+export default function moviePage({ media, recommendations, providers, type, features }) {
   const mobileQuery = useMediaQuery('(max-width: 590px)')
-
-  console.log(media)
-
+  const router = useRouter()
+  console.log(router)
   const { params } = useSelector((state) => state.movies)
   const { country } = params
   const providersToMap = providers[country]
-  const numAbbr = new NumAbbr()
-
-  const featureToMovie = Object.entries({
-    runtime: `${media.runtime} min`,
-    budget: numAbbr.abbreviate(media.budget, 1),
-    revenue: numAbbr.abbreviate(media.revenue, 1),
-    release_date: media.release_date,
-    adult: media.adult ? 'Yes' : 'No',
-    vote_average: media.vote_average.toFixed(1),
-  })
-
-  const featuresToTv = Object.entries({
-    episode_run_time: `${media.episode_run_time} min`,
-    first_air_date: media.first_air_date,
-    adult: media.adult ? 'Yes' : 'No',
-    vote_average: media.vote_average.toFixed(1),
-    number_of_episodes: media.number_of_episodes,
-    number_of_seasons: media.number_of_seasons,
-  })
-
-  const featuresToMap = type === 'movie' ? featureToMovie : featuresToTv
+  const featuresToMap = features
 
   return (
     <>
       <Container sx={{ padding: '0 !important' }} maxWidth='lg'>
         <Box width='100%' position='relative' mx='auto' maxHeight='600px' height='55vw'>
+          <Skeleton variant='rectangular' width='100%' height='100%' />
           <Image
             layout='fill'
             objectFit='cover'
@@ -68,6 +50,12 @@ export default function moviePage({ media, recommendations, providers, type }) {
               height='250px'
               position='absolute'
             >
+              <Skeleton
+                sx={{ bgcolor: 'gray.900' }}
+                variant='rectangular'
+                width='100%'
+                height='100%'
+              />
               <Image
                 layout='fill'
                 objectFit='cover'
@@ -186,7 +174,7 @@ export default function moviePage({ media, recommendations, providers, type }) {
               variant='h6'
               textAlign='center'
             >
-              Companies not founded
+              Companies not found
             </Typography>
           )}
         </Grid>
@@ -194,33 +182,7 @@ export default function moviePage({ media, recommendations, providers, type }) {
           Where I watch it?
         </Typography>
         {country ? (
-          <>
-            <Grid mt={9} container gap={2} justifyContent='center' alignItems='center'>
-              {providersToMap.flatrate.map(({ logo_path, provider_name }) => (
-                <Grid item xs={12} sm={3} md={2} key={provider_name}>
-                  <Box
-                    width='100%'
-                    display='flex'
-                    justifyContent='center'
-                    flexDirection='column'
-                    flexWrap='wrap'
-                    alignItems='center'
-                  >
-                    <Box width='100px' height='100px' position='relative'>
-                      <Image
-                        layout='fill'
-                        objectFit='cover'
-                        src={`https://image.tmdb.org/t/p/original/${logo_path}`}
-                      />
-                    </Box>
-                    <Typography variant='overline' textAlign='center'>
-                      {provider_name}
-                    </Typography>
-                  </Box>
-                </Grid>
-              ))}
-            </Grid>
-          </>
+          <ProvidersList providers={providersToMap} />
         ) : (
           <Typography
             sx={{ marginBottom: '100px', color: '#ffffff66' }}
@@ -242,12 +204,33 @@ export default function moviePage({ media, recommendations, providers, type }) {
 export async function getServerSideProps({ params }) {
   const { id, type } = params
   const props = await Promise.all(getDetailsRequest(id, type))
+  const numAbbr = new NumAbbr()
+
+  const featuresToTv = Object.entries({
+    episode_run_time: `${props[0].episode_run_time} min`,
+    first_air_date: props[0].first_air_date,
+    adult: props[0].adult ? 'Yes' : 'No',
+    vote_average: props[0].vote_average.toFixed(1),
+    number_of_episodes: props[0].number_of_episodes,
+    number_of_seasons: props[0].number_of_seasons,
+  })
+
+  const featureToMovie = Object.entries({
+    runtime: `${props[0].runtime} min`,
+    budget: numAbbr.abbreviate(props[0].budget, 1),
+    revenue: numAbbr.abbreviate(props[0].revenue, 1),
+    release_date: props[0].release_date,
+    adult: props[0].adult ? 'Yes' : 'No',
+    vote_average: props[0].vote_average.toFixed(1),
+  })
+
   return {
     props: {
       media: props[0],
       recommendations: props[1].results,
       providers: props[2].results,
       type,
+      features: type === 'movie' ? featureToMovie : featuresToTv,
     },
   }
 }

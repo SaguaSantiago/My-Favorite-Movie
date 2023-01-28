@@ -3,7 +3,7 @@ import { useMediaQuery } from 'hooks/useMediaQuery'
 
 import Carousel from 'react-elastic-carousel'
 
-import { Card, CardMedia, CardContent, Typography, Box } from '@mui/material'
+import { Card, CardMedia, CardContent, Typography, Box, Skeleton } from '@mui/material'
 
 const BREAKPOINTS = [
   { width: 1, itemsToShow: 1 },
@@ -27,9 +27,10 @@ export default function SeasonCarousel({ seasons }) {
       <Box sx={{ marginBottom: '100px' }} width={!mobileQuery ? '70%' : '100%'} margin='0 auto'>
         <Carousel pagination={!mobileQuery} breakPoints={BREAKPOINTS}>
           {seasons.map(({ poster_path, season_number, name, episode_count }) => (
-            <Box mb='40px' maxWidth='250px' height='450px'>
+            <Box key={name} mb='40px' maxWidth='250px' height='450px'>
               <Card sx={{ height: '100%' }}>
                 <CardMedia sx={{ position: 'relative', height: '300px' }}>
+                  <Skeleton variant='rectangle' height='100%' width='100%' />
                   <Image
                     layout='fill'
                     objectFit='cover'

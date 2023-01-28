@@ -1,4 +1,4 @@
-import { Box, Typography } from '@mui/material'
+import { Box, Typography, Skeleton } from '@mui/material'
 import { useMediaQuery } from 'hooks/useMediaQuery'
 import Image from 'next/image'
 import Link from 'next/link'
@@ -26,7 +26,7 @@ export default function RecommendationsCarousel({ recommendations, type }) {
         <Carousel pagination={!mobileQuery} breakPoints={BREAKPOINTS}>
           {recommendations.map(({ backdrop_path, id, title, name }) => (
             <Box key={id} width='300px'>
-              <Link key={id} href={`/details/${type}/${id}`}>
+              <Link href={`/details/${type}/${id}`}>
                 <Box
                   sx={{ ':hover': { cursor: 'pointer' } }}
                   width='100%'
@@ -36,6 +36,7 @@ export default function RecommendationsCarousel({ recommendations, type }) {
                   position='relative'
                   margin={1}
                 >
+                  <Skeleton variant='rectangular' width='100%' height='100%' />
                   <Image
                     layout='fill'
                     objectFit='cover'

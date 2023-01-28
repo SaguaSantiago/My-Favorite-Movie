@@ -5,7 +5,7 @@ import Link from 'next/link'
 import { useSelector } from 'react-redux'
 
 import StarRoundedIcon from '@mui/icons-material/StarRounded'
-import { Box, Card, CardContent, CardMedia, Typography, Chip, styled } from '@mui/material'
+import { Box, Card, CardContent, CardMedia, Typography, Chip, styled, Skeleton } from '@mui/material'
 
 const StyledBox = styled(Box)`
   transition: color 0.3s;
@@ -36,6 +36,7 @@ export default function MovieCard({ media, type }) {
         <CardMedia sx={{ height: '60%', ':hover': { cursor: 'pointer' } }}>
           <Link href={`/details/${type}/${media.id}`}>
             <Box position='relative' width='100%' height='100%'>
+            <Skeleton variant='rectangular' width='100%' height='100%' />
               <Image
                 layout='fill'
                 objectFit='cover'

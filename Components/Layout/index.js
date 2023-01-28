@@ -7,9 +7,13 @@ import DrawerComponent from 'Components/Drawer'
 import { BackgroundFade } from './StyledComponents'
 
 import { useMediaQuery } from 'hooks/useMediaQuery'
+import { useIsChanging } from 'hooks/useIsChanging'
 
 import { AppBar, Grid, Toolbar, Typography, styled } from '@mui/material'
 import Footer from 'Components/Footer'
+
+import styles from './layout.module.css'
+import { useRouter } from 'next/router'
 
 const Offset = styled('div')(({ theme }) => {
   return { ...theme.mixins.toolbar, position: 'relative' }
@@ -17,14 +21,18 @@ const Offset = styled('div')(({ theme }) => {
 
 export function Layout({ children }) {
   const [isSearching, setIsSearching] = useState(false)
+  const [isChangingPage, setChangingPage] = useState(false)
+  const router = useRouter()
   const drawerResolution = useMediaQuery('(max-width: 1000px)')
   const mobileResolution = useMediaQuery('(max-width: 570px)')
+
+  useIsChanging()
 
   const handleClickSearch = () => setIsSearching(!isSearching)
 
   return (
     <>
-      <AppBar position='fixed'>
+      <AppBar className={isChangingPage ? styles.loading : ''} position='fixed'>
         <Toolbar>
           <Grid
             container
