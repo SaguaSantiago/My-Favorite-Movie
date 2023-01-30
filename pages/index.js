@@ -7,8 +7,6 @@ import MovieCard from 'Components/MovieCard'
 import { useDispatch, useSelector } from 'react-redux'
 import { changePageToSearch, getAllMovies } from 'redux/reducers/movies'
 
-import { toast } from 'react-toastify'
-
 import { Grid, Container, Box, Pagination, PaginationItem } from '@mui/material'
 
 export default function MainRoute() {
@@ -56,13 +54,6 @@ export default function MainRoute() {
                 dispatch(changePageToSearch(value))
                 dispatch(getAllMovies())
                 submitBtnRef.current.scrollIntoView({ behivor: 'smooth' })
-                toast.info('loading...', {
-                  position: 'bottom-right',
-                  hideProgressBar: false,
-                  pauseOnHover: false,
-                  closeOnClick: false,
-                  autoClose: 700,
-                })
               }}
             />
           </Box>
