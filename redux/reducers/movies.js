@@ -1,5 +1,6 @@
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit'
 import { discoverRequest } from 'api/discoverRequest'
+import { toast } from 'react-toastify'
 
 const servicesArr = [
   'Netflix',
@@ -33,7 +34,9 @@ const initialValue = {
     pageToSearch: 1,
     keywords: '',
     language: '',
-    sortBy: ''
+    sortBy: '',
+    dateLimit: '',
+    runtime: '',
   },
   movies: {
     actualPage: 0,
@@ -78,7 +81,6 @@ const moviesSlice = createSlice({
   name: 'movies',
   initialState: initialValue,
   reducers: {
-
     // get all provider/services for each region specified
 
     getServices(state, action) {
@@ -108,7 +110,7 @@ const moviesSlice = createSlice({
       }
     },
 
-    // get the genres availables for movies or tv 
+    // get the genres availables for movies or tv
     // depending what is the specified in the parameters
 
     addAvailableGenres(state, action) {
@@ -168,9 +170,20 @@ const moviesSlice = createSlice({
 
     //change the sort order of search results
 
-    changeSortFilter (state, action) {
+    changeSortFilter(state, action) {
       state.params.sortBy = action.payload
-    }
+    },
+
+    // set the episodes or movie runtime limit
+
+    setRuntime(state, action) {
+      state.params.runtime = action.payload
+    },
+
+    // set the release date limit of the movie/series
+    setDate(state, action) {
+      state.params.dateLimit = action.payload
+    },
   },
   extraReducers: (builder) => {
     builder.addCase(getAllMovies.fulfilled, (state, action) => {
@@ -181,6 +194,13 @@ const moviesSlice = createSlice({
         action.payload !== undefined
       ) {
         state.loading = 'idle'
+        if (action.payload.results.length === 0) {
+          toast.info('results not found', {
+            pauseOnHover: false,
+            hideProgressBar: false,
+            position: 'bottom-center',
+          })
+        }
         state.movies = {
           ...action.payload,
           actualPage: action.payload.page,
@@ -209,7 +229,7 @@ const moviesSlice = createSlice({
   },
 })
 
-// destructuring reducer 
+// destructuring reducer
 const { reducer } = moviesSlice
 
 // export all non-asynchronous actions
@@ -225,7 +245,9 @@ export const {
   changePageToSearch,
   setKeywords,
   setLanguage,
-  changeSortFilter
+  changeSortFilter,
+  setRuntime,
+  setDate,
 } = moviesSlice.actions
 
 export default reducer

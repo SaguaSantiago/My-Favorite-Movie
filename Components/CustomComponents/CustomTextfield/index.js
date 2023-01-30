@@ -16,6 +16,7 @@ const StyledTextfield = styled(TextField)(
 export default function CustomTextField(props) {
   return (
     <StyledTextfield
+      FormHelperTextProps={{ sx: { color: '#aaa' } }}
       {...props}
       variant='filled'
       inputProps={{

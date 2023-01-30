@@ -4,10 +4,10 @@ import CustomTextField from 'Components/CustomComponents/CustomTextfield'
 import { StyledCheckbox } from 'Components/ServiceSelector/ServicesCheckbox/StyledComponents'
 
 import { useSelector, useDispatch } from 'react-redux'
-import { getAllMovies, setKeywords, toggleType } from 'redux/reducers/movies'
+import { getAllMovies, setKeywords, toggleType, setRuntime, setDate } from 'redux/reducers/movies'
 import { getKeywordsRequest } from 'api/getKeywords'
 
-import { Grid, Box, FormControlLabel, Button, Divider, FormHelperText } from '@mui/material'
+import { Grid, Box, FormControlLabel, Button, Divider } from '@mui/material'
 import { getLanguagesRequest } from 'api/getLanguages'
 import GenresAccordion from 'Components/GenresAccordion'
 import { toast } from 'react-toastify'
@@ -71,23 +71,48 @@ const Form = forwardRef((props, ref) => {
 
       <Grid container gap={3} alignItems='center' justifyContent='center'>
         <Grid item xs={12}>
-          <Box width='100%' columnGap='10px' rowGap='5px' flexWrap='wrap' display='flex' justifyContent='center'>
+          <Box
+            width='100%'
+            columnGap='10px'
+            rowGap='5px'
+            flexWrap='wrap'
+            display='flex'
+            justifyContent='center'
+          >
             <SelectLanguage languages={languages} />
             <SortBySelector />
           </Box>
         </Grid>
-
-        <Grid item xs={12} sm={8} md={6}>
-          <CustomTextField onChange={(e) => handleKeywordsChange(e)} fullWidth label='Keywords' />
-          <FormHelperText sx={{ color: '#aaa', pl: 2, pt: 0.3 }}>
-            Each keyword separated with a comma
-          </FormHelperText>
+        <Grid item xs={10} sm={5}>
+          <CustomTextField
+            onChange={(e) => dispatch(setDate(e.target.value))}
+            helperText='Movie/Serie release year limit. (Numbers)'
+            fullWidth
+            label='Year'
+            type='number'
+          />
+        </Grid>
+        <Grid item xs={10} sm={5}>
+          <CustomTextField
+            helperText='Movie/Episodes runtime limit. (Minutes)'
+            onChange={(e) => dispatch(setRuntime(e.target.value))}
+            fullWidth
+            label='Runtime'
+          />
+        </Grid>
+        <Grid item xs={10} sm={8} md={6}>
+          <CustomTextField
+            helperText='Each keyword separated with a comma.'
+            onChange={(e) => handleKeywordsChange(e)}
+            fullWidth
+            label='Keywords'
+          />
         </Grid>
       </Grid>
 
       <Divider sx={{ mt: 4, borderColor: '#ffffff31', width: '100%' }} />
 
-      <Box ref={ref} width='100%' px={10} display='flex' justifyContent='center'>
+      <Box ref={ref} width='60%' mx='auto'>
         <Button
           sx={{ margin: '0 auto', mt: 2 }}
           fullWidth

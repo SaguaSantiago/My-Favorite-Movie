@@ -14,6 +14,7 @@ import Footer from 'Components/Footer'
 
 import styles from './layout.module.css'
 import { useRouter } from 'next/router'
+import { useSelector } from 'react-redux'
 
 const Offset = styled('div')(({ theme }) => {
   return { ...theme.mixins.toolbar, position: 'relative' }
@@ -22,6 +23,7 @@ const Offset = styled('div')(({ theme }) => {
 export function Layout({ children }) {
   const [isSearching, setIsSearching] = useState(false)
   const [isChangingPage, setChangingPage] = useState(false)
+  const { loading } = useSelector((state) => state.movies)
   const router = useRouter()
   const drawerResolution = useMediaQuery('(max-width: 1000px)')
   const mobileResolution = useMediaQuery('(max-width: 570px)')
@@ -32,7 +34,10 @@ export function Layout({ children }) {
 
   return (
     <>
-      <AppBar className={isChangingPage ? styles.loading : ''} position='fixed'>
+      <AppBar
+        className={isChangingPage || loading === 'pending' ? styles.loading : ''}
+        position='fixed'
+      >
         <Toolbar>
           <Grid
             container

@@ -63,53 +63,53 @@ export const FEATURES_OBJECTS = [
 export const ITEMS_OBJECTS_MOVIES = [
   {
     itemName: 'Popularity ↑',
-    value: 'popularity_asc',
+    value: 'popularity.asc',
   },
   {
     itemName: 'Popularity ↓',
-    value: 'popularity_desc',
+    value: 'popularity.desc',
   },
   {
     itemName: 'Release Date ↑',
-    value: 'release_date_asc',
+    value: 'release_date.asc',
   },
   {
     itemName: 'Release Date ↓',
-    value: 'release_date_desc',
+    value: 'release_date.desc',
   },
   {
     itemName: 'Votes ↑',
-    value: 'vote_average_desc',
+    value: 'vote_average.desc',
   },
   {
     itemName: 'Votes ↓',
-    value: 'vote_average_desc',
+    value: 'vote_average.desc',
   },
 ]
 
 export const ITEMS_OBJECTS_TV = [
   {
     itemName: 'Popularity ↑',
-    value: 'popularity_asc',
+    value: 'popularity.asc',
   },
   {
     itemName: 'Popularity ↓',
-    value: 'popularity_desc',
+    value: 'popularity.desc',
   },
   {
     itemName: 'First Air Date ↑',
-    value: 'first_air_date_asc',
+    value: 'first_air_date.asc',
   },
   {
     itemName: 'First Air Date ↓',
-    value: 'first_air_date_desc',
+    value: 'first_air_date.desc',
   },
   {
     itemName: 'Votes ↑',
-    value: 'vote_average_desc',
+    value: 'vote_average.desc',
   },
   {
     itemName: 'Votes ↓',
-    value: 'vote_average_desc',
+    value: 'vote_average.desc',
   },
 ]
