@@ -59,3 +59,57 @@ export const FEATURES_OBJECTS = [
     icon: TheatersIcon,
   },
 ]
+
+export const ITEMS_OBJECTS_MOVIES = [
+  {
+    itemName: 'Popularity ↑',
+    value: 'popularity_asc',
+  },
+  {
+    itemName: 'Popularity ↓',
+    value: 'popularity_desc',
+  },
+  {
+    itemName: 'Release Date ↑',
+    value: 'release_date_asc',
+  },
+  {
+    itemName: 'Release Date ↓',
+    value: 'release_date_desc',
+  },
+  {
+    itemName: 'Votes ↑',
+    value: 'vote_average_desc',
+  },
+  {
+    itemName: 'Votes ↓',
+    value: 'vote_average_desc',
+  },
+]
+
+export const ITEMS_OBJECTS_TV = [
+  {
+    itemName: 'Popularity ↑',
+    value: 'popularity_asc',
+  },
+  {
+    itemName: 'Popularity ↓',
+    value: 'popularity_desc',
+  },
+  {
+    itemName: 'First Air Date ↑',
+    value: 'first_air_date_asc',
+  },
+  {
+    itemName: 'First Air Date ↓',
+    value: 'first_air_date_desc',
+  },
+  {
+    itemName: 'Votes ↑',
+    value: 'vote_average_desc',
+  },
+  {
+    itemName: 'Votes ↓',
+    value: 'vote_average_desc',
+  },
+]

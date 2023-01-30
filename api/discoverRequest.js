@@ -12,13 +12,15 @@ export const discoverRequest = (params) => {
         language: language,
         watch_region: region,
         with_watch_providers: providers,
-        'with_runtime.gte': '',
+        'with_runtime.gte': '', //text
         with_genres: genres,
         with_keywords: keywords,
         page: page,
         include_adult: '',
-        sort_by: '',
+        sort_by: '', //selector
         region: region,
+        year: '', // text
+        first_air_date_year: '' // tv-text
       },
     })
     .then((res) => res.data)

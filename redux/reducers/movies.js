@@ -33,6 +33,7 @@ const initialValue = {
     pageToSearch: 1,
     keywords: '',
     language: '',
+    sortBy: ''
   },
   movies: {
     actualPage: 0,
@@ -144,6 +145,7 @@ const moviesSlice = createSlice({
     toggleType(state, action) {
       state.params.type = action.payload
       state.params.genresSelected = []
+      state.params.sortBy = ''
     },
 
     // change page of search results
@@ -163,6 +165,12 @@ const moviesSlice = createSlice({
     setLanguage(state, action) {
       state.params.language = action.payload
     },
+
+    //change the sort order of search results
+
+    changeSortFilter (state, action) {
+      state.params.sortBy = action.payload
+    }
   },
   extraReducers: (builder) => {
     builder.addCase(getAllMovies.fulfilled, (state, action) => {
@@ -217,6 +225,7 @@ export const {
   changePageToSearch,
   setKeywords,
   setLanguage,
+  changeSortFilter
 } = moviesSlice.actions
 
 export default reducer

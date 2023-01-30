@@ -1,25 +1,18 @@
 import { useEffect, useState, forwardRef } from 'react'
 
-import CustomSelect from 'Components/CustomComponents/CustomSelect'
 import CustomTextField from 'Components/CustomComponents/CustomTextfield'
 import { StyledCheckbox } from 'Components/ServiceSelector/ServicesCheckbox/StyledComponents'
 
 import { useSelector, useDispatch } from 'react-redux'
-import { getAllMovies, setKeywords, setLanguage, toggleType } from 'redux/reducers/movies'
+import { getAllMovies, setKeywords, toggleType } from 'redux/reducers/movies'
 import { getKeywordsRequest } from 'api/getKeywords'
 
-import {
-  Grid,
-  Box,
-  FormControlLabel,
-  MenuItem,
-  Button,
-  Divider,
-  FormHelperText,
-} from '@mui/material'
+import { Grid, Box, FormControlLabel, Button, Divider, FormHelperText } from '@mui/material'
 import { getLanguagesRequest } from 'api/getLanguages'
 import GenresAccordion from 'Components/GenresAccordion'
 import { toast } from 'react-toastify'
+import SelectLanguage from 'Components/SelectLanguage'
+import SortBySelector from 'Components/SortBySelector'
 
 const Form = forwardRef((props, ref) => {
   const dispatch = useDispatch()
@@ -78,21 +71,9 @@ const Form = forwardRef((props, ref) => {
 
       <Grid container gap={3} alignItems='center' justifyContent='center'>
         <Grid item xs={12}>
-          <Box width='100%' display='flex' justifyContent='center'>
-            <CustomSelect
-              onChange={(e) => dispatch(setLanguage(e.target.value))}
-              sx={{ margin: '0 auto' }}
-              displayEmpty
-              bg='#292929'
-              defaultValue=''
-            >
-              <MenuItem value=''>Language</MenuItem>
-              {languages.map(({ iso_639_1: id, english_name: language }) => (
-                <MenuItem key={id} value={id}>
-                  {language}
-                </MenuItem>
-              ))}
-            </CustomSelect>
+          <Box width='100%' columnGap='10px' rowGap='5px' flexWrap='wrap' display='flex' justifyContent='center'>
+            <SelectLanguage languages={languages} />
+            <SortBySelector />
           </Box>
         </Grid>
 
