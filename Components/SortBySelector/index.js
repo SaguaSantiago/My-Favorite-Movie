@@ -22,7 +22,9 @@ export default function SortBySelector() {
     >
       <MenuItem value=''>Sort By</MenuItem>
       {itemsToMap.map(({ itemName, value }) => (
-        <MenuItem value={value}> {itemName} </MenuItem>
+        <MenuItem key={value} value={value}>
+          {itemName}
+        </MenuItem>
       ))}
     </CustomSelect>
   )
