@@ -2,12 +2,12 @@ import { SelectInput } from './StyledComponents'
 
 import { Select } from '@mui/material'
 
-export default function CustomSelect({ bg, ...rest }) {
+export default function CustomSelect({ bg, inputWidth = '', ...rest }) {
   return (
     <Select
       {...rest}
       color='secondary'
-      input={rest.input || <SelectInput bg={bg} />}
+      input={rest.input || <SelectInput width={inputWidth} bg={bg} />}
       sx={{
         position: rest.absolute === 'true' ? 'absolute' : '',
         left: rest.absolute === 'true' ? '40px' : '',

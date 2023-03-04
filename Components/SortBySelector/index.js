@@ -5,10 +5,11 @@ import { ITEMS_OBJECTS_MOVIES, ITEMS_OBJECTS_TV } from 'Utilities/objects'
 import { useDispatch, useSelector } from 'react-redux'
 import { changeSortFilter } from 'redux/reducers/movies'
 
-import { MenuItem } from '@mui/material'
+import { MenuItem, useMediaQuery } from '@mui/material'
 
 export default function SortBySelector() {
   const { sortBy, type } = useSelector((state) => state.movies.params)
+  const query = useMediaQuery('(max-width: 430px)')
   const dispatch = useDispatch()
   const itemsToMap = type === 'movie' ? ITEMS_OBJECTS_MOVIES : ITEMS_OBJECTS_TV
 
@@ -18,6 +19,7 @@ export default function SortBySelector() {
       displayEmpty
       bg='#292929'
       defaultValue=''
+      inputWidth={query ? '127px': ''}
       value={sortBy}
     >
       <MenuItem value=''>Sort By</MenuItem>

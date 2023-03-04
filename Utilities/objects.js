@@ -106,7 +106,7 @@ export const ITEMS_OBJECTS_TV = [
   },
   {
     itemName: 'Votes ↑',
-    value: 'vote_average.desc',
+    value: 'vote_average.asc',
   },
   {
     itemName: 'Votes ↓',
