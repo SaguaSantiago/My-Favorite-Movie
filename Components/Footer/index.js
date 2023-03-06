@@ -1,9 +1,8 @@
-import { Box, Typography } from '@mui/material'
+import { Box, Typography, useMediaQuery } from '@mui/material'
 import InstagramIcon from '@mui/icons-material/Instagram'
 import GitHubIcon from '@mui/icons-material/GitHub'
 import EmailIcon from '@mui/icons-material/Email'
 import CopyrightIcon from '@mui/icons-material/Copyright'
-import { useMediaQuery } from 'hooks/useMediaQuery'
 
 export default function Footer() {
   const mobileResolution = useMediaQuery('(max-width: 670px)')

@@ -1,10 +1,9 @@
 import ServicesAccordion from 'Components/ServiceAccordion'
 import ServicesCheckbox from './ServicesCheckbox'
 
-import { useMediaQuery } from 'hooks/useMediaQuery'
 import { useSelector } from 'react-redux'
 
-import { Grid, Typography } from '@mui/material'
+import { Grid, Typography,useMediaQuery } from '@mui/material'
 
 export default function ServiceSelector() {
   const { countryServices, params } = useSelector((state) => state.movies)

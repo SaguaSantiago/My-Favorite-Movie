@@ -7,11 +7,10 @@ import FeatureCard from 'Components/FeatureCard'
 import { useSelector } from 'react-redux'
 
 import { getDetailsRequest } from 'api/getDetails'
-import { useMediaQuery } from 'hooks/useMediaQuery'
 
 import NumAbbr from 'number-abbreviate'
 
-import { Container, Typography, Chip, Box, Grid, Skeleton } from '@mui/material'
+import { Container, Typography, Chip, Box, Grid, Skeleton, useMediaQuery } from '@mui/material'
 import ProvidersList from 'Components/ProvidersList'
 import { useRouter } from 'next/router'
 

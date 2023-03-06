@@ -1,10 +1,9 @@
 import { useState } from 'react'
-import { useMediaQuery } from 'hooks/useMediaQuery'
 
 import { Container } from './StyledComponents'
 import SelectCountry from 'Components/SelectCountry'
 
-import { SwipeableDrawer, IconButton, Divider } from '@mui/material'
+import { SwipeableDrawer, IconButton, Divider, useMediaQuery } from '@mui/material'
 import PublicIcon from '@mui/icons-material/Public'
 
 export default function Drawer(mobileResolution) {

@@ -1,5 +1,4 @@
-import { Box, Typography, Skeleton } from '@mui/material'
-import { useMediaQuery } from 'hooks/useMediaQuery'
+import { Box, Typography, Skeleton, useMediaQuery } from '@mui/material'
 import Image from 'next/image'
 import Link from 'next/link'
 import Carousel from 'react-elastic-carousel'

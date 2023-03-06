@@ -6,10 +6,9 @@ import SearchBar from 'Components/SearchBar'
 import DrawerComponent from 'Components/Drawer'
 import { BackgroundFade } from './StyledComponents'
 
-import { useMediaQuery } from 'hooks/useMediaQuery'
 import { useIsChanging } from 'hooks/useIsChanging'
 
-import { AppBar, Grid, Toolbar, Typography, styled } from '@mui/material'
+import { AppBar, Grid, Toolbar, Typography, styled, useMediaQuery } from '@mui/material'
 import Footer from 'Components/Footer'
 
 import styles from './layout.module.css'

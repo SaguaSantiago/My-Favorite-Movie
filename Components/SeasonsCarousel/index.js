@@ -1,9 +1,8 @@
 import Image from 'next/image'
-import { useMediaQuery } from 'hooks/useMediaQuery'
 
 import Carousel from 'react-elastic-carousel'
 
-import { Card, CardMedia, CardContent, Typography, Box, Skeleton } from '@mui/material'
+import { Card, CardMedia, CardContent, Typography, Box, Skeleton, useMediaQuery } from '@mui/material'
 
 const BREAKPOINTS = [
   { width: 1, itemsToShow: 1 },
