@@ -41,9 +41,10 @@ export default function RecommendationsCarousel({ recommendations, type }) {
                     objectFit='cover'
                     src={
                       backdrop_path !== null
-                        ? `https://image.tmdb.org/t/p/original${backdrop_path}`
+                        ? `https://image.tmdb.org/t/p/w780${backdrop_path}`
                         : 'https://heuft.com/upload/image/400x267/no_image_placeholder.png'
                     }
+                    alt={title || name}
                   />
                 </Box>
               </Link>

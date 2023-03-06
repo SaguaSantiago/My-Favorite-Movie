@@ -59,7 +59,7 @@ export function Layout({ children }) {
                   }}
                   textAlign='center'
                 >
-                  My Favorite Movie
+                  My Daily Movie
                 </Typography>
               </Link>
             </Grid>

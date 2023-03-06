@@ -2,7 +2,15 @@ import Image from 'next/image'
 
 import Carousel from 'react-elastic-carousel'
 
-import { Card, CardMedia, CardContent, Typography, Box, Skeleton, useMediaQuery } from '@mui/material'
+import {
+  Card,
+  CardMedia,
+  CardContent,
+  Typography,
+  Box,
+  Skeleton,
+  useMediaQuery,
+} from '@mui/material'
 
 const BREAKPOINTS = [
   { width: 1, itemsToShow: 1 },
@@ -35,9 +43,10 @@ export default function SeasonCarousel({ seasons }) {
                     objectFit='cover'
                     src={
                       poster_path
-                        ? `https://image.tmdb.org/t/p/original/${poster_path}`
+                        ? `https://image.tmdb.org/t/p/w300/${poster_path}`
                         : 'https://heuft.com/upload/image/400x267/no_image_placeholder.png'
                     }
+                    alt={name}
                   />
                 </CardMedia>
                 <CardContent sx={{ padding: '15px' }}>

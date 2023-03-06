@@ -17,7 +17,8 @@ export default function SearchedMedia({ media, closeSearchBar }) {
         <Image
           layout='fill'
           objectFit='cover'
-          src={`https://image.tmdb.org/t/p/original${media.backdrop_path}`}
+          src={`https://image.tmdb.org/t/p/w780${media.backdrop_path}`}
+          alt={media.title || media.name}
         />
         <Box
           width='100%'

@@ -45,6 +45,7 @@ export default function MovieCard({ media, type }) {
                     ? `https://image.tmdb.org/t/p/w780/${media.backdrop_path}`
                     : 'https://heuft.com/upload/image/400x267/no_image_placeholder.png'
                 }
+                alt={media.title || media.name}
               ></Image>
             </Box>
           </Link>

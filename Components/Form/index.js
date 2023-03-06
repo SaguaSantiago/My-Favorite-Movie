@@ -1,48 +1,21 @@
-import { useEffect, useState, forwardRef } from 'react'
+import { forwardRef } from 'react'
 
 import CustomTextField from 'Components/CustomComponents/CustomTextfield'
 import { StyledCheckbox } from 'Components/ServiceSelector/ServicesCheckbox/StyledComponents'
 
 import { useSelector, useDispatch } from 'react-redux'
-import { getAllMovies, setKeywords, toggleType, setRuntime, setDate } from 'redux/reducers/movies'
-import { getKeywordsRequest } from 'api/getKeywords'
+import { toggleType, setRuntime, setDate } from 'redux/reducers/movies'
 
 import { Grid, Box, FormControlLabel, Button, Divider } from '@mui/material'
-import { getLanguagesRequest } from 'api/getLanguages'
 import GenresAccordion from 'Components/GenresAccordion'
-import { toast } from 'react-toastify'
 import SelectLanguage from 'Components/SelectLanguage'
 import SortBySelector from 'Components/SortBySelector'
+import { useLanguage } from 'hooks/useLanguage'
 
 const Form = forwardRef((props, ref) => {
+  const { type } = useSelector((state) => state.movies.params)
+  const { languages, handleKeywordsChange, handleSubmit } = useLanguage()
   const dispatch = useDispatch()
-
-  const [languages, setLenguages] = useState([])
-  const { type, servicesToSearch } = useSelector((state) => state.movies.params)
-
-  useEffect(() => {
-    getLanguagesRequest.then((res) =>
-      setLenguages(res.sort((a, b) => a.english_name.localeCompare(b.english_name))),
-    )
-  }, [])
-
-  const handleKeywordsChange = (e) => {
-    const inputValueArr = e.target.value.trim().split(' ')
-    const valuesPromises = inputValueArr.map((keyword) => getKeywordsRequest(keyword))
-    Promise.allSettled(valuesPromises).then((res) => {
-      dispatch(
-        setKeywords(
-          res.map((keyword) => {
-            if (keyword.status === 'fulfilled' && keyword.value !== undefined) {
-              return keyword.value.id
-            } else {
-              return null
-            }
-          }),
-        ),
-      )
-    })
-  }
 
   return (
     <Grid
@@ -89,12 +62,14 @@ const Form = forwardRef((props, ref) => {
             helperText='Movie/Serie release year limit. (Numbers)'
             fullWidth
             label='Year'
+            placeholder='e.g 2022'
             type='number'
           />
         </Grid>
         <Grid item xs={10} sm={5}>
           <CustomTextField
             helperText='Movie/Episodes runtime limit. (Minutes)'
+            placeholder='e.g 90'
             onChange={(e) => dispatch(setRuntime(e.target.value))}
             fullWidth
             label='Runtime'
@@ -103,6 +78,7 @@ const Form = forwardRef((props, ref) => {
         <Grid item xs={10} sm={8} md={6}>
           <CustomTextField
             helperText='Each keyword separated with a comma.'
+            placeholder='e.g "killer"'
             onChange={(e) => handleKeywordsChange(e)}
             fullWidth
             label='Keywords'
@@ -118,21 +94,10 @@ const Form = forwardRef((props, ref) => {
           fullWidth
           variant='contained'
           id='submit_button'
-          onClick={() => {
-            if (servicesToSearch.length === 0) {
-              toast.error('please select at least one service', {
-                position: 'bottom-right',
-                hideProgressBar: true,
-                pauseOnHover: false,
-                closeOnClick: true,
-              })
-            } else {
-              dispatch(getAllMovies())
-            }
-          }}
+          onClick={handleSubmit}
           size='large'
         >
-          Get Movies
+          Get Results
         </Button>
       </Box>
     </Grid>

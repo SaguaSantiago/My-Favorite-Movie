@@ -29,6 +29,7 @@ export default function ServicesCheckbox({ service }) {
           layout='fill'
           objectFit='cover'
           src={`https://image.tmdb.org/t/p/original/${service.logo_path}`}
+          alt={service.name}
         />
       </StyledIconButton>
     </Box>

@@ -31,7 +31,8 @@ export default function moviePage({ media, recommendations, providers, type, fea
             layout='fill'
             objectFit='cover'
             objectPosition='top'
-            src={`https://image.tmdb.org/t/p/original${media.backdrop_path}`}
+            src={`https://image.tmdb.org/t/p/w1280${media.backdrop_path}`}
+            alt={media.title || media.name}
           />
           <a
             href={
@@ -57,7 +58,8 @@ export default function moviePage({ media, recommendations, providers, type, fea
               <Image
                 layout='fill'
                 objectFit='cover'
-                src={`https://image.tmdb.org/t/p/original${media.poster_path}`}
+                src={`https://image.tmdb.org/t/p/w342${media.poster_path}`}
+                title={media.title || media.name}
               />
             </Box>
           </a>
@@ -158,6 +160,7 @@ export default function moviePage({ media, recommendations, providers, type, fea
                         ? `https://image.tmdb.org/t/p/w92/${logo_path}`
                         : 'https://heuft.com/upload/image/400x267/no_image_placeholder.png'
                     }
+                    alt={name}
                   />
                 </Box>
                 <Typography variant='overline' textAlign='center'>

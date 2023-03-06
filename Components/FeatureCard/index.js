@@ -2,7 +2,7 @@ import { FEATURES_OBJECTS } from 'Utilities/objects'
 
 import { Box, Card, Typography } from '@mui/material'
 
-export default function FeaturesCard({ value, featureKey, details }) {
+export default function FeaturesCard({ value, featureKey }) {
   const { name, icon: Icon } = FEATURES_OBJECTS.find((feature) => feature.key === featureKey)
 
   return (
@@ -25,7 +25,7 @@ export default function FeaturesCard({ value, featureKey, details }) {
           </Typography>
         </Box>
         <Typography variant='body2' textAlign='center'>
-          {value}
+          {value || 'Unknown'}
         </Typography>
       </Card>
     </Box>
