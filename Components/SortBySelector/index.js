@@ -2,25 +2,25 @@ import CustomSelect from 'Components/CustomComponents/CustomSelect'
 
 import { ITEMS_OBJECTS_MOVIES, ITEMS_OBJECTS_TV } from 'Utilities/objects'
 
-import { useDispatch, useSelector } from 'react-redux'
-import { changeSortFilter } from 'redux/reducers/movies'
-
 import { MenuItem, useMediaQuery } from '@mui/material'
+import { useFilters } from 'hooks/useFilters'
+import { useContext } from 'react'
+import { FiltersContext } from 'Context/Filters'
 
 export default function SortBySelector() {
-  const { sortBy, type } = useSelector((state) => state.movies.params)
+  const { filters } = useContext(FiltersContext)
+  const { changeSimpleFilter } = useFilters()
   const query = useMediaQuery('(max-width: 430px)')
-  const dispatch = useDispatch()
-  const itemsToMap = type === 'movie' ? ITEMS_OBJECTS_MOVIES : ITEMS_OBJECTS_TV
+  const itemsToMap = filters.type === 'movie' ? ITEMS_OBJECTS_MOVIES : ITEMS_OBJECTS_TV
 
   return (
     <CustomSelect
-      onChange={(e) => dispatch(changeSortFilter(e.target.value))}
+      onChange={(e) => changeSimpleFilter({ value: e.target.value, key: 'sortBy' })}
       displayEmpty
       bg='#292929'
       defaultValue=''
-      inputWidth={query ? '127px': ''}
-      value={sortBy}
+      inputWidth={query ? '127px' : ''}
+      value={filters.sortBy}
     >
       <MenuItem value=''>Sort By</MenuItem>
       {itemsToMap.map(({ itemName, value }) => (

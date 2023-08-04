@@ -1,17 +1,19 @@
-import { useState, useEffect } from 'react'
+import { useState, useEffect, useContext } from 'react'
 
 import { getKeywordsRequest } from 'api/getKeywords'
 import { getLanguagesRequest } from 'api/getLanguages'
 
-import { useDispatch, useSelector } from 'react-redux'
-
 import { toast } from 'react-toastify'
-import { getAllMovies, setKeywords } from 'redux/reducers/movies'
+import { useMovies } from './useMovies'
+import { FiltersContext } from 'Context/Filters'
+import { useFilters } from './useFilters'
 
 export const useLanguage = () => {
-  const { servicesToSearch } = useSelector((state) => state.movies.params)
+  const { filters } = useContext(FiltersContext)
+  const { servicesToSearch } = filters
+  const { getAllMovies } = useMovies()
+  const { setKeywords } = useFilters()
   const [languages, setLenguages] = useState([])
-  const dispatch = useDispatch()
 
   useEffect(() => {
     getLanguagesRequest.then((res) =>
@@ -28,7 +30,7 @@ export const useLanguage = () => {
         closeOnClick: true,
       })
     } else {
-      dispatch(getAllMovies())
+      getAllMovies()
     }
   }
 
@@ -36,16 +38,14 @@ export const useLanguage = () => {
     const inputValueArr = e.target.value.trim().split(',')
     const valuesPromises = inputValueArr.map((keyword) => getKeywordsRequest(keyword))
     Promise.allSettled(valuesPromises).then((res) => {
-      dispatch(
-        setKeywords(
-          res.map((keyword) => {
-            if (keyword.status === 'fulfilled' && keyword.value !== undefined) {
-              return keyword.value.id
-            } else {
-              return null
-            }
-          }),
-        ),
+      setKeywords(
+        res.map((keyword) => {
+          if (keyword.status === 'fulfilled' && keyword.value !== undefined) {
+            return keyword.value.id
+          } else {
+            return null
+          }
+        }),
       )
     })
   }

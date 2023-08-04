@@ -1,11 +1,18 @@
-import { useEffect, useState } from 'react'
-import Image from 'next/image'
+import { useContext, useEffect, useState } from 'react'
 import Link from 'next/link'
 
-import { useSelector } from 'react-redux'
-
 import StarRoundedIcon from '@mui/icons-material/StarRounded'
-import { Box, Card, CardContent, CardMedia, Typography, Chip, styled, Skeleton } from '@mui/material'
+import {
+  Box,
+  Card,
+  CardContent,
+  CardMedia,
+  Typography,
+  Chip,
+  styled,
+  Skeleton,
+} from '@mui/material'
+import { FiltersContext } from 'Context/Filters'
 
 const StyledBox = styled(Box)`
   transition: color 0.3s;
@@ -15,9 +22,10 @@ const StyledBox = styled(Box)`
   }
 `
 
-export default function MovieCard({ media, type }) {
+export default function MovieCard({ media }) {
   const [genres, setGenres] = useState([])
-  const { availableGenres } = useSelector((state) => state.movies)
+  const { filters } = useContext(FiltersContext)
+  const { availableGenres, type } = filters
 
   useEffect(() => {
     if (availableGenres) {
@@ -29,15 +37,14 @@ export default function MovieCard({ media, type }) {
       })
     }
   }, [availableGenres])
-
   return (
     <Box component='article' minWidth='300px' width='480px' height='480px'>
       <Card sx={{ height: '100%' }}>
         <CardMedia sx={{ height: '60%', ':hover': { cursor: 'pointer' } }}>
           <Link href={`/details/${type}/${media.id}`}>
             <Box position='relative' width='100%' height='100%'>
-            <Skeleton variant='rectangular' width='100%' height='100%' />
-              <Image
+              <Skeleton variant='rectangular' width='100%' height='100%' />
+              <img
                 layout='fill'
                 objectFit='cover'
                 src={
@@ -46,7 +53,14 @@ export default function MovieCard({ media, type }) {
                     : 'https://heuft.com/upload/image/400x267/no_image_placeholder.png'
                 }
                 alt={media.title || media.name}
-              ></Image>
+                style={{
+                  position: 'absolute',
+                  top: 0,
+                  height: '100%',
+                  width: '100%',
+                  objectFit: 'cover',
+                }}
+              ></img>
             </Box>
           </Link>
         </CardMedia>

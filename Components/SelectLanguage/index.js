@@ -1,16 +1,14 @@
 import CustomSelect from 'Components/CustomComponents/CustomSelect'
 
-import { setLanguage } from 'redux/reducers/movies'
-import { useDispatch } from 'react-redux'
-
 import { MenuItem, useMediaQuery } from '@mui/material'
+import { useFilters } from 'hooks/useFilters'
 
 export default function SelectLanguage({ languages }) {
+  const { changeSimpleFilter } = useFilters()
   const query = useMediaQuery('(max-width: 430px)')
-  const dispatch = useDispatch()
   return (
     <CustomSelect
-      onChange={(e) => dispatch(setLanguage(e.target.value))}
+      onChange={(e) => changeSimpleFilter({ value: e.target.value, key: 'language' })}
       sx={{ margin: '0 auto' }}
       displayEmpty
       bg='#292929'

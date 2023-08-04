@@ -1,13 +1,13 @@
 import ServicesAccordion from 'Components/ServiceAccordion'
 import ServicesCheckbox from './ServicesCheckbox'
 
-import { useSelector } from 'react-redux'
-
-import { Grid, Typography,useMediaQuery } from '@mui/material'
+import { Grid, Typography, useMediaQuery } from '@mui/material'
+import { useContext } from 'react'
+import { FiltersContext } from 'Context/Filters'
 
 export default function ServiceSelector() {
-  const { countryServices, params } = useSelector((state) => state.movies)
-  const { country } = params
+  const { filters } = useContext(FiltersContext)
+  const { countryServices, country } = filters
   const media = useMediaQuery('(max-width: 490px)')
 
   return (

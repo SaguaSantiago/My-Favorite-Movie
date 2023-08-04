@@ -113,3 +113,21 @@ export const ITEMS_OBJECTS_TV = [
     value: 'vote_average.desc',
   },
 ]
+
+export const servicesArr = [
+  'Netflix',
+  'Amazon Prime Video',
+  'Disney Plus',
+  'HBO Max',
+  'Peacock',
+  'Peacock Premium',
+  'Paramount+',
+  'Starz Play Amazon Channel',
+  'Showtime Amazon Channel"',
+  'Apple TV Plus',
+  'MUBI',
+  'Funimation Now',
+  'iPlayer',
+  'BritBox',
+  'Curiosity Stream',
+]

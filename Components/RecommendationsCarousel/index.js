@@ -1,13 +1,8 @@
 import { Box, Typography, Skeleton, useMediaQuery } from '@mui/material'
-import Image from 'next/image'
 import Link from 'next/link'
-import Carousel from 'react-elastic-carousel'
+import 'react-responsive-carousel/lib/styles/carousel.min.css'
 
-const BREAKPOINTS = [
-  { width: 1, itemsToShow: 1 },
-  { width: 700, itemsToShow: 2 },
-  { width: 1000, itemsToShow: 3 },
-]
+import { Carousel } from 'react-responsive-carousel'
 
 export default function RecommendationsCarousel({ recommendations, type }) {
   const mobileQuery = useMediaQuery('(max-width: 550px)')
@@ -22,23 +17,21 @@ export default function RecommendationsCarousel({ recommendations, type }) {
         Recommendations
       </Typography>
       <Box sx={{ marginBottom: '100px' }} width={!mobileQuery ? '70%' : '100%'} margin='0 auto'>
-        <Carousel pagination={!mobileQuery} breakPoints={BREAKPOINTS}>
+        <Carousel showThumbs={false} swipeable infiniteLoop interval={2000}>
           {recommendations.map(({ backdrop_path, id, title, name }) => (
-            <Box key={id} width='300px'>
+            <Box key={id} width='100%'>
               <Link href={`/details/${type}/${id}`}>
-                <Box
-                  sx={{ ':hover': { cursor: 'pointer' } }}
-                  width='100%'
-                  borderRadius='10px'
-                  overflow='hidden'
-                  height='200px'
-                  position='relative'
-                  margin={1}
-                >
+                <Box sx={{ ':hover': { cursor: 'pointer' } }} height='400px' position='relative'>
                   <Skeleton variant='rectangular' width='100%' height='100%' />
-                  <Image
-                    layout='fill'
-                    objectFit='cover'
+                  <img
+                    style={{
+                      width: '100%',
+                      height: '100%',
+                      position: 'absolute',
+                      top: 0,
+                      left: 0,
+                      objectFit: 'cover',
+                    }}
                     src={
                       backdrop_path !== null
                         ? `https://image.tmdb.org/t/p/w780${backdrop_path}`
@@ -48,13 +41,27 @@ export default function RecommendationsCarousel({ recommendations, type }) {
                   />
                 </Box>
               </Link>
-              <Typography
-                sx={{ width: '100%', display: 'inline-block', textTransform: 'capitalize' }}
-                textAlign='center'
-                variant='overline'
+              <Box
+                width='100%'
+                position='absolute'
+                bottom='30px'
+                left='50%'
+                sx={{ transform: 'translateX(-50%)' }}
               >
-                {title || name}
-              </Typography>
+                <Typography
+                  sx={{
+                    display: 'inline-block',
+                    textTransform: 'capitalize',
+                    zIndex: 1,
+                    background: '#0000009a',
+                    width: '100%',
+                  }}
+                  textAlign='center'
+                  variant='overline'
+                >
+                  {title || name}
+                </Typography>
+              </Box>
             </Box>
           ))}
         </Carousel>

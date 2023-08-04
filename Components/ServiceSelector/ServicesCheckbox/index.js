@@ -1,19 +1,19 @@
-import Image from 'next/image'
 import { StyledCheckbox, StyledIconButton } from './StyledComponents'
 
-import { useDispatch, useSelector } from 'react-redux'
-import { toggleServiceToSearch } from 'redux/reducers/movies'
-
 import { Box } from '@mui/material'
+import { useFilters } from 'hooks/useFilters'
+import { useContext } from 'react'
+import { FiltersContext } from 'Context/Filters'
 
 export default function ServicesCheckbox({ service }) {
-  const checked = useSelector((state) =>
-    state.movies.params.servicesToSearch.some((srv) => srv.provider_id === service.provider_id),
-  )
-  const dispatch = useDispatch()
+  const { filters } = useContext(FiltersContext)
+  const { servicesToSearch } = filters
+  const { toggleServiceToSearch } = useFilters()
+
+  const checked = servicesToSearch.some((srv) => srv.provider_id === service.provider_id)
 
   const handleChange = () => {
-    dispatch(toggleServiceToSearch(service))
+    toggleServiceToSearch(service)
   }
 
   return (
@@ -25,9 +25,8 @@ export default function ServicesCheckbox({ service }) {
       />
 
       <StyledIconButton sx={{ mr: 4 }} onClick={handleChange}>
-        <Image
-          layout='fill'
-          objectFit='cover'
+        <img
+          style={{ height: '100%', objectFit: 'cover' }}
           src={`https://image.tmdb.org/t/p/original/${service.logo_path}`}
           alt={service.name}
         />

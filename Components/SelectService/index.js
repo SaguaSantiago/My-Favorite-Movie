@@ -1,19 +1,20 @@
 import CustomSelect from 'Components/CustomComponents/CustomSelect'
 
-import { useSelector, useDispatch } from 'react-redux'
-import { toggleServiceToSearch } from 'redux/reducers/movies'
-
 import { MenuItem } from '@mui/material'
+import { useFilters } from 'hooks/useFilters'
+import { useContext } from 'react'
+import { FiltersContext } from 'Context/Filters'
 
 export default function SelectService() {
-  const { countryServices, params } = useSelector((state) => state.movies)
-  const dispatch = useDispatch()
+  const { toggleServiceToSearch } = useFilters()
+  const { filters } = useContext(FiltersContext)
+  const { countryServices, serviceToSearch } = filters
   const handleChange = (e) => {
-    dispatch(toggleServiceToSearch(e.target.value))
+    toggleServiceToSearch(e.target.value)
   }
   return (
     countryServices.length !== 0 && (
-      <CustomSelect onChange={handleChange} value={params.serviceToSearch}>
+      <CustomSelect onChange={handleChange} value={serviceToSearch}>
         <MenuItem value=''>Select Service</MenuItem>
         {countryServices.map((service) => {
           return (

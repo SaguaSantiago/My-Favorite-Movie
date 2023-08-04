@@ -1,5 +1,4 @@
 import { Grid, Box, Typography } from '@mui/material'
-import Image from 'next/image'
 
 export default function ProvidersList({ providers }) {
   if (providers === undefined) {
@@ -27,9 +26,10 @@ export default function ProvidersList({ providers }) {
             alignItems='center'
           >
             <Box width='100px' height='100px' position='relative'>
-              <Image
+              <img
                 layout='fill'
                 objectFit='cover'
+                style={{ width: '100%', height: '100%' }}
                 src={`https://image.tmdb.org/t/p/original/${logo_path}`}
                 alt={provider_name}
               />

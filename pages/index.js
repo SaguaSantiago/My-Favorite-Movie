@@ -1,19 +1,21 @@
-import { useRef } from 'react'
+import { useContext, useRef } from 'react'
 
 import ServiceSelector from 'Components/ServiceSelector'
 import Form from 'Components/Form'
 import MovieCard from 'Components/MovieCard'
 
-import { useDispatch, useSelector } from 'react-redux'
-import { changePageToSearch, getAllMovies } from 'redux/reducers/movies'
-
 import { Grid, Container, Box, Pagination, PaginationItem } from '@mui/material'
+import { MoviesContext } from 'Context/Movies'
+import { useFilters } from 'hooks/useFilters'
+import { useMovies } from 'hooks/useMovies'
 
 export default function MainRoute() {
-  const { movies, params } = useSelector((state) => state.movies)
-  const submitBtnRef = useRef()
-  const dispatch = useDispatch()
+  const { changeSimpleFilter } = useFilters()
+  const { getAllMovies } = useMovies()
+  const { state } = useContext(MoviesContext)
+  const { movies } = state
   const { results, total_pages, page } = movies
+  const submitBtnRef = useRef()
 
   return (
     <>
@@ -37,7 +39,7 @@ export default function MainRoute() {
             flexWrap='wrap'
           >
             {results.map((media) => (
-              <MovieCard key={media.id} type={params.type} media={media} />
+              <MovieCard key={media.id} media={media} />
             ))}
           </Box>
           <Box mt={3} mb={3} width='100%' display='flex' justifyContent='center'>
@@ -51,8 +53,8 @@ export default function MainRoute() {
                 <PaginationItem {...item} sx={{ color: 'white', backgroundColor: 'red' }} />
               )}
               onChange={(e, value) => {
-                dispatch(changePageToSearch(value))
-                dispatch(getAllMovies())
+                changeSimpleFilter({ value, key: 'pageToSearch' })
+                getAllMovies()
                 submitBtnRef.current.scrollIntoView({ behivor: 'smooth' })
               }}
             />

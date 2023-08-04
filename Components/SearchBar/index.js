@@ -1,12 +1,12 @@
-import { useRef, useState } from 'react'
+import { useContext, useRef, useState } from 'react'
 
 import { search } from 'api/search'
-import { useSelector } from 'react-redux'
 
 import { SearchIconButton, SearchInput } from './StyledComponents'
 import SearchedMedia from './SearchedMedia'
 
 import { Box, Tooltip } from '@mui/material'
+import { FiltersContext } from 'Context/Filters'
 
 export default function searchBar({
   drawerResolution,
@@ -14,9 +14,9 @@ export default function searchBar({
   handleClickSearch,
   isSearching,
 }) {
-  const [open, setOpen] = useState(false)
   const [mediaData, setMediaData] = useState([])
-  const { country } = useSelector((state) => state.movies.params)
+  const { filters } = useContext(FiltersContext)
+  const { country } = filters
   const inputRef = useRef(null)
 
   const handleChange = (e) => {
@@ -35,23 +35,26 @@ export default function searchBar({
         mobileResolution={mobileResolution}
       />
       <Box
-        mt='128px'
+        mt='130px'
         left='50%'
         position='absolute'
         display='flex'
         flexDirection='column'
+        height={isSearching ? '500px' : '0px'}
         width={mobileResolution ? '300px' : drawerResolution ? '400px' : '600px'}
-        sx={{ transform: 'translate(-50%)', zIndex: 10 }}
+        overflow='hidden'
+        sx={{
+          transform: 'translate(-50%)',
+          zIndex: 10,
+          transition: 'height .35s',
+          transitionDelay: isSearching ? '.6s' : '0s',
+        }}
       >
-        {isSearching && mediaData.length !== 0
-          ? mediaData.map((media, i) => {
-              if (i < 5) {
-                return (
-                  <SearchedMedia key={media.id} media={media} closeSearchBar={handleClickSearch} />
-                )
-              }
-            })
-          : null}
+        {mediaData.map((media, i) => {
+          if (i < 5) {
+            return <SearchedMedia key={media.id} media={media} closeSearchBar={handleClickSearch} />
+          }
+        })}
       </Box>
       <Tooltip title='If you want to search any specific' placement='top'>
         <Box position='absolute' bottom='-70px' left='50%' sx={{ transform: 'translateX(-50%)' }}>

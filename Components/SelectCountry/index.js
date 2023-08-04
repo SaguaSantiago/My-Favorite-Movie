@@ -1,36 +1,33 @@
 import CustomSelect from 'Components/CustomComponents/CustomSelect'
 
-import { useDispatch, useSelector } from 'react-redux'
-import { getCountry, getServices } from 'redux/reducers/movies'
-
 import { MenuItem } from '@mui/material'
-import { useEffect, useState } from 'react'
+import { useContext, useEffect, useState } from 'react'
 import { getRegions } from 'api/getRegions'
-import { getServicesRequest } from 'api/getServices'
+import { useFilters } from 'hooks/useFilters'
+import { FiltersContext } from 'Context/Filters'
 
 export default function SelectCountry({ absolute, closeDrawer, isDrawer }) {
-  const dispatch = useDispatch()
+  const { filters } = useContext(FiltersContext)
+  const { changeSimpleFilter, getServices } = useFilters()
   const [regions, setRegions] = useState([])
-  const { country } = useSelector((state) => state.movies.params)
 
   const handleChange = async (event) => {
     const newValue = event.target.value
-    dispatch(getCountry(newValue))
+    changeSimpleFilter({ value: newValue, key: 'country' })
     if (isDrawer) {
       closeDrawer()
     }
-    let services = await getServicesRequest(country)
-    dispatch(getServices(services))
+    await getServices(newValue)
   }
 
   useEffect(() => {
     getRegions.then((res) => setRegions(res)).catch((err) => console.log(err))
-  })
+  }, [])
   return (
     <CustomSelect
       onChange={handleChange}
       color='secondary'
-      value={country}
+      value={filters.country}
       displayEmpty
       absolute={absolute}
     >

@@ -1,21 +1,22 @@
-import { forwardRef } from 'react'
+import { forwardRef, useContext } from 'react'
 
 import CustomTextField from 'Components/CustomComponents/CustomTextfield'
 import { StyledCheckbox } from 'Components/ServiceSelector/ServicesCheckbox/StyledComponents'
 
-import { useSelector, useDispatch } from 'react-redux'
-import { toggleType, setRuntime, setDate } from 'redux/reducers/movies'
+import { useFilters } from 'hooks/useFilters'
 
 import { Grid, Box, FormControlLabel, Button, Divider } from '@mui/material'
 import GenresAccordion from 'Components/GenresAccordion'
 import SelectLanguage from 'Components/SelectLanguage'
 import SortBySelector from 'Components/SortBySelector'
 import { useLanguage } from 'hooks/useLanguage'
+import { FiltersContext } from 'Context/Filters'
 
 const Form = forwardRef((props, ref) => {
-  const { type } = useSelector((state) => state.movies.params)
+  const { filters } = useContext(FiltersContext)
+  const { type } = filters
+  const { toggleType, changeSimpleFilter } = useFilters()
   const { languages, handleKeywordsChange, handleSubmit } = useLanguage()
-  const dispatch = useDispatch()
 
   return (
     <Grid
@@ -28,13 +29,13 @@ const Form = forwardRef((props, ref) => {
         <FormControlLabel
           label='Movies'
           checked={type === 'movie' ? true : false}
-          onChange={() => dispatch(toggleType('movie'))}
+          onChange={() => toggleType('movie')}
           control={<StyledCheckbox size='medium' sx={{ color: '#8888ffdd' }} />}
         />
         <FormControlLabel
           label='Tv'
           checked={type === 'tv' ? true : false}
-          onChange={() => dispatch(toggleType('tv'))}
+          onChange={() => toggleType('tv')}
           control={<StyledCheckbox size='medium' sx={{ color: '#8888ffdd' }} />}
         />
       </Box>
@@ -58,7 +59,7 @@ const Form = forwardRef((props, ref) => {
         </Grid>
         <Grid item xs={10} sm={5}>
           <CustomTextField
-            onChange={(e) => dispatch(setDate(e.target.value))}
+            onChange={(e) => changeSimpleFilter({ value: e.target.value, key: 'dateLimit' })}
             helperText='Movie/Serie release year limit. (Numbers)'
             fullWidth
             label='Year'
@@ -70,7 +71,7 @@ const Form = forwardRef((props, ref) => {
           <CustomTextField
             helperText='Movie/Episodes runtime limit. (Minutes)'
             placeholder='e.g 90'
-            onChange={(e) => dispatch(setRuntime(e.target.value))}
+            onChange={(e) => changeSimpleFilter({ value: e.target.value, key: 'runtime' })}
             fullWidth
             label='Runtime'
           />
@@ -103,5 +104,5 @@ const Form = forwardRef((props, ref) => {
     </Grid>
   )
 })
-
+Form.displayName = 'Form'
 export default Form

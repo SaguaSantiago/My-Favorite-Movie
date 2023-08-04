@@ -8,19 +8,21 @@ import { ThemeProvider } from '@mui/material'
 import { theme } from 'styles/theme'
 import { ToastContainer } from 'react-toastify'
 
-import { store } from 'redux/store'
-import { Provider } from 'react-redux'
+import MoviesProvider from 'Context/Movies'
+import FiltersProvider from 'Context/Filters'
 
 export default function MyApp({ Component, pageProps }) {
   return (
     <>
       <ThemeProvider theme={theme}>
-        <Provider store={store}>
-          <Layout>
-            <Component {...pageProps} />
-            <ToastContainer />
-          </Layout>
-        </Provider>
+        <FiltersProvider>
+          <MoviesProvider>
+            <Layout>
+              <Component {...pageProps} />
+              <ToastContainer />
+            </Layout>
+          </MoviesProvider>
+        </FiltersProvider>
       </ThemeProvider>
     </>
   )

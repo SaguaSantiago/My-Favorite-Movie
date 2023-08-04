@@ -11,7 +11,12 @@ export const SearchInput = forwardRef(
       left='50%'
       bottom={open ? '-70px' : '0'}
       width={mobileResolution ? '300px' : drawerResolution ? '400px' : '600px'}
-      sx={{ transform: 'translateX(-50%)', transition: 'bottom .6s', zIndex: 10 }}
+      sx={{
+        transform: 'translateX(-50%)',
+        transition: 'bottom .6s',
+        zIndex: 10,
+        transitionDelay: open ? '0s' : '.6s',
+      }}
     >
       <FormControl sx={{ width: '100%' }} color='primary' variant='outlined'>
         <Input
@@ -45,6 +50,7 @@ export const SearchInput = forwardRef(
     </Box>
   ),
 )
+SearchInput.displayName = 'SearchInput'
 
 export const SearchIconButton = ({ handleClick, open }) => (
   <IconButton

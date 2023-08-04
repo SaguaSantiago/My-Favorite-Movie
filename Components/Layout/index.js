@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useContext, useState } from 'react'
 import Link from 'next/link'
 
 import SelectCountry from 'Components/SelectCountry'
@@ -6,14 +6,14 @@ import SearchBar from 'Components/SearchBar'
 import DrawerComponent from 'Components/Drawer'
 import { BackgroundFade } from './StyledComponents'
 
-import { useIsChanging } from 'hooks/useIsChanging'
-
-import { AppBar, Grid, Toolbar, Typography, styled, useMediaQuery } from '@mui/material'
+import { AppBar, Box, Grid, Toolbar, Typography, styled, useMediaQuery } from '@mui/material'
 import Footer from 'Components/Footer'
 
 import styles from './layout.module.css'
-import { useRouter } from 'next/router'
-import { useSelector } from 'react-redux'
+
+import Logo from 'public/Logo'
+import { useMovies } from 'hooks/useMovies'
+import { MoviesContext } from 'Context/Movies'
 
 const Offset = styled('div')(({ theme }) => {
   return { ...theme.mixins.toolbar, position: 'relative' }
@@ -21,13 +21,11 @@ const Offset = styled('div')(({ theme }) => {
 
 export function Layout({ children }) {
   const [isSearching, setIsSearching] = useState(false)
-  const [isChangingPage, setChangingPage] = useState(false)
-  const { loading } = useSelector((state) => state.movies)
-  const router = useRouter()
+  const { isChangingPage } = useMovies()
+  const { state } = useContext(MoviesContext)
+  const { loading } = state
   const drawerResolution = useMediaQuery('(max-width: 1000px)')
   const mobileResolution = useMediaQuery('(max-width: 570px)')
-
-  useIsChanging(setChangingPage)
 
   const handleClickSearch = () => setIsSearching(!isSearching)
 
@@ -46,21 +44,31 @@ export function Layout({ children }) {
           >
             <Grid item>
               <Link href='/'>
-                <Typography
-                  color='white'
-                  variant='h4'
+                <Box
+                  display='flex'
+                  columnGap={2}
+                  alignItems='center'
                   sx={{
-                    margin: '20px auto',
-                    fontWeight: '600',
-                    fontSize: mobileResolution ? '24px' : '34px',
                     ':hover': {
                       cursor: 'pointer',
                     },
                   }}
-                  textAlign='center'
                 >
-                  My Daily Movie
-                </Typography>
+                  <Logo />
+                  <Typography
+                    color='black'
+                    variant='h4'
+                    sx={{
+                      margin: '20px auto',
+                      fontWeight: '600',
+                      fontSize: mobileResolution ? '24px' : '34px',
+                      fontFamily: `'Flamenco', cursive`,
+                    }}
+                    textAlign='center'
+                  >
+                    My Daily Movie
+                  </Typography>
+                </Box>
               </Link>
             </Grid>
             {!drawerResolution ? (

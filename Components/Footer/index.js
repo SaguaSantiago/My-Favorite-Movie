@@ -34,13 +34,20 @@ export default function Footer() {
         width='100%'
         gap='10px'
       >
-        <a href='https://www.instagram.com/sant1.sagua' target='_blank'>
+        <a href='https://www.instagram.com/sant1.sagua' rel='noreferrer' target='_blank'>
           <InstagramIcon sx={iconStyle} color='white' />
         </a>
-        <a target='_blank' href='https://github.com/SaguaSantiago/My-Favorite-Movie'>
+        <a
+          target='_blank'
+          rel='noreferrer'
+          href='https://github.com/SaguaSantiago/My-Favorite-Movie'
+        >
           <GitHubIcon sx={iconStyle} color='white' />
         </a>
-        <a href='mailto:saguasantiago@gmail.com?subject=Vi%20My%2DFavorite%2DMovie%20y%20decidi%20contactarte'>
+        <a
+          rel='noreferrer'
+          href='mailto:saguasantiago@gmail.com?subject=Vi%20My%2DFavorite%2DMovie%20y%20decidi%20contactarte'
+        >
           <EmailIcon sx={iconStyle} color='white' />
         </a>
         <Box

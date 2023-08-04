@@ -1,33 +1,15 @@
-import { useEffect } from 'react'
+import { useContext } from 'react'
 
 import CustomAccordion from 'Components/CustomComponents/CustomAccordion'
 
-import { useDispatch, useSelector } from 'react-redux'
-import { addGenre, deleteGenre, addAvailableGenres } from 'redux/reducers/movies'
-
-import { getGenresForMovie, getGenresForTv } from 'api/getGenres'
-
 import { Chip } from '@mui/material'
+import { useFilters } from 'hooks/useFilters'
+import { FiltersContext } from 'Context/Filters'
 
 export default function GenresAccordion() {
-  const { availableGenres, params } = useSelector((state) => state.movies)
-  const dispatch = useDispatch()
-  const genresSelected = useSelector((state) => state.movies.params.genresSelected)
-
-  useEffect(() => {
-    if (params.type === 'movie') {
-      getGenresForMovie.then((res) => {
-        const { genres } = res
-        dispatch(addAvailableGenres(genres))
-      })
-    } else {
-      getGenresForTv.then((res) => {
-        const { genres } = res
-        dispatch(addAvailableGenres(genres))
-      })
-    }
-  }, [params.type])
-
+  const { toggleGenreSelected } = useFilters()
+  const { filters } = useContext(FiltersContext)
+  const { genresSelected, availableGenres } = filters
   return (
     <CustomAccordion
       selectedItems={
@@ -40,8 +22,8 @@ export default function GenresAccordion() {
                     key={id + Math.random() * 1000}
                     label={name}
                     sx={{ color: '#cccccc' }}
-                    onClick={() => dispatch(deleteGenre(id))}
-                    onDelete={() => dispatch(deleteGenre(id))}
+                    onClick={() => toggleGenreSelected({ id, name })}
+                    onDelete={() => toggleGenreSelected({ id, name })}
                   />
                 )
               }
@@ -53,7 +35,7 @@ export default function GenresAccordion() {
           <Chip
             key={id + Math.random() * 1000}
             sx={{ color: '#cfcfcf' }}
-            onClick={() => dispatch(addGenre({ id, name }))}
+            onClick={() => toggleGenreSelected({ id, name })}
             label={name}
           />
         ))

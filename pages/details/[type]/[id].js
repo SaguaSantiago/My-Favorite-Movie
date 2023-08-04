@@ -1,10 +1,7 @@
-import Image from 'next/image'
+import { useContext } from 'react'
+import { FiltersContext } from 'Context/Filters'
 
-import RecommendationsCarousel from 'Components/RecommendationsCarousel'
-import SeasonsCarousel from 'Components/SeasonsCarousel'
 import FeatureCard from 'Components/FeatureCard'
-
-import { useSelector } from 'react-redux'
 
 import { getDetailsRequest } from 'api/getDetails'
 
@@ -12,25 +9,32 @@ import NumAbbr from 'number-abbreviate'
 
 import { Container, Typography, Chip, Box, Grid, Skeleton, useMediaQuery } from '@mui/material'
 import ProvidersList from 'Components/ProvidersList'
-import { useRouter } from 'next/router'
+import RecommendationsCarousel from 'Components/RecommendationsCarousel'
+import SeasonsSwiper from 'Components/SeasonsCarousel'
 
 export default function moviePage({ media, recommendations, providers, type, features }) {
   const mobileQuery = useMediaQuery('(max-width: 590px)')
-  const router = useRouter()
-  const { params } = useSelector((state) => state.movies)
-  const { country } = params
+  const { filters } = useContext(FiltersContext)
+  const { country } = filters
   const providersToMap = providers[country]
   const featuresToMap = features
+
+  console.log(providers)
 
   return (
     <>
       <Container sx={{ padding: '0 !important' }} maxWidth='lg'>
         <Box width='100%' position='relative' mx='auto' maxHeight='600px' height='55vw'>
           <Skeleton variant='rectangular' width='100%' height='100%' />
-          <Image
+          <img
             layout='fill'
-            objectFit='cover'
-            objectPosition='top'
+            style={{
+              width: '100%',
+              height: '100%',
+              position: 'absolute',
+              top: 0,
+              objectFit: 'cover',
+            }}
             src={`https://image.tmdb.org/t/p/w1280${media.backdrop_path}`}
             alt={media.title || media.name}
           />
@@ -40,6 +44,7 @@ export default function moviePage({ media, recommendations, providers, type, fea
                 ? `https://www.imdb.com/title/${media.imdb_id}/`
                 : `/${type}/${media.id}`
             }
+            target='__blank'
           >
             <Box
               bottom={!mobileQuery ? '-80px' : '-150px'}
@@ -55,9 +60,14 @@ export default function moviePage({ media, recommendations, providers, type, fea
                 width='100%'
                 height='100%'
               />
-              <Image
-                layout='fill'
-                objectFit='cover'
+              <img
+                style={{
+                  width: '100%',
+                  height: '100%',
+                  position: 'absolute',
+                  top: 0,
+                  objectFit: 'cover',
+                }}
                 src={`https://image.tmdb.org/t/p/w342${media.poster_path}`}
                 title={media.title || media.name}
               />
@@ -152,9 +162,14 @@ export default function moviePage({ media, recommendations, providers, type, fea
                 md={2}
               >
                 <Box width='200px' height='100px' position='relative'>
-                  <Image
-                    layout='fill'
-                    objectFit='scale-down'
+                  <img
+                    style={{
+                      width: '100%',
+                      height: '100%',
+                      position: 'absolute',
+                      top: 0,
+                      objectFit: 'scale-down',
+                    }}
                     src={
                       logo_path !== null
                         ? `https://image.tmdb.org/t/p/w92/${logo_path}`
@@ -194,7 +209,7 @@ export default function moviePage({ media, recommendations, providers, type, fea
             Please select a country to see the providers available in your region
           </Typography>
         )}
-        {type === 'tv' ? <SeasonsCarousel seasons={media.seasons} /> : null}
+        {type === 'tv' ? <SeasonsSwiper seasons={media.seasons} /> : null}
 
         <RecommendationsCarousel type={type} recommendations={recommendations} />
       </Container>
@@ -211,7 +226,7 @@ export async function getServerSideProps({ params }) {
     episode_run_time: `${props[0].episode_run_time} min`,
     first_air_date: props[0].first_air_date,
     adult: props[0].adult ? 'Yes' : 'No',
-    vote_average: props[0].vote_average.toFixed(1),
+    vote_average: props[0].vote_average?.toFixed(1),
     number_of_episodes: props[0].number_of_episodes,
     number_of_seasons: props[0].number_of_seasons,
   })
