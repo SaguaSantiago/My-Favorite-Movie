@@ -5,6 +5,7 @@ import { useContext, useEffect, useState } from 'react'
 import { getRegions } from 'api/getRegions'
 import { useFilters } from 'hooks/useFilters'
 import { FiltersContext } from 'Context/Filters'
+import { logError } from 'Utilities/logError'
 
 export default function SelectCountry({ absolute, closeDrawer, isDrawer }) {
   const { filters } = useContext(FiltersContext)
@@ -17,7 +18,11 @@ export default function SelectCountry({ absolute, closeDrawer, isDrawer }) {
     if (isDrawer) {
       closeDrawer()
     }
-    await getServices(newValue)
+    try {
+      await getServices(newValue)
+    } catch (err) {
+      logError('An Error has ocurred, please try another time')
+    }
   }
 
   useEffect(() => {

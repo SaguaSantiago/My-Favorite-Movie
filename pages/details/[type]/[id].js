@@ -1,5 +1,6 @@
-import { useContext } from 'react'
+import { useContext, useEffect } from 'react'
 import { FiltersContext } from 'Context/Filters'
+import { useRouter } from 'next/router'
 
 import FeatureCard from 'Components/FeatureCard'
 
@@ -11,15 +12,31 @@ import { Container, Typography, Chip, Box, Grid, Skeleton, useMediaQuery } from 
 import ProvidersList from 'Components/ProvidersList'
 import RecommendationsCarousel from 'Components/RecommendationsCarousel'
 import SeasonsSwiper from 'Components/SeasonsCarousel'
+import CastSwiper from 'Components/CastSwiper'
+import { getCredits } from 'api/getCredits'
+import { logError } from 'Utilities/logError'
 
-export default function moviePage({ media, recommendations, providers, type, features }) {
+export default function moviePage({
+  media,
+  recommendations,
+  providers,
+  type,
+  features,
+  cast,
+  error,
+}) {
+  useEffect(() => {
+    if (error) {
+      logError(error)
+      router.push('/')
+    }
+  }, [])
+  const router = useRouter()
   const mobileQuery = useMediaQuery('(max-width: 590px)')
   const { filters } = useContext(FiltersContext)
   const { country } = filters
-  const providersToMap = providers[country]
+  const providersToMap = providers && providers[country]
   const featuresToMap = features
-
-  console.log(providers)
 
   return (
     <>
@@ -35,14 +52,14 @@ export default function moviePage({ media, recommendations, providers, type, fea
               top: 0,
               objectFit: 'cover',
             }}
-            src={`https://image.tmdb.org/t/p/w1280${media.backdrop_path}`}
-            alt={media.title || media.name}
+            src={`https://image.tmdb.org/t/p/w1280${media?.backdrop_path}`}
+            alt={media?.title || media?.name}
           />
           <a
             href={
               type === 'movie'
-                ? `https://www.imdb.com/title/${media.imdb_id}/`
-                : `/${type}/${media.id}`
+                ? `https://www.imdb.com/title/${media?.imdb_id}/`
+                : `/${type}/${media?.id}`
             }
             target='__blank'
           >
@@ -68,8 +85,8 @@ export default function moviePage({ media, recommendations, providers, type, fea
                   top: 0,
                   objectFit: 'cover',
                 }}
-                src={`https://image.tmdb.org/t/p/w342${media.poster_path}`}
-                title={media.title || media.name}
+                src={`https://image.tmdb.org/t/p/w342${media?.poster_path}`}
+                title={media?.title || media?.name}
               />
             </Box>
           </a>
@@ -86,7 +103,7 @@ export default function moviePage({ media, recommendations, providers, type, fea
             textDecoration: 'underline',
           }}
         >
-          {media.title || media.name}
+          {media?.title || media?.name}
         </Typography>
         <Box
           margin='0 auto'
@@ -99,7 +116,7 @@ export default function moviePage({ media, recommendations, providers, type, fea
           pb={2}
           sx={{ borderBottom: '1px solid #11111188' }}
         >
-          {media.genres.map(({ name, id }) => (
+          {media?.genres.map(({ name, id }) => (
             <Chip
               key={id}
               label={name}
@@ -110,11 +127,11 @@ export default function moviePage({ media, recommendations, providers, type, fea
         </Box>
 
         <Typography variant='h5' mt={5} textAlign='center'>
-          {media.tagline && `"${media.tagline}"`}
+          {media?.tagline && `"${media?.tagline}"`}
         </Typography>
         <Box maxWidth='550px' margin='0 auto' mt={2} padding={1}>
           <Typography textAlign='center' paragraph>
-            {media.overview}
+            {media?.overview}
           </Typography>
         </Box>
 
@@ -130,7 +147,7 @@ export default function moviePage({ media, recommendations, providers, type, fea
           justifyContent='center'
           alignItems='center'
         >
-          {featuresToMap.map(([key, value]) => (
+          {featuresToMap?.map(([key, value]) => (
             <Grid xs={4.5} sm={2.4} md={1.5} item key={key}>
               <FeatureCard details={media} value={value} featureKey={key} />
             </Grid>
@@ -146,8 +163,8 @@ export default function moviePage({ media, recommendations, providers, type, fea
           Companies
         </Typography>
         <Grid mt={5} pb={9} container justifyContent='center' alignItems='center'>
-          {media.production_companies.length !== 0 ? (
-            media.production_companies.map(({ logo_path, name }) => (
+          {media?.production_companies.length !== 0 ? (
+            media?.production_companies.map(({ logo_path, name }) => (
               <Grid
                 sx={{
                   display: 'flex',
@@ -209,9 +226,9 @@ export default function moviePage({ media, recommendations, providers, type, fea
             Please select a country to see the providers available in your region
           </Typography>
         )}
-        {type === 'tv' ? <SeasonsSwiper seasons={media.seasons} /> : null}
-
-        <RecommendationsCarousel type={type} recommendations={recommendations} />
+        {type === 'tv' ? <SeasonsSwiper seasons={media?.seasons} /> : null}
+        <CastSwiper cast={cast || []} />
+        <RecommendationsCarousel type={type} recommendations={recommendations || []} />
       </Container>
     </>
   )
@@ -219,34 +236,45 @@ export default function moviePage({ media, recommendations, providers, type, fea
 
 export async function getServerSideProps({ params }) {
   const { id, type } = params
-  const props = await Promise.all(getDetailsRequest(id, type))
-  const numAbbr = new NumAbbr()
 
-  const featuresToTv = Object.entries({
-    episode_run_time: `${props[0].episode_run_time} min`,
-    first_air_date: props[0].first_air_date,
-    adult: props[0].adult ? 'Yes' : 'No',
-    vote_average: props[0].vote_average?.toFixed(1),
-    number_of_episodes: props[0].number_of_episodes,
-    number_of_seasons: props[0].number_of_seasons,
-  })
+  try {
+    const props = await Promise.all(getDetailsRequest(id, type))
+    const cast = await getCredits({ type, id })
+    const numAbbr = new NumAbbr()
 
-  const featureToMovie = Object.entries({
-    runtime: `${props[0].runtime} min`,
-    budget: numAbbr.abbreviate(props[0].budget, 1),
-    revenue: numAbbr.abbreviate(props[0].revenue, 1),
-    release_date: props[0].release_date,
-    adult: props[0].adult ? 'Yes' : 'No',
-    vote_average: props[0].vote_average.toFixed(1),
-  })
+    const featuresToTv = Object.entries({
+      episode_run_time: `${props[0].episode_run_time} min`,
+      first_air_date: props[0].first_air_date,
+      adult: props[0].adult ? 'Yes' : 'No',
+      vote_average: props[0].vote_average?.toFixed(1),
+      number_of_episodes: props[0].number_of_episodes,
+      number_of_seasons: props[0].number_of_seasons,
+    })
 
-  return {
-    props: {
-      media: props[0],
-      recommendations: props[1].results,
-      providers: props[2].results,
-      type,
-      features: type === 'movie' ? featureToMovie : featuresToTv,
-    },
+    const featureToMovie = Object.entries({
+      runtime: `${props[0].runtime} min`,
+      budget: numAbbr.abbreviate(props[0].budget, 1),
+      revenue: numAbbr.abbreviate(props[0].revenue, 1),
+      release_date: props[0].release_date,
+      adult: props[0].adult ? 'Yes' : 'No',
+      vote_average: props[0].vote_average.toFixed(1),
+    })
+
+    return {
+      props: {
+        media: props[0],
+        recommendations: props[1].results,
+        providers: props[2].results,
+        type,
+        features: type === 'movie' ? featureToMovie : featuresToTv,
+        cast,
+      },
+    }
+  } catch (error) {
+    return {
+      props: {
+        error,
+      },
+    }
   }
 }

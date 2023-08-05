@@ -3,10 +3,10 @@ import { useState, useEffect, useContext } from 'react'
 import { getKeywordsRequest } from 'api/getKeywords'
 import { getLanguagesRequest } from 'api/getLanguages'
 
-import { toast } from 'react-toastify'
 import { useMovies } from './useMovies'
 import { FiltersContext } from 'Context/Filters'
 import { useFilters } from './useFilters'
+import { logError } from 'Utilities/logError'
 
 export const useLanguage = () => {
   const { filters } = useContext(FiltersContext)
@@ -23,12 +23,7 @@ export const useLanguage = () => {
 
   const handleSubmit = () => {
     if (servicesToSearch.length === 0) {
-      toast.error('Please select at least one service', {
-        position: 'bottom-right',
-        hideProgressBar: true,
-        pauseOnHover: false,
-        closeOnClick: true,
-      })
+      logError('Please select at least one service')
     } else {
       getAllMovies()
     }

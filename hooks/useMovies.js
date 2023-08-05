@@ -3,6 +3,7 @@ import { MoviesContext } from 'Context/Movies'
 import { FiltersContext } from 'Context/Filters'
 import { discoverRequest } from 'api/discoverRequest'
 import { useRouter } from 'next/router'
+import { logError } from 'Utilities/logError'
 
 export const useMovies = () => {
   const { state, setState } = useContext(MoviesContext)
@@ -26,16 +27,18 @@ export const useMovies = () => {
       region: country,
       providers: providersString || '',
       ...filters,
-    }).then((res) => {
-      setState((s) => ({
-        ...s,
-        movies: {
-          results: res.results,
-          actualPage: res.page,
-          total_pages: res.total_pages,
-        },
-      }))
     })
+      .then((res) => {
+        setState((s) => ({
+          ...s,
+          movies: {
+            results: res.results,
+            actualPage: res.page,
+            total_pages: res.total_pages,
+          },
+        }))
+      })
+      .catch((err) => logError(err))
   }
 
   useEffect(() => {
