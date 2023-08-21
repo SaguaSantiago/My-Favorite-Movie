@@ -26,6 +26,6 @@ export const theme = createTheme({
     },
   },
   typography: {
-    fontFamily: "'Open Sans', sans-serif;",
+    fontFamily: "'Lato', sans-serif;",
   },
 })

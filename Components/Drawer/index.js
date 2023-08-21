@@ -3,12 +3,11 @@ import { useState } from 'react'
 import { Container } from './StyledComponents'
 import SelectCountry from 'Components/SelectCountry'
 
-import { SwipeableDrawer, IconButton, Divider, useMediaQuery } from '@mui/material'
+import { SwipeableDrawer, IconButton, Divider } from '@mui/material'
 import PublicIcon from '@mui/icons-material/Public'
 
 export default function Drawer(mobileResolution) {
   const [open, setOpen] = useState(false)
-  const media = useMediaQuery('(max-width: 490px)')
 
   const handleOpen = () => {
     setOpen(true)

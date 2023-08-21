@@ -36,7 +36,7 @@ export default function SeasonsSwiper({ seasons }) {
         style={{ padding: '20px 0' }}
       >
         {seasons.map(({ poster_path, name, season_number, episode_count }) => (
-          <SwiperSlide key='name' style={{ display: 'flex', justifyContent: 'center' }}>
+          <SwiperSlide key={name} style={{ display: 'flex', justifyContent: 'center' }}>
             <Box width='250px' height='450px'>
               <Card sx={{ height: '100%' }}>
                 <CardMedia sx={{ position: 'relative', height: '300px' }}>

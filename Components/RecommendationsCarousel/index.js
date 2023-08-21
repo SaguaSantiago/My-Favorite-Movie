@@ -5,7 +5,7 @@ import 'react-responsive-carousel/lib/styles/carousel.min.css'
 import { Carousel } from 'react-responsive-carousel'
 
 export default function RecommendationsCarousel({ recommendations, type }) {
-  const mobileQuery = useMediaQuery('(max-width: 550px)')
+  const mobileQuery = useMediaQuery('(max-width: 570px)')
   return (
     <>
       <Typography

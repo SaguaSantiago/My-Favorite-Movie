@@ -1,6 +1,7 @@
 import { Swiper, SwiperSlide } from 'swiper/react'
 import { Navigation, Scrollbar } from 'swiper/modules'
 import { Box, Typography, useMediaQuery } from '@mui/material'
+import Link from 'next/link'
 
 import 'swiper/css'
 import 'swiper/css/navigation'
@@ -26,7 +27,7 @@ export default function CastSwiper({ cast }) {
         slidesPerView={onePerView ? 1 : twoPerView ? 2 : threePerView ? 3 : 4}
         scrollbar={{ draggable: true }}
       >
-        {cast.map(({ profile_path, name, character, credit_id }) => (
+        {cast.map(({ profile_path, name, character, credit_id, id }) => (
           <SwiperSlide
             key={credit_id}
             style={{
@@ -35,56 +36,63 @@ export default function CastSwiper({ cast }) {
               alignItems: 'center',
             }}
           >
-            <Box
-              display='flex'
-              alignItems='center'
-              flexDirection='column'
-              width='250px'
-              height='300px'
-            >
-              {profile_path ? (
-                <img
-                  style={{
-                    width: '200px',
-                    height: '200px',
-                    objectFit: 'cover',
-                    objectPosition: 'center',
-                    borderRadius: '50%',
-                  }}
-                  src={`https://image.tmdb.org/t/p/w154/${profile_path}`}
-                  alt=''
-                />
-              ) : (
-                <Box
-                  display='flex'
-                  alignItems='center'
-                  justifyContent='center'
-                  top='0'
-                  width='200px'
-                  height='200px'
-                  bgcolor='black'
-                  borderRadius='50%'
-                >
-                  <Typography color='white' textAlign='center' variant='h5'>
-                    No Image
-                  </Typography>
-                </Box>
-              )}
-              <Typography fontWeight='Bold'>{name}</Typography>
-              <Typography
+            <Link href={`/details/person/${id}`}>
+              <Box
+                display='flex'
+                alignItems='center'
+                flexDirection='column'
+                width='250px'
+                height='300px'
                 sx={{
-                  overflow: 'hidden',
-                  textOverflow: 'ellipsis',
-                  whiteSpace: 'nowrap',
-                  width: '220px',
+                  ':hover': {
+                    cursor: 'pointer',
+                  },
                 }}
-                variant='body2'
-                textAlign={'center'}
-                fontWeight='lighter'
               >
-                {character}
-              </Typography>
-            </Box>
+                {profile_path ? (
+                  <img
+                    style={{
+                      width: '200px',
+                      height: '200px',
+                      objectFit: 'cover',
+                      objectPosition: 'center',
+                      borderRadius: '50%',
+                    }}
+                    src={`https://image.tmdb.org/t/p/w154/${profile_path}`}
+                    alt=''
+                  />
+                ) : (
+                  <Box
+                    display='flex'
+                    alignItems='center'
+                    justifyContent='center'
+                    top='0'
+                    width='200px'
+                    height='200px'
+                    bgcolor='black'
+                    borderRadius='50%'
+                  >
+                    <Typography color='white' textAlign='center' variant='h5'>
+                      No Image
+                    </Typography>
+                  </Box>
+                )}
+                <Typography fontWeight='Bold'>{name}</Typography>
+                <Typography
+                  sx={{
+                    overflow: 'hidden',
+                    textOverflow: 'ellipsis',
+                    whiteSpace: 'nowrap',
+                    width: '220px',
+                  }}
+                  variant='body2'
+                  textAlign={'center'}
+                  fontWeight='lighter'
+                >
+                  {character}
+                </Typography>
+              </Box>
+            </Link>
           </SwiperSlide>
         ))}
       </Swiper>
