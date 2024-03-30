@@ -65,6 +65,8 @@ const Form = forwardRef((props, ref) => {
             label='Year'
             placeholder='e.g 2022'
             type='number'
+            defaultValue={2000}
+            min={1900}
           />
         </Grid>
         <Grid item xs={10} sm={5}>

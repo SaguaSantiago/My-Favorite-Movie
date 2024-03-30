@@ -4,7 +4,7 @@ import ServiceSelector from 'Components/ServiceSelector'
 import Form from 'Components/Form'
 import MovieCard from 'Components/MovieCard'
 
-import { Grid, Container, Box, Pagination, PaginationItem } from '@mui/material'
+import { Grid, Container, Box, Pagination, PaginationItem, Typography } from '@mui/material'
 import { MoviesContext } from 'Context/Movies'
 import { useFilters } from 'hooks/useFilters'
 import { useMovies } from 'hooks/useMovies'
@@ -14,9 +14,8 @@ export default function MainRoute() {
   const { getAllMovies } = useMovies()
   const { state } = useContext(MoviesContext)
   const { movies } = state
-  const { results, total_pages, page } = movies
+  const { results, total_pages, actualPage } = movies
   const submitBtnRef = useRef()
-
   return (
     <>
       <Container sx={{ py: 4.5 }} component='main' maxWidth='md'>
@@ -25,6 +24,11 @@ export default function MainRoute() {
             <ServiceSelector />
           </Grid>
           <Form ref={submitBtnRef} />
+          {results.length === 0 && actualPage !== 0 ? (
+            <Typography color='lightsteelblue' variant='body1'>
+              No hay Resultados...
+            </Typography>
+          ) : null}
         </Grid>
       </Container>
       {results.length !== 0 && (
@@ -46,7 +50,7 @@ export default function MainRoute() {
             <Pagination
               sx={{ color: 'white' }}
               size='large'
-              page={page}
+              page={actualPage}
               color='secondary'
               count={total_pages}
               render={(item) => (
