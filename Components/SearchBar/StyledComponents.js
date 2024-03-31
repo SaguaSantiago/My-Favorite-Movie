@@ -11,11 +11,11 @@ export const SearchInput = forwardRef(
       left='50%'
       bottom={open ? '-70px' : '0'}
       width={mobileResolution ? '300px' : drawerResolution ? '400px' : '600px'}
+      style={{ opacity: open ? '1' : '0' }}
       sx={{
         transform: 'translateX(-50%)',
-        transition: 'bottom .6s',
+        transition: `bottom .6s ${open ? '0s' : '.6s'}, opacity .8s .3s`,
         zIndex: 10,
-        transitionDelay: open ? '0s' : '.6s',
       }}
     >
       <FormControl sx={{ width: '100%' }} color='primary' variant='outlined'>
@@ -56,14 +56,14 @@ export const SearchIconButton = ({ handleClick, open }) => (
   <IconButton
     onClick={handleClick}
     size='large'
-    sx={{
+    sx={(theme) => ({
       opacity: open ? '0' : '1',
-      background: '#314652',
+      background: theme.palette.primary.dark,
       transition: 'background .2s',
       ':hover': {
         background: '#314652aa',
       },
-    }}
+    })}
   >
     <SearchIcon sx={{ color: 'white' }} />
   </IconButton>

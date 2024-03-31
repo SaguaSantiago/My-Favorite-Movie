@@ -39,7 +39,7 @@ const Form = forwardRef((props, ref) => {
           control={<StyledCheckbox size='medium' sx={{ color: '#8888ffdd' }} />}
         />
       </Box>
-      <Box margin='0 auto' mt={3} mb={5} width='80%'>
+      <Box margin='0 auto' mt={3} mb={5} maxWidth='739px' width='100%'>
         <GenresAccordion />
       </Box>
 
@@ -93,9 +93,14 @@ const Form = forwardRef((props, ref) => {
 
       <Box ref={ref} width='60%' mx='auto'>
         <Button
-          sx={{ margin: '0 auto', mt: 2 }}
+          sx={(theme) => ({
+            margin: '0 auto',
+            mt: 2,
+            borderColor: theme.palette.primary.light,
+            color: theme.palette.primary.light,
+          })}
           fullWidth
-          variant='contained'
+          variant='outlined'
           id='submit_button'
           onClick={handleSubmit}
           size='large'

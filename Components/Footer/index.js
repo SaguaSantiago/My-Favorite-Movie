@@ -50,21 +50,6 @@ export default function Footer() {
         >
           <EmailIcon sx={iconStyle} color='white' />
         </a>
-        <Box
-          position='absolute'
-          display='flex'
-          gap='2px'
-          left={!mobileResolution && '10px'}
-          bottom={mobileResolution && 0}
-        >
-          <CopyrightIcon />
-          <Typography
-            variant='overline'
-            sx={{ color: 'white', fontSize: mobileResolution ? '0.6rem' : '0.75rem' }}
-          >
-            Todos Los Derechos Reservados
-          </Typography>
-        </Box>
       </Box>
     </Box>
   )

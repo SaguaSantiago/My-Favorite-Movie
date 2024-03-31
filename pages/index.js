@@ -8,6 +8,7 @@ import { Grid, Container, Box, Pagination, PaginationItem, Typography } from '@m
 import { MoviesContext } from 'Context/Movies'
 import { useFilters } from 'hooks/useFilters'
 import { useMovies } from 'hooks/useMovies'
+import InfoSvg from 'public/InfoSvg'
 
 export default function MainRoute() {
   const { changeSimpleFilter } = useFilters()
@@ -24,10 +25,24 @@ export default function MainRoute() {
             <ServiceSelector />
           </Grid>
           <Form ref={submitBtnRef} />
+
           {results.length === 0 && actualPage !== 0 ? (
-            <Typography color='lightsteelblue' variant='body1'>
-              No hay Resultados...
-            </Typography>
+            <Box
+              border={(theme) => theme.palette.primary.light + ' 1px solid'}
+              borderRadius='15px'
+              width={'100%'}
+              height='60px'
+              bgcolor={'rgb(29 39 47 / 60%)'}
+              display='flex'
+              alignItems='center'
+              gap={1}
+              pl={2}
+            >
+              <Box p={1.3} bgcolor={(theme) => theme.palette.primary.dark} borderRadius='50%'>
+                <InfoSvg />
+              </Box>
+              <span>No results found</span>
+            </Box>
           ) : null}
         </Grid>
       </Container>

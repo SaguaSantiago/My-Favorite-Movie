@@ -13,7 +13,10 @@ export default function ServiceSelector() {
   return (
     <Grid justifyContent='center' gap={2} container sx={{ mt: '30px' }}>
       {country === '' ? (
-        <Typography variant='h5'> First select a country!</Typography>
+        <Typography variant='h5' fontWeight='normal' color=''>
+          {' '}
+          First select a country!
+        </Typography>
       ) : media ? (
         <ServicesAccordion />
       ) : (
@@ -22,11 +25,12 @@ export default function ServiceSelector() {
             <Typography
               textAlign='center'
               sx={{
-                borderBottom: '1px solid white',
+                borderBottom: '1px solid #777',
                 pb: 1,
-                width: '50%',
+                width: '100%',
+                maxWidth: '740px',
                 margin: '0 auto 30px auto',
-                fontWeight: '300',
+                fontWeight: 'normal',
               }}
               variant='h6'
             >

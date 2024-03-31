@@ -2,7 +2,7 @@ import CustomSelect from 'Components/CustomComponents/CustomSelect'
 
 import { ITEMS_OBJECTS_MOVIES, ITEMS_OBJECTS_TV } from 'Utilities/objects'
 
-import { MenuItem, useMediaQuery } from '@mui/material'
+import { MenuItem, Typography, useMediaQuery } from '@mui/material'
 import { useFilters } from 'hooks/useFilters'
 import { useContext } from 'react'
 import { FiltersContext } from 'Context/Filters'
@@ -17,15 +17,16 @@ export default function SortBySelector() {
     <CustomSelect
       onChange={(e) => changeSimpleFilter({ value: e.target.value, key: 'sortBy' })}
       displayEmpty
-      bg='#292929'
       defaultValue=''
       inputWidth={query ? '127px' : ''}
       value={filters.sortBy}
     >
-      <MenuItem value=''>Sort By</MenuItem>
+      <MenuItem value=''>
+        <Typography color='white'>Sort By</Typography>
+      </MenuItem>
       {itemsToMap.map(({ itemName, value }) => (
         <MenuItem key={value} value={value}>
-          {itemName}
+          <Typography color='white'>{itemName}</Typography>
         </MenuItem>
       ))}
     </CustomSelect>

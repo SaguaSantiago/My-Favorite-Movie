@@ -6,5 +6,6 @@ export const logError = (err) => {
     hideProgressBar: true,
     pauseOnHover: false,
     closeOnClick: true,
+    theme: 'dark',
   })
 }

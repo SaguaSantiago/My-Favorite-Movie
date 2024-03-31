@@ -1,20 +1,28 @@
 import ExpandMoreOutlined from '@mui/icons-material/ExpandMoreOutlined'
-import { Accordion, AccordionSummary, AccordionDetails, Grid, Typography } from '@mui/material'
+import { Accordion, AccordionSummary, AccordionDetails, Grid, Typography, Box } from '@mui/material'
 
 export default function CustomAccordion({ items, selectedItems }) {
   return (
     <Accordion>
       <AccordionSummary
-        sx={{ background: '#525252', color: 'white' }}
-        expandIcon={<ExpandMoreOutlined />}
+        sx={(theme) => ({ background: theme.palette.background.paper, color: 'white' })}
+        expandIcon={<ExpandMoreOutlined htmlColor='#ffffff' />}
       >
-        <Typography textAlign='center'>
-          {typeof selectedItems !== 'string' ? selectedItems.map((e) => e) : selectedItems}
-        </Typography>
+        {typeof selectedItems !== 'string' ? (
+          <Box display='flex' gap={1} flexWrap='wrap'>
+            {selectedItems.map((e) => e)}
+          </Box>
+        ) : (
+          <Typography textAlign='center'> {selectedItems}</Typography>
+        )}
       </AccordionSummary>
       <AccordionDetails
         component='div'
-        sx={{ background: '#525252', color: 'white', borderTop: '1px solid #bbbbbb' }}
+        sx={(theme) => ({
+          background: theme.palette.background.paper,
+          color: 'white',
+          borderTop: '1px solid #bbbbbb',
+        })}
       >
         <Grid container gap={1} justifyContent='center'>
           {items?.map((e) => e)}

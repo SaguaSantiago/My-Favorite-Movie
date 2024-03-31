@@ -35,7 +35,7 @@ export default function searchBar({
         mobileResolution={mobileResolution}
       />
       <Box
-        mt='130px'
+        mt='134px'
         left='50%'
         position='absolute'
         display='flex'

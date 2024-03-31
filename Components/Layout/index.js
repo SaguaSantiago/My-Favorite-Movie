@@ -34,6 +34,7 @@ export function Layout({ children }) {
       <AppBar
         className={isChangingPage || loading === 'pending' ? styles.loading : ''}
         position='fixed'
+        sx={{ background: 'var(--background-overshadowed)', backdropFilter: 'blur(10px)' }}
       >
         <Toolbar>
           <Grid
@@ -56,14 +57,14 @@ export function Layout({ children }) {
                 >
                   <Logo />
                   <Typography
-                    color='black'
                     variant='h4'
-                    sx={{
+                    sx={(theme) => ({
                       margin: '20px auto',
+                      color: '#9AB9C6',
                       fontWeight: '600',
                       fontSize: mobileResolution ? '24px' : '34px',
                       fontFamily: `'Flamenco', cursive`,
-                    }}
+                    })}
                     textAlign='center'
                   >
                     My Daily Movie

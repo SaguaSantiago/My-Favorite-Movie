@@ -85,7 +85,7 @@ export default function MovieCard({ media }) {
             <Box display='flex' position='absolute' left='16px'>
               <StarRoundedIcon sx={{ color: '#ffff00d6', height: '30px', width: '30px' }} />
               <Typography sx={{ width: 'text-content', color: '#ffff00d6', fontSize: '1.2rem' }}>
-                {media.vote_average}
+                {media.vote_average.toFixed()}
               </Typography>
             </Box>
             <Link href={`/details/${type}/${media.id}`}>

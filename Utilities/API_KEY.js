@@ -1,1 +1,1 @@
-export const API_KEY = '77f5b40abce26bb68b5882b745806b38'
+export const API_KEY = process.env.NEXT_PUBLIC_API_KEY

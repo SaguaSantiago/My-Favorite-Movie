@@ -1,6 +1,7 @@
 import { useContext } from 'react'
 
 import CustomAccordion from 'Components/CustomComponents/CustomAccordion'
+import RemoveCircleOutlineIcon from '@mui/icons-material/RemoveCircleOutline'
 
 import { Chip } from '@mui/material'
 import { useFilters } from 'hooks/useFilters'
@@ -21,9 +22,12 @@ export default function GenresAccordion() {
                   <Chip
                     key={id + Math.random() * 1000}
                     label={name}
-                    sx={{ color: '#cccccc' }}
+                    variant='outlined'
+                    color={'primary'}
+                    sx={{ color: '#ffffff', borderColor: '#9bb6c5' }}
                     onClick={() => toggleGenreSelected({ id, name })}
                     onDelete={() => toggleGenreSelected({ id, name })}
+                    deleteIcon={<RemoveCircleOutlineIcon sx={{ color: 'white' }} />}
                   />
                 )
               }
@@ -34,6 +38,7 @@ export default function GenresAccordion() {
         availableGenres.map(({ id, name }) => (
           <Chip
             key={id + Math.random() * 1000}
+            color='primary'
             sx={{ color: '#cfcfcf' }}
             onClick={() => toggleGenreSelected({ id, name })}
             label={name}

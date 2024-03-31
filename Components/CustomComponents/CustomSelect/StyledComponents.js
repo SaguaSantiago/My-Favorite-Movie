@@ -1,11 +1,11 @@
 import { InputBase, styled } from '@mui/material'
 
 export const SelectInput = styled(InputBase)(
-  ({ bg, width }) => `
+  ({ bg, width, theme }) => `
     & .MuiInputBase-input {
       box-sizing: border-box;
   
-      background-color: ${bg || '#393939'};
+      background-color: ${bg || theme.palette.background.paper};
       height: 40px !important;
       display: flex;
       align-items: center;

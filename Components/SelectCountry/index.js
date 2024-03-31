@@ -1,6 +1,6 @@
 import CustomSelect from 'Components/CustomComponents/CustomSelect'
 
-import { MenuItem } from '@mui/material'
+import { MenuItem, Typography } from '@mui/material'
 import { useContext, useEffect, useState } from 'react'
 import { getRegions } from 'api/getRegions'
 import { useFilters } from 'hooks/useFilters'
@@ -36,10 +36,16 @@ export default function SelectCountry({ absolute, closeDrawer, isDrawer }) {
       displayEmpty
       absolute={absolute}
     >
-      <MenuItem value=''>Select Your Country</MenuItem>
+      <MenuItem color='white' value=''>
+        <Typography color='white' variant='body'>
+          Select Your Country
+        </Typography>
+      </MenuItem>
       {regions.map(({ iso_3166_1: key, native_name: name }) => (
         <MenuItem key={key} value={key}>
-          {name}
+          <Typography color='white' variant='body'>
+            {name}
+          </Typography>
         </MenuItem>
       ))}
     </CustomSelect>
